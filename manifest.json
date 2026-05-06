@@ -1,7 +1,7 @@
 {
   "repo": "thttd94/XXTE-Library",
   "branch": "main",
-  "generated_at": 1778065246,
+  "generated_at": 1778070006,
   "base_raw": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main",
   "files": [
     {
@@ -1146,11 +1146,11 @@
       "sha1": "dd0fb6bb855dcd9530c3645a4f12396762fa2126"
     },
     {
-      "rel": "lua/scripts/0910.PNG",
-      "dest": "/var/mobile/Media/1ferver/lua/scripts/0910.PNG",
-      "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lua/scripts/0910.PNG",
-      "size": 4413,
-      "sha1": "d12275b179cf2a46a3ebf36c873f4a0234d2291d"
+      "rel": "lua/scripts/floating_menu.xxt",
+      "dest": "/var/mobile/Media/1ferver/lua/scripts/floating_menu.xxt",
+      "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lua/scripts/floating_menu.xxt",
+      "size": 19913,
+      "sha1": "6716ebfe60d01e883516d66cf81850ce035c544a"
     }
   ]
 }
