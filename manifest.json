@@ -1,7 +1,7 @@
 {
   "repo": "thttd94/XXTE-Library",
   "branch": "main",
-  "generated_at": 1778070438,
+  "generated_at": 1778070530,
   "base_raw": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main",
   "files": [
     {
@@ -1144,6 +1144,34 @@
       "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lua/examples/wellcom.png",
       "size": 4036,
       "sha1": "dd0fb6bb855dcd9530c3645a4f12396762fa2126"
+    },
+    {
+      "rel": "lua/scripts/Active XXTE.lua",
+      "dest": "/var/mobile/Media/1ferver/lua/scripts/Active XXTE.lua",
+      "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lua/scripts/Active%20XXTE.lua",
+      "size": 1018,
+      "sha1": "b356f0cd8a1cbaf0b8c98295ecd7864c16979873"
+    },
+    {
+      "rel": "lua/scripts/Khôi phục DL WEB.lua",
+      "dest": "/var/mobile/Media/1ferver/lua/scripts/Khôi phục DL WEB.lua",
+      "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lua/scripts/Kho%CC%82i%20phu%CC%A3c%20DL%20WEB.lua",
+      "size": 0,
+      "sha1": "da39a3ee5e6b4b0d3255bfef95601890afd80709"
+    },
+    {
+      "rel": "lua/scripts/autorun.lua",
+      "dest": "/var/mobile/Media/1ferver/lua/scripts/autorun.lua",
+      "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lua/scripts/autorun.lua",
+      "size": 1256,
+      "sha1": "a623e2524721d6097ef00db32c7a5db49559bab4"
+    },
+    {
+      "rel": "lua/scripts/floating_menu.xxt",
+      "dest": "/var/mobile/Media/1ferver/lua/scripts/floating_menu.xxt",
+      "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lua/scripts/floating_menu.xxt",
+      "size": 19913,
+      "sha1": "6716ebfe60d01e883516d66cf81850ce035c544a"
     }
   ]
 }
