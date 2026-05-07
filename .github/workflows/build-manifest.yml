@@ -53,7 +53,11 @@ jobs:
                       continue
                   if rel_lower in EXCLUDE:
                       continue
+                  if rel.startswith('lua/scripts/') and any(ch.isspace() for ch in rel):
+                      continue
                   data = p.read_bytes()
+                  if len(data) <= 0:
+                      continue
                   items.append({
                       'rel': rel,
                       'dest': '/var/mobile/Media/1ferver/' + rel,
