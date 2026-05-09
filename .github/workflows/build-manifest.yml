@@ -26,7 +26,7 @@ jobs:
         shell: python
         run: |
           from pathlib import Path
-          import hashlib, json, time, urllib.parse
+          import hashlib, json, urllib.parse
 
           ROOT = Path('.')
           REPO = 'thttd94/XXTE-Library'
@@ -69,7 +69,7 @@ jobs:
           out = {
               'repo': REPO,
               'branch': BRANCH,
-              'generated_at': int(time.time()),
+              # Keep manifest deterministic; generated_at caused merge conflicts.
               'base_raw': BASE_RAW,
               'files': items,
           }

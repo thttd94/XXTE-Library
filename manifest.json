@@ -1,7 +1,6 @@
 {
   "repo": "thttd94/XXTE-Library",
   "branch": "main",
-  "generated_at": 1778071116,
   "base_raw": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main",
   "files": [
     {
@@ -442,8 +441,8 @@
       "rel": "lua/examples/Cookies.binarycookies",
       "dest": "/var/mobile/Media/1ferver/lua/examples/Cookies.binarycookies",
       "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lua/examples/Cookies.binarycookies",
-      "size": 347,
-      "sha1": "bc9138ed5764b09b11e744145ba835272341170c"
+      "size": 2911,
+      "sha1": "29d53904a4ad48ca647f7d412e617dd620e2adc8"
     },
     {
       "rel": "lua/examples/countt.png",
@@ -1074,6 +1073,20 @@
       "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lua/examples/tiktok_backuping.png",
       "size": 5195,
       "sha1": "147e13c26a1e5fbe660ea4b94487b0e7056d7971"
+    },
+    {
+      "rel": "lua/examples/tiktok_regular_coin_big.png",
+      "dest": "/var/mobile/Media/1ferver/lua/examples/tiktok_regular_coin_big.png",
+      "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lua/examples/tiktok_regular_coin_big.png",
+      "size": 20649,
+      "sha1": "15d20dceee4f9a15c0c2594c46592dcd5985fcf6"
+    },
+    {
+      "rel": "lua/examples/tiktok_regular_coin_small.png",
+      "dest": "/var/mobile/Media/1ferver/lua/examples/tiktok_regular_coin_small.png",
+      "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lua/examples/tiktok_regular_coin_small.png",
+      "size": 4076,
+      "sha1": "14b20af39e6d8cdccc9d89e1d60a3527c2f67139"
     },
     {
       "rel": "lua/examples/tiktok_row.png",
