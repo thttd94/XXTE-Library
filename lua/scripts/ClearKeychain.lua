@@ -48,9 +48,6 @@ local function clearOne(appInfo)
     return clear.keychain(bid)
   end)
 
-  runStep(appName, "clear.all_keychain", function()
-    return clear.all_keychain()
-  end)
 
   runStep(appName, "clear.pasteboard", function()
     return clear.pasteboard()
