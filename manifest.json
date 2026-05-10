@@ -1159,11 +1159,53 @@
       "sha1": "dd0fb6bb855dcd9530c3645a4f12396762fa2126"
     },
     {
+      "rel": "lua/scripts/ClearKeychain.lua",
+      "dest": "/var/mobile/Media/1ferver/lua/scripts/ClearKeychain.lua",
+      "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lua/scripts/ClearKeychain.lua",
+      "size": 1791,
+      "sha1": "f4778e5d4241de0d8697ffad6600abe0632adfd9"
+    },
+    {
+      "rel": "lua/scripts/Final.lua",
+      "dest": "/var/mobile/Media/1ferver/lua/scripts/Final.lua",
+      "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lua/scripts/Final.lua",
+      "size": 33902,
+      "sha1": "c1960a26b4a91c986521fab8e5c0cdf42e84064b"
+    },
+    {
+      "rel": "lua/scripts/LoginGGSafari.lua",
+      "dest": "/var/mobile/Media/1ferver/lua/scripts/LoginGGSafari.lua",
+      "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lua/scripts/LoginGGSafari.lua",
+      "size": 8372,
+      "sha1": "7999febdacd5c9ec8f922e6b7a5d8dedb102c100"
+    },
+    {
+      "rel": "lua/scripts/NhapTK.lua",
+      "dest": "/var/mobile/Media/1ferver/lua/scripts/NhapTK.lua",
+      "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lua/scripts/NhapTK.lua",
+      "size": 3935,
+      "sha1": "8f09ebd3d8614e1070dce22580e2db8125851ac5"
+    },
+    {
+      "rel": "lua/scripts/XuatTK.lua",
+      "dest": "/var/mobile/Media/1ferver/lua/scripts/XuatTK.lua",
+      "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lua/scripts/XuatTK.lua",
+      "size": 2613,
+      "sha1": "6c2978949bbc682cc88cf897605a835062bd2eab"
+    },
+    {
       "rel": "lua/scripts/autorun.lua",
       "dest": "/var/mobile/Media/1ferver/lua/scripts/autorun.lua",
       "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lua/scripts/autorun.lua",
       "size": 1256,
       "sha1": "a623e2524721d6097ef00db32c7a5db49559bab4"
+    },
+    {
+      "rel": "lua/scripts/floating_menu.lua",
+      "dest": "/var/mobile/Media/1ferver/lua/scripts/floating_menu.lua",
+      "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lua/scripts/floating_menu.lua",
+      "size": 23933,
+      "sha1": "87bf3156824add6360b460e6a1cb6019ea659f41"
     },
     {
       "rel": "lua/scripts/floating_menu.xxt",
