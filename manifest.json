@@ -1162,8 +1162,8 @@
       "rel": "lua/scripts/ClearKeychain.lua",
       "dest": "/var/mobile/Media/1ferver/lua/scripts/ClearKeychain.lua",
       "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lua/scripts/ClearKeychain.lua",
-      "size": 1791,
-      "sha1": "f4778e5d4241de0d8697ffad6600abe0632adfd9"
+      "size": 1700,
+      "sha1": "63f06a670dc6c993859c5902386789793af43fd6"
     },
     {
       "rel": "lua/scripts/Final.lua",
