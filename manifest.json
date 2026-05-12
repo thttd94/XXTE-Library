@@ -1159,6 +1159,13 @@
       "sha1": "dd0fb6bb855dcd9530c3645a4f12396762fa2126"
     },
     {
+      "rel": "lua/scripts/ActiveXXTE.lua",
+      "dest": "/var/mobile/Media/1ferver/lua/scripts/ActiveXXTE.lua",
+      "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lua/scripts/ActiveXXTE.lua",
+      "size": 1018,
+      "sha1": "b356f0cd8a1cbaf0b8c98295ecd7864c16979873"
+    },
+    {
       "rel": "lua/scripts/ClearKeychain.lua",
       "dest": "/var/mobile/Media/1ferver/lua/scripts/ClearKeychain.lua",
       "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lua/scripts/ClearKeychain.lua",
