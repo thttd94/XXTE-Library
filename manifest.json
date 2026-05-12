@@ -1166,6 +1166,7 @@
       "sha1": "b356f0cd8a1cbaf0b8c98295ecd7864c16979873"
     },
     {
+<<<<<<< HEAD
       "rel": "lua/scripts/autorun.lua",
       "dest": "/var/mobile/Media/1ferver/lua/scripts/autorun.lua",
       "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lua/scripts/autorun.lua",
@@ -1173,6 +1174,8 @@
       "sha1": "a623e2524721d6097ef00db32c7a5db49559bab4"
     },
     {
+=======
+>>>>>>> 29800bef4a6be5eef68c6cc15fcdd7f0b173224f
       "rel": "lua/scripts/ClearKeychain.lua",
       "dest": "/var/mobile/Media/1ferver/lua/scripts/ClearKeychain.lua",
       "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lua/scripts/ClearKeychain.lua",
