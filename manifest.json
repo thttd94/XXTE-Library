@@ -189,8 +189,8 @@
       "rel": "lua/examples/Cookies.binarycookies",
       "dest": "/var/mobile/Media/1ferver/lua/examples/Cookies.binarycookies",
       "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lua/examples/Cookies.binarycookies",
-      "size": 2911,
-      "sha1": "29d53904a4ad48ca647f7d412e617dd620e2adc8"
+      "size": 2540,
+      "sha1": "5e3da86c01f6c4555a2fb472996237c588883d07"
     },
     {
       "rel": "lua/examples/Countwgg.png",
@@ -1205,7 +1205,7 @@
       "dest": "/var/mobile/Media/1ferver/lua/scripts/autorun.lua",
       "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lua/scripts/autorun.lua",
       "size": 656,
-      "sha1": "8051c0ca80f0813880d1938ecefa4eeeb48445b0"
+      "sha1": "314e41116f772050caa3e628f6dd4183e860c7b0"
     },
     {
       "rel": "lua/scripts/floating_menu.lua",
