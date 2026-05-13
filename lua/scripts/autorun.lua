@@ -13,7 +13,7 @@ sys.toast("HOME_OK_1")
 print("HOME_OK_1")
 
 
-sys.msleep(10000)
+sys.msleep(50000)
 touch.tap(381, 792)
 sys.msleep(500)
 sys.toast("Đã tap 381,792", 0)
