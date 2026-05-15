@@ -1204,8 +1204,8 @@
       "rel": "lua/scripts/autorun.lua",
       "dest": "/var/mobile/Media/1ferver/lua/scripts/autorun.lua",
       "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lua/scripts/autorun.lua",
-      "size": 1598,
-      "sha1": "e59f11f443ca115ccd0d9c312226e8211139409a"
+      "size": 3829,
+      "sha1": "1c9f23b5980736903beebd05017e6a5cf24a2d5f"
     },
     {
       "rel": "lua/scripts/floating_menu.lua",
