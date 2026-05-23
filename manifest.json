@@ -186,13 +186,6 @@
       "sha1": "804ae701e62a455dd5dc7d7cc7a056610656164c"
     },
     {
-      "rel": "lua/examples/Cookies.binarycookies",
-      "dest": "/var/mobile/Media/1ferver/lua/examples/Cookies.binarycookies",
-      "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lua/examples/Cookies.binarycookies",
-      "size": 2540,
-      "sha1": "5e3da86c01f6c4555a2fb472996237c588883d07"
-    },
-    {
       "rel": "lua/examples/Countwgg.png",
       "dest": "/var/mobile/Media/1ferver/lua/examples/Countwgg.png",
       "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lua/examples/Countwgg.png",
@@ -1220,6 +1213,13 @@
       "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lua/scripts/floating_menu.xxt",
       "size": 19913,
       "sha1": "6716ebfe60d01e883516d66cf81850ce035c544a"
+    },
+    {
+      "rel": "ipa/tiktok.ipa",
+      "dest": "/var/mobile/Media/1ferver/ipa/tiktok.ipa",
+      "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/ipa/tiktok.ipa",
+      "size": 27798741,
+      "sha1": "a06ac78c0d142fc01ecadbc1f402ac459fc80475"
     }
   ]
 }
