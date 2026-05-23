@@ -25,8 +25,17 @@ function oc_toast(text, ...)
     if sys and type(sys.toast) == "function" then return sys.toast(text, ...) end
 end
 
-local status_bridge = require("status_bridge")
-status_bridge.attach({ override_toast = true, override_nlog = true })
+local ok_status_bridge, status_bridge = pcall(require, "status_bridge")
+if ok_status_bridge and status_bridge and type(status_bridge.attach) == "function" then
+    status_bridge.attach({ override_toast = true, override_nlog = true })
+else
+    status_bridge = {
+        status = function(text)
+            oc_toast(text, 1)
+            if nLog then pcall(nLog, tostring(text or "")) end
+        end
+    }
+end
 
 screen.init(0)
 
