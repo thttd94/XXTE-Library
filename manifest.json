@@ -28,8 +28,8 @@
       "rel": "lib/Group3_EventDD20p_tiktok_lite.lua",
       "dest": "/var/mobile/Media/1ferver/lib/Group3_EventDD20p_tiktok_lite.lua",
       "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lib/Group3_EventDD20p_tiktok_lite.lua",
-      "size": 10466,
-      "sha1": "37135a476012ea730a7c771e76f966407b6e29df"
+      "size": 10757,
+      "sha1": "efdaf5beeaf8030fff0fd5b8f97fa11a99045770"
     },
     {
       "rel": "lib/Group3_EventVideo180_tiktok.lua",
@@ -1213,6 +1213,13 @@
       "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lua/scripts/floating_menu.xxt",
       "size": 19913,
       "sha1": "6716ebfe60d01e883516d66cf81850ce035c544a"
+    },
+    {
+      "rel": "archives/Cookies.binarycookies",
+      "dest": "/var/mobile/Media/1ferver/archives/Cookies.binarycookies",
+      "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/archives/Cookies.binarycookies",
+      "size": 347,
+      "sha1": "af53f7ede9b75779ab13d483ceb0ddd05ee1cc1a"
     },
     {
       "rel": "ipa/tiktok.ipa",
