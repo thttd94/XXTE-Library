@@ -1,4 +1,4 @@
-
+﻿
 
 -- OpenClaw/PYW status sync: write readable status for GUI polling even when run directly on client.
 local OC_STATUS_PATH = rawget(_G, "OC_STATUS_PATH") or "/var/mobile/Media/1ferver/lua/examples/oc_status.txt"
@@ -31,12 +31,13 @@ status_bridge.attach({ override_toast = true, override_nlog = true })
 screen.init(0)
 
 local IMG_DIR = "/var/mobile/Media/1ferver/lua/examples/"
-local CHECK_IMG = IMG_DIR .. "check20p_1.PNG"
+local CHECK_IMG = IMG_DIR .. "tap20p.PNG"
 local TAP_IMG = IMG_DIR .. "tap20p.PNG"
-local FINAL_IMG = IMG_DIR .. "0910.PNG"
+local FINAL_IMG = IMG_DIR .. "tap20p.PNG"
 
-local MAX_RUNTIME_SEC = 3 * 60 * 60
+local MAX_RUNTIME_SEC = 3 * 60 * 60 + 30 * 60
 local SCRIPT_START_AT = os.time()
+local COOLDOWN_AFTER_TAP_SEC = 20 * 60
 
 -- Vùng "đẹp" cho check20p: trên trung tâm 1 chút
 local GOOD_Y_MIN = 360
@@ -53,7 +54,7 @@ end
 
 local function checkTimeout()
  if isTimeout() then
-  status("Da qua 3h, dung script")
+  status("Da qua 3h30p, dung script")
   return true
  end
  return false
@@ -114,7 +115,7 @@ local function adjustCheckToBetterPosition(x, y)
  end
 
  if isCheckInGoodZone(y) then
-  status("Check dang o vi tri dep, khong can keo")
+  status("tap20p.PNG dang o vi tri dep, khong can keo")
   return true, x, y
  end
 
@@ -130,13 +131,13 @@ local function adjustCheckToBetterPosition(x, y)
   direction = "up"
   endY = TARGET_Y
  else
-  status("Check dang gan trung tam, khong can keo")
+  status("tap20p.PNG dang gan trung tam, khong can keo")
   return true, x, y
  end
 
  local distance = math.abs(holdY - endY)
  if distance < 80 then
-  status("Check da gan vi tri muc tieu, khong can keo")
+  status("tap20p.PNG da gan vi tri muc tieu, khong can keo")
   return true, x, y
  end
 
@@ -151,7 +152,7 @@ local function adjustCheckToBetterPosition(x, y)
  if endY < 260 then endY = 260 end
  if endY > 980 then endY = 980 end
 
- status("Dang giu va keo event 20p ve vung giua")
+ status("Dang giu va keo event 20p theo tap20p.PNG ve vung giua")
  touch.down(1, holdX, holdY)
  sys.msleep(140)
 
@@ -177,17 +178,16 @@ local function adjustCheckToBetterPosition(x, y)
  local okAfter, xAfter, yAfter = findCheck()
  if okAfter then
   if isCheckInGoodZone(yAfter) then
-   status("Da dua event 20p vao vung giua")
+   status("Da dua tap20p.PNG vao vung giua")
   else
-   status("Da keo event 20p theo huong dung, se canh tiep")
+   status("Da keo theo tap20p.PNG, se canh tiep")
   end
   return true, xAfter, yAfter
  end
 
- status("Da keo event nhung chua thay lai check, van tiep tuc canh")
+ status("Da keo event nhung chua thay lai tap20p.PNG, van tiep tuc canh")
  return true, x, y
 end
-
 local function swipeUpSearchOneRound()
  if checkTimeout() then return "timeout", -1, -1 end
 
@@ -348,10 +348,26 @@ local function recoverCheckNearby()
  return false, -1, -1
 end
 
+local function waitAfterTap20p()
+ status("Da bam tap20p.PNG, cho 20p roi tim tiep")
+ local endAt = os.time() + COOLDOWN_AFTER_TAP_SEC
+ while os.time() < endAt do
+  if checkTimeout() then
+   return false
+  end
+  local remain = endAt - os.time()
+  if remain % 60 == 0 then
+   status("Dang cho tap20p.PNG xuat hien lai: con " .. math.floor(remain / 60) .. "p")
+  end
+  sys.msleep(1000)
+ end
+ status("Het 20p, bat dau tim tap20p.PNG tiep")
+ return true
+end
 local function waitTapAfterCheck(timeoutSec, finalReady)
  if checkTimeout() then return "timeout", -1, -1, finalReady end
 
- status("Da thay Event 20p, dung yen cho bam tiep")
+ status("Da thay tap20p.PNG, dung yen cho bam tiep")
 
  local loops = math.floor((timeoutSec * 1000) / 250)
  local lostCount = 0
@@ -373,9 +389,13 @@ local function waitTapAfterCheck(timeoutSec, finalReady)
   if okTap then
    if not tapVisibleLastLoop then
     tapCount = tapCount + 1
-    status("Da thay nut bam Event 20p")
+    status("Da thay tap20p.PNG")
     touch.tap(tapX + 10, tapY + 10)
-    status("Da bam Event 20p lan " .. tapCount)
+    status("Da bam tap20p.PNG lan " .. tapCount)
+    if not waitAfterTap20p( ) then
+     return "timeout", -1, -1, finalReady
+    end
+    return "cooldown_done", tapX, tapY, finalReady
    end
    tapVisibleLastLoop = true
   else
@@ -428,7 +448,12 @@ local function runSearchFlow(maxCycles)
     end
 
     if okCheck == "timeout" then
-     return false
+     if checkTimeout() then
+      return false
+     end
+     okCheck = false
+     xCheck = -1
+     yCheck = -1
     end
 
     roundsInDirection = roundsInDirection + 1
@@ -455,21 +480,30 @@ local function runSearchFlow(maxCycles)
    local result, _, _, finalState = waitTapAfterCheck(8, finalReady)
    finalReady = finalState
 
-   if result == "lost" then
+   if result == "cooldown_done" then
+    lockedOnCheck = false
+    finalReady = false
+   elseif result == "lost" then
     lockedOnCheck = false
     status("Mat Event 20p, tiep tuc tim lai tu vi tri hien tai")
    elseif result == "timeout_wait" then
     status("Het thoi gian cho bam, tiep tuc tim quanh day")
     local okRecover = recoverCheckNearby()
     if okRecover == "timeout" then
-     return false
+     if checkTimeout() then
+      return false
+     end
+     lockedOnCheck = false
     elseif okRecover then
      lockedOnCheck = true
     else
      lockedOnCheck = false
     end
    elseif result == "timeout" then
-    return false
+    if checkTimeout() then
+     return false
+    end
+    lockedOnCheck = false
    end
   end
  end
@@ -478,4 +512,12 @@ local function runSearchFlow(maxCycles)
  return false
 end
 
-runSearchFlow(30)
+runSearchFlow(100)
+
+
+
+
+
+
+
+
