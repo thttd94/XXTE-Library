@@ -648,6 +648,13 @@
       "sha1": "902b2d4b5570dbf8d0539498bab78adfa243c9f3"
     },
     {
+      "rel": "lua/examples/Xulite.png",
+      "dest": "/var/mobile/Media/1ferver/lua/examples/Xulite.png",
+      "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lua/examples/Xulite.png",
+      "size": 5706,
+      "sha1": "b92065ea61c0b6fd040ce40c3b3d5c35f618efa7"
+    },
+    {
       "rel": "lua/examples/addacc.png",
       "dest": "/var/mobile/Media/1ferver/lua/examples/addacc.png",
       "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lua/examples/addacc.png",
