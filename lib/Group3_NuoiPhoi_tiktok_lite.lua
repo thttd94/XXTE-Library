@@ -37,7 +37,7 @@ end
 
 clear.app_data("com.ss.iphone.ugc.Ame")
 clear.app_data("com.ss.iphone.ugc.tiktok.lite")
-oc_toast("clear tiktok done", 1)
+status("clear tiktok done")
 sys.msleep(1000)
 
 local SCRIPT_VERSION = "TL_ALLIN1_V8"
@@ -128,8 +128,8 @@ function status(t)
  local text = "Quá trình nuôi phôi đang tiến hành " .. dots
  __status_anim_idx = __status_anim_idx - 1
  if __status_anim_idx < 1 then __status_anim_idx = 7 end
- local now = os.time()
- if text ~= __last_status or now - __last_status_at >= 1 then
+ local now = os.clock()
+ if text ~= __last_status or now - __last_status_at >= 0.1 then
   if type(__oc_write_status) == "function" then pcall(__oc_write_status, text) end
   oc_toast(text, 0)
   __last_status = text
@@ -160,21 +160,19 @@ end
 
 function waitPhase(ms)
  local remain = ms
- local lastShown = -1
+ local lastPopupScanAt = 0
 
  while remain > 0 do
-  if type(backgroundPopupTick) == "function" then
+  local now = os.clock()
+  if type(backgroundPopupTick) == "function" and now - lastPopupScanAt >= 0.8 then
    pcall(backgroundPopupTick)
+   lastPopupScanAt = now
   end
 
-  local sec = math.ceil(remain / 1000)
-  if sec ~= lastShown then
-   phaseProgress(sec)
-   lastShown = sec
-  end
+  phaseProgress(math.ceil(remain / 1000))
 
-  local step = 1000
-  if remain < 1000 then
+  local step = 100
+  if remain < 100 then
    step = remain
   end
 
