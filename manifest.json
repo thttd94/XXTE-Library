@@ -7,6 +7,13 @@
       "rel": "lib/Claimvideo48.lua",
       "dest": "/var/mobile/Media/1ferver/lib/Claimvideo48.lua",
       "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lib/Claimvideo48.lua",
+      "size": 15507,
+      "sha1": "203aca3721d916b9572274614df241f0be40314c"
+    },
+    {
+      "rel": "lib/Claimvideo48.lua.bak_webview_status_20260529_111102",
+      "dest": "/var/mobile/Media/1ferver/lib/Claimvideo48.lua.bak_webview_status_20260529_111102",
+      "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lib/Claimvideo48.lua.bak_webview_status_20260529_111102",
       "size": 14064,
       "sha1": "3ca5f4b54c63fe0424f43ed4108ae9b854ca12a4"
     },
@@ -14,6 +21,13 @@
       "rel": "lib/Group3_ClaimVideo.lua",
       "dest": "/var/mobile/Media/1ferver/lib/Group3_ClaimVideo.lua",
       "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lib/Group3_ClaimVideo.lua",
+      "size": 15896,
+      "sha1": "78ed8497bf16c3bbf8ca09317d32b28e6fda5ce0"
+    },
+    {
+      "rel": "lib/Group3_ClaimVideo.lua.bak_webview_status_20260529_111102",
+      "dest": "/var/mobile/Media/1ferver/lib/Group3_ClaimVideo.lua.bak_webview_status_20260529_111102",
+      "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lib/Group3_ClaimVideo.lua.bak_webview_status_20260529_111102",
       "size": 14459,
       "sha1": "f8ef7be8904a7938e4f32f04d3f40841332d8e6b"
     },
@@ -21,8 +35,8 @@
       "rel": "lib/Group3_EventDD20p_tiktok.lua",
       "dest": "/var/mobile/Media/1ferver/lib/Group3_EventDD20p_tiktok.lua",
       "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lib/Group3_EventDD20p_tiktok.lua",
-      "size": 11448,
-      "sha1": "893fad112813799be2038343a546e7addd29b45d"
+      "size": 12901,
+      "sha1": "f5a5fac81c8458d8b626bf9f4a30bf06dfa6956f"
     },
     {
       "rel": "lib/Group3_EventDD20p_tiktok.lua.bak_20p_20260523_202718",
@@ -53,11 +67,18 @@
       "sha1": "1eb14231c63c70a5960db5770accaf8b81a6f4c7"
     },
     {
+      "rel": "lib/Group3_EventDD20p_tiktok.lua.bak_webview_status_20260529_111102",
+      "dest": "/var/mobile/Media/1ferver/lib/Group3_EventDD20p_tiktok.lua.bak_webview_status_20260529_111102",
+      "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lib/Group3_EventDD20p_tiktok.lua.bak_webview_status_20260529_111102",
+      "size": 11448,
+      "sha1": "893fad112813799be2038343a546e7addd29b45d"
+    },
+    {
       "rel": "lib/Group3_EventDD20p_tiktok_lite.lua",
       "dest": "/var/mobile/Media/1ferver/lib/Group3_EventDD20p_tiktok_lite.lua",
       "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lib/Group3_EventDD20p_tiktok_lite.lua",
-      "size": 11739,
-      "sha1": "6c3c7a3eb25aca4487fd60935ac695ccd5199df0"
+      "size": 13202,
+      "sha1": "0df43e186d45ed82ffb118d876bb25b230bdab3b"
     },
     {
       "rel": "lib/Group3_EventDD20p_tiktok_lite.lua.bak_20p_20260523_202718",
@@ -88,9 +109,23 @@
       "sha1": "1af48b7fb8ee0bf14518409f0ff5b8ca81b533d2"
     },
     {
+      "rel": "lib/Group3_EventDD20p_tiktok_lite.lua.bak_webview_status_20260529_111102",
+      "dest": "/var/mobile/Media/1ferver/lib/Group3_EventDD20p_tiktok_lite.lua.bak_webview_status_20260529_111102",
+      "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lib/Group3_EventDD20p_tiktok_lite.lua.bak_webview_status_20260529_111102",
+      "size": 11739,
+      "sha1": "6c3c7a3eb25aca4487fd60935ac695ccd5199df0"
+    },
+    {
       "rel": "lib/Group3_EventVideo180_tiktok.lua",
       "dest": "/var/mobile/Media/1ferver/lib/Group3_EventVideo180_tiktok.lua",
       "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lib/Group3_EventVideo180_tiktok.lua",
+      "size": 5724,
+      "sha1": "41e56f9b41eb0943e7a2f57117182e49f190620f"
+    },
+    {
+      "rel": "lib/Group3_EventVideo180_tiktok.lua.bak_webview_status_20260529_111102",
+      "dest": "/var/mobile/Media/1ferver/lib/Group3_EventVideo180_tiktok.lua.bak_webview_status_20260529_111102",
+      "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lib/Group3_EventVideo180_tiktok.lua.bak_webview_status_20260529_111102",
       "size": 4265,
       "sha1": "38c014b280430b4ab41bdd7f822664602455ff96"
     },
@@ -98,6 +133,13 @@
       "rel": "lib/Group3_EventVideo180_tiktok_lite.lua",
       "dest": "/var/mobile/Media/1ferver/lib/Group3_EventVideo180_tiktok_lite.lua",
       "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lib/Group3_EventVideo180_tiktok_lite.lua",
+      "size": 5749,
+      "sha1": "80af76ba0e9348c4e2662fb89e8b0a11a2a96829"
+    },
+    {
+      "rel": "lib/Group3_EventVideo180_tiktok_lite.lua.bak_webview_status_20260529_111102",
+      "dest": "/var/mobile/Media/1ferver/lib/Group3_EventVideo180_tiktok_lite.lua.bak_webview_status_20260529_111102",
+      "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lib/Group3_EventVideo180_tiktok_lite.lua.bak_webview_status_20260529_111102",
       "size": 4280,
       "sha1": "e6b41c0dcebd6c6195f59812ca1a35e1ed60dd17"
     },
@@ -105,6 +147,13 @@
       "rel": "lib/Group3_NuoiPhoi_tiktok.lua",
       "dest": "/var/mobile/Media/1ferver/lib/Group3_NuoiPhoi_tiktok.lua",
       "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lib/Group3_NuoiPhoi_tiktok.lua",
+      "size": 33970,
+      "sha1": "9a7ce0b306ce1cd315256eff38f9836f2d67c0ce"
+    },
+    {
+      "rel": "lib/Group3_NuoiPhoi_tiktok.lua.bak_webview_status_20260529_111102",
+      "dest": "/var/mobile/Media/1ferver/lib/Group3_NuoiPhoi_tiktok.lua.bak_webview_status_20260529_111102",
+      "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lib/Group3_NuoiPhoi_tiktok.lua.bak_webview_status_20260529_111102",
       "size": 32519,
       "sha1": "a514a30aa8af37c6501af054a3c0fd6d01390d0c"
     },
@@ -119,13 +168,34 @@
       "rel": "lib/Group3_NuoiPhoi_tiktok_lite.lua",
       "dest": "/var/mobile/Media/1ferver/lib/Group3_NuoiPhoi_tiktok_lite.lua",
       "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lib/Group3_NuoiPhoi_tiktok_lite.lua",
-      "size": 30773,
-      "sha1": "17cf098d2d80fa8e09ddfd52344e06348747a696"
+      "size": 29129,
+      "sha1": "9810b210c7cadf8e6dd3d3dad14c847c4726b8df"
+    },
+    {
+      "rel": "lib/Group3_NuoiPhoi_tiktok_lite.lua.bak_broken_20260529_104934",
+      "dest": "/var/mobile/Media/1ferver/lib/Group3_NuoiPhoi_tiktok_lite.lua.bak_broken_20260529_104934",
+      "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lib/Group3_NuoiPhoi_tiktok_lite.lua.bak_broken_20260529_104934",
+      "size": 32392,
+      "sha1": "f099d294f8606b62cb268c2b7ec99bb7bfbd0158"
+    },
+    {
+      "rel": "lib/Group3_NuoiPhoi_tiktok_lite.lua.bak_webview_status_20260529_111102",
+      "dest": "/var/mobile/Media/1ferver/lib/Group3_NuoiPhoi_tiktok_lite.lua.bak_webview_status_20260529_111102",
+      "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lib/Group3_NuoiPhoi_tiktok_lite.lua.bak_webview_status_20260529_111102",
+      "size": 22736,
+      "sha1": "08ba58715fdc258a355642308187c58d9c8c6032"
     },
     {
       "rel": "lib/LoginGGSafari.lua",
       "dest": "/var/mobile/Media/1ferver/lib/LoginGGSafari.lua",
       "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lib/LoginGGSafari.lua",
+      "size": 10962,
+      "sha1": "e4d43960db66cb1aac36db50960c17817bd695ec"
+    },
+    {
+      "rel": "lib/LoginGGSafari.lua.bak_webview_status_20260529_111102",
+      "dest": "/var/mobile/Media/1ferver/lib/LoginGGSafari.lua.bak_webview_status_20260529_111102",
+      "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lib/LoginGGSafari.lua.bak_webview_status_20260529_111102",
       "size": 9517,
       "sha1": "d2c89ff1548569407a7394f868eb6c1996649671"
     },
@@ -133,6 +203,13 @@
       "rel": "lib/NhungAcc.lua",
       "dest": "/var/mobile/Media/1ferver/lib/NhungAcc.lua",
       "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lib/NhungAcc.lua",
+      "size": 16221,
+      "sha1": "1006cff10e2bc5ebc60dbc5daca33ff36eb45201"
+    },
+    {
+      "rel": "lib/NhungAcc.lua.bak_webview_status_20260529_111102",
+      "dest": "/var/mobile/Media/1ferver/lib/NhungAcc.lua.bak_webview_status_20260529_111102",
+      "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lib/NhungAcc.lua.bak_webview_status_20260529_111102",
       "size": 14786,
       "sha1": "1625f90cfb218c0c1f9fcdbeefee854546a98d28"
     },
@@ -140,6 +217,13 @@
       "rel": "lib/floating_menu.lua",
       "dest": "/var/mobile/Media/1ferver/lib/floating_menu.lua",
       "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lib/floating_menu.lua",
+      "size": 25380,
+      "sha1": "a523a82e133ca0487a8eb99498d05fe5e531bf89"
+    },
+    {
+      "rel": "lib/floating_menu.lua.bak_webview_status_20260529_111102",
+      "dest": "/var/mobile/Media/1ferver/lib/floating_menu.lua.bak_webview_status_20260529_111102",
+      "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lib/floating_menu.lua.bak_webview_status_20260529_111102",
       "size": 23933,
       "sha1": "87bf3156824add6360b460e6a1cb6019ea659f41"
     },
@@ -147,6 +231,13 @@
       "rel": "lib/probe_local_http.lua",
       "dest": "/var/mobile/Media/1ferver/lib/probe_local_http.lua",
       "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lib/probe_local_http.lua",
+      "size": 4516,
+      "sha1": "beb4bba905d1e97c913a5ba5f72102fc4285e04a"
+    },
+    {
+      "rel": "lib/probe_local_http.lua.bak_webview_status_20260529_111102",
+      "dest": "/var/mobile/Media/1ferver/lib/probe_local_http.lua.bak_webview_status_20260529_111102",
+      "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lib/probe_local_http.lua.bak_webview_status_20260529_111102",
       "size": 3069,
       "sha1": "b04bee5122e87a630a3380726b763d9e536079a5"
     },
@@ -1232,6 +1323,13 @@
       "rel": "lua/scripts/ClearKeychain.lua",
       "dest": "/var/mobile/Media/1ferver/lua/scripts/ClearKeychain.lua",
       "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lua/scripts/ClearKeychain.lua",
+      "size": 3196,
+      "sha1": "023c7ee25c0966e247010da013d63b1305c1ea3f"
+    },
+    {
+      "rel": "lua/scripts/ClearKeychain.lua.bak_webview_status_20260529_111102",
+      "dest": "/var/mobile/Media/1ferver/lua/scripts/ClearKeychain.lua.bak_webview_status_20260529_111102",
+      "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lua/scripts/ClearKeychain.lua.bak_webview_status_20260529_111102",
       "size": 1700,
       "sha1": "63f06a670dc6c993859c5902386789793af43fd6"
     },
@@ -1239,6 +1337,13 @@
       "rel": "lua/scripts/Final.lua",
       "dest": "/var/mobile/Media/1ferver/lua/scripts/Final.lua",
       "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lua/scripts/Final.lua",
+      "size": 35379,
+      "sha1": "a2b62cde33944ebf7ab27b79ae21482551b2f998"
+    },
+    {
+      "rel": "lua/scripts/Final.lua.bak_webview_status_20260529_111102",
+      "dest": "/var/mobile/Media/1ferver/lua/scripts/Final.lua.bak_webview_status_20260529_111102",
+      "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lua/scripts/Final.lua.bak_webview_status_20260529_111102",
       "size": 33902,
       "sha1": "c1960a26b4a91c986521fab8e5c0cdf42e84064b"
     },
@@ -1246,6 +1351,13 @@
       "rel": "lua/scripts/LoginGGSafari.lua",
       "dest": "/var/mobile/Media/1ferver/lua/scripts/LoginGGSafari.lua",
       "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lua/scripts/LoginGGSafari.lua",
+      "size": 9724,
+      "sha1": "82f23326ce268e6f19808c5a2a3157fdd0afc6df"
+    },
+    {
+      "rel": "lua/scripts/LoginGGSafari.lua.bak_webview_status_20260529_111102",
+      "dest": "/var/mobile/Media/1ferver/lua/scripts/LoginGGSafari.lua.bak_webview_status_20260529_111102",
+      "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lua/scripts/LoginGGSafari.lua.bak_webview_status_20260529_111102",
       "size": 8372,
       "sha1": "7999febdacd5c9ec8f922e6b7a5d8dedb102c100"
     },
@@ -1253,6 +1365,13 @@
       "rel": "lua/scripts/NhapTK.lua",
       "dest": "/var/mobile/Media/1ferver/lua/scripts/NhapTK.lua",
       "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lua/scripts/NhapTK.lua",
+      "size": 5386,
+      "sha1": "b45f727acb86ef296952ddb8b0273ec08ed139ff"
+    },
+    {
+      "rel": "lua/scripts/NhapTK.lua.bak_webview_status_20260529_111102",
+      "dest": "/var/mobile/Media/1ferver/lua/scripts/NhapTK.lua.bak_webview_status_20260529_111102",
+      "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lua/scripts/NhapTK.lua.bak_webview_status_20260529_111102",
       "size": 3935,
       "sha1": "8f09ebd3d8614e1070dce22580e2db8125851ac5"
     },
@@ -1260,6 +1379,13 @@
       "rel": "lua/scripts/XuatTK.lua",
       "dest": "/var/mobile/Media/1ferver/lua/scripts/XuatTK.lua",
       "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lua/scripts/XuatTK.lua",
+      "size": 4064,
+      "sha1": "b74eff0f66d1a4626b3cf36c8506a952d2dc2f49"
+    },
+    {
+      "rel": "lua/scripts/XuatTK.lua.bak_webview_status_20260529_111102",
+      "dest": "/var/mobile/Media/1ferver/lua/scripts/XuatTK.lua.bak_webview_status_20260529_111102",
+      "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lua/scripts/XuatTK.lua.bak_webview_status_20260529_111102",
       "size": 2613,
       "sha1": "6c2978949bbc682cc88cf897605a835062bd2eab"
     },
@@ -1267,6 +1393,13 @@
       "rel": "lua/scripts/autorun.lua",
       "dest": "/var/mobile/Media/1ferver/lua/scripts/autorun.lua",
       "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lua/scripts/autorun.lua",
+      "size": 5209,
+      "sha1": "5038db527436f99f42fe4153d06be82c6fa4897e"
+    },
+    {
+      "rel": "lua/scripts/autorun.lua.bak_webview_status_20260529_111102",
+      "dest": "/var/mobile/Media/1ferver/lua/scripts/autorun.lua.bak_webview_status_20260529_111102",
+      "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lua/scripts/autorun.lua.bak_webview_status_20260529_111102",
       "size": 3829,
       "sha1": "1c9f23b5980736903beebd05017e6a5cf24a2d5f"
     },
@@ -1274,6 +1407,13 @@
       "rel": "lua/scripts/extract_tiktok_lite_assets.lua",
       "dest": "/var/mobile/Media/1ferver/lua/scripts/extract_tiktok_lite_assets.lua",
       "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lua/scripts/extract_tiktok_lite_assets.lua",
+      "size": 7174,
+      "sha1": "644b63d51183337d9655611c26b9bf8d7dcc026f"
+    },
+    {
+      "rel": "lua/scripts/extract_tiktok_lite_assets.lua.bak_webview_status_20260529_111102",
+      "dest": "/var/mobile/Media/1ferver/lua/scripts/extract_tiktok_lite_assets.lua.bak_webview_status_20260529_111102",
+      "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lua/scripts/extract_tiktok_lite_assets.lua.bak_webview_status_20260529_111102",
       "size": 5682,
       "sha1": "a9b3b5d096739e17e0f4e192622fa7e8b7616236"
     },
@@ -1281,6 +1421,13 @@
       "rel": "lua/scripts/floating_menu.lua",
       "dest": "/var/mobile/Media/1ferver/lua/scripts/floating_menu.lua",
       "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lua/scripts/floating_menu.lua",
+      "size": 25380,
+      "sha1": "a523a82e133ca0487a8eb99498d05fe5e531bf89"
+    },
+    {
+      "rel": "lua/scripts/floating_menu.lua.bak_webview_status_20260529_111102",
+      "dest": "/var/mobile/Media/1ferver/lua/scripts/floating_menu.lua.bak_webview_status_20260529_111102",
+      "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lua/scripts/floating_menu.lua.bak_webview_status_20260529_111102",
       "size": 23933,
       "sha1": "87bf3156824add6360b460e6a1cb6019ea659f41"
     },
