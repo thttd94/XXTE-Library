@@ -26,6 +26,7 @@ function oc_toast(text, ...)
 end
 
 screen.init(0)
+local device = require("device")
 local __WEBVIEW_STATUS_TEXT = "Nuôi Phôi Tiktok Lite Đang chạy ..."
 local __ok_webview_status, __webview_status = pcall(require, "webview")
 local __WEBVIEW_STATUS_ID = 88
@@ -1013,4 +1014,13 @@ while true do
 end
 if not runStage3() then failStatus("Lỗi Stage 3") end
 phase("ALL DONE")
+phase("Lock home")
+app.run("com.apple.springboard")
+waitPhase(1500)
+local ok_key, key = pcall(require, "key")
+if ok_key and key then
+ pcall(function() key.press(0x0C, 48) end)
+else
+ pcall(function() device.lock_screen() end)
+end
 return true

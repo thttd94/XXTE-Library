@@ -26,6 +26,7 @@ function oc_toast(text, ...)
 end
 
 screen.init(0)
+local device = require("device")
 local __WEBVIEW_STATUS_TEXT = "Nuôi Phôi Tiktok Đang chạy ..."
 local __ok_webview_status, __webview_status = pcall(require, "webview")
 local __WEBVIEW_STATUS_ID = 88
@@ -230,6 +231,7 @@ local POPUP_8_CHECK = { RES_DIR .. "Popup_8_check1.png", RES_DIR .. "Popup_8_che
 local POPUP_8_TAP = RES_DIR .. "Popup_8_tap.png"
 local POPUP_9_CHECK = { RES_DIR .. "Popup_9_check1.png" }
 local POPUP_9_TAP = RES_DIR .. "Popup_9_tap.png"
+local CAPTCHA_IMG = RES_DIR .. "capcha.png"
 local OK_IMG = RES_DIR .. "OK.png"
 local APPSTORE_INSTALL_ERROR = {
  {214,536,0x000000},{283,534,0x000000},{370,534,0x000000},{453,535,0x000000},
@@ -306,6 +308,7 @@ function closeTikTok() phase("Đóng TikTok") app.quit(TIKTOK_BUNDLE) waitPhase(
 function closeAppManager() phase("Đóng AppManager") app.quit(APPMANAGER_BUNDLE) waitPhase(1500) end
 function openAppManager() phase("Mở AppManager") app.run(APPMANAGER_BUNDLE) waitPhase(4000) end
 function hasPopupActive()
+ if findImage(CAPTCHA_IMG, 82, 0, 0, 750, 1334) then return true end
  if findAnyImage(POPUP_1_CHECK, 88, 0, 0, 750, 1334) then return true end
  if findAnyImage(POPUP_2_CHECK, 88, 0, 0, 750, 1334) then return true end
  if findAnyImage(POPUP_3_CHECK, 88, 0, 0, 750, 1334) then return true end
@@ -319,6 +322,7 @@ function hasPopupActive()
  return false
 end
 function confirmNoPopupSlow()
+ waitPhase(300); if findImage(CAPTCHA_IMG, 82, 0, 0, 750, 1334) then return false end
  waitPhase(300); if findAnyImage(POPUP_1_CHECK, 88, 0, 0, 750, 1334) then return false end
  waitPhase(300); if findAnyImage(POPUP_2_CHECK, 88, 0, 0, 750, 1334) then return false end
  waitPhase(300); if findAnyImage(POPUP_3_CHECK, 88, 0, 0, 750, 1334) then return false end
@@ -343,6 +347,17 @@ function handlePopupByImages(name, checkImgs, tapImg, simCheck, simTap, x1, y1, 
  if findAnyImage(checkImgs, simCheck or 88, x1, y1, x2, y2) then status(name .. " còn") else status(name .. " hết") end
  return true
 end
+function handleCaptchaPopup()
+ local found = findImage(CAPTCHA_IMG, 82, 0, 0, 750, 1334)
+ if not found then return false end
+ phase("Popup capcha")
+ status("Popup capcha detect")
+ waitPhase(1000)
+ touch.tap(643, 401)
+ waitPhase(500)
+ return true
+end
+
 function handlePopupNoInternet()
  local found = findAnyImage(POPUP_4_CHECK, 88, 0, 0, 750, 1334)
  if not found then return false end
@@ -394,6 +409,7 @@ function handlePopupSwipeUp()
  return true
 end
 function handleOnePopup()
+ status("Rà Popup capcha") if handleCaptchaPopup() then return true end
  status("Rà Popup 1") if handlePopupByImages("Popup 1", POPUP_1_CHECK, POPUP_1_TAP, 88, 88, 0, 0, 750, 1334) then return true end
  status("Rà Popup 2") if handlePopupByImages("Popup 2", POPUP_2_CHECK, POPUP_2_TAP, 88, 88, 0, 0, 750, 1334) then return true end
  status("Rà Popup 3") if handlePopupByImages("Popup 3", POPUP_3_CHECK, POPUP_3_TAP, 88, 88, 0, 0, 750, 1334) then return true end
@@ -634,4 +650,13 @@ while true do
  elseif current_stage == 4 then clearStage3Watch() phase("Stage 4") if stage4BackupTikTokOnce() then tapBackupOk() break else closeTikTok() closeAppManager() waitPhase(1500) end end
 end
 status("ALL DONE")
+phase("Lock home")
+app.run("com.apple.springboard")
+waitPhase(1500)
+local ok_key, key = pcall(require, "key")
+if ok_key and key then
+ pcall(function() key.press(0x0C, 48) end)
+else
+ pcall(function() device.lock_screen() end)
+end
 return true
