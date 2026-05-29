@@ -168,8 +168,8 @@
       "rel": "lib/Group3_NuoiPhoi_tiktok_lite.lua",
       "dest": "/var/mobile/Media/1ferver/lib/Group3_NuoiPhoi_tiktok_lite.lua",
       "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lib/Group3_NuoiPhoi_tiktok_lite.lua",
-      "size": 29129,
-      "sha1": "9810b210c7cadf8e6dd3d3dad14c847c4726b8df"
+      "size": 29177,
+      "sha1": "0b8a7c63601be9dd688f37573e728d92314ee508"
     },
     {
       "rel": "lib/Group3_NuoiPhoi_tiktok_lite.lua.bak_broken_20260529_104934",
@@ -1393,8 +1393,8 @@
       "rel": "lua/scripts/autorun.lua",
       "dest": "/var/mobile/Media/1ferver/lua/scripts/autorun.lua",
       "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lua/scripts/autorun.lua",
-      "size": 5209,
-      "sha1": "5038db527436f99f42fe4153d06be82c6fa4897e"
+      "size": 7038,
+      "sha1": "28cfc4bfe4726c109962378a5346dc9fa8bdb49e"
     },
     {
       "rel": "lua/scripts/autorun.lua.bak_webview_status_20260529_111102",
