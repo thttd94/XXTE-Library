@@ -119,8 +119,8 @@
       "rel": "lib/Group3_NuoiPhoi_tiktok_lite.lua",
       "dest": "/var/mobile/Media/1ferver/lib/Group3_NuoiPhoi_tiktok_lite.lua",
       "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lib/Group3_NuoiPhoi_tiktok_lite.lua",
-      "size": 24361,
-      "sha1": "999c7c3494ddce3709d350af430fc8fec8daa321"
+      "size": 30773,
+      "sha1": "17cf098d2d80fa8e09ddfd52344e06348747a696"
     },
     {
       "rel": "lib/LoginGGSafari.lua",
@@ -800,6 +800,13 @@
       "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lua/examples/check_popup_choose.png",
       "size": 11799,
       "sha1": "ce219bfe421dfa7a406cf2aad335a0241b4889f3"
+    },
+    {
+      "rel": "lua/examples/check_popup_choose1.png",
+      "dest": "/var/mobile/Media/1ferver/lua/examples/check_popup_choose1.png",
+      "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lua/examples/check_popup_choose1.png",
+      "size": 6655,
+      "sha1": "1c0c8afd9b171e5e680a0fd93820a502bd84fc1c"
     },
     {
       "rel": "lua/examples/check_popup_internet.png",
