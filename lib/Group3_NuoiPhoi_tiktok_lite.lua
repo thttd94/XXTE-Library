@@ -92,7 +92,10 @@ local CHECK_POPUP_ALLOW = RES_DIR .. "check_popup_allow.png"
 local TAP_POPUP_ALLOW = RES_DIR .. "tap_popup_allow.png"
 local CHECK_POPUP_TAPPING = RES_DIR .. "check_popup_tapping.png"
 local TAP_POPUP_TAPPING = RES_DIR .. "tap_popup_tapping.png"
-local CHECK_POPUP_CHOOSE = RES_DIR .. "check_popup_choose.png"
+local CHECK_POPUP_CHOOSE_LIST = {
+ RES_DIR .. "check_popup_choose.png",
+ RES_DIR .. "check_popup_choose1.png"
+}
 local CHECK_POPUP_SWIPE = RES_DIR .. "check_popup_swipe.png"
 local CHECK_POPUP_EVENT1 = RES_DIR .. "check_popup_Event1.png"
 local CHECK_POPUP_EVENT2 = RES_DIR .. "check_popup_Event2.png"
@@ -555,7 +558,7 @@ function hasAnyOnboardingPopup()
  if bgFindImage(CHECK_POPUP_ALLOW, 82, 0, 0, 750, 1334) then status("Hit popup allow") return true end
  if bgFindImage(CHECK_POPUP_TAPPING, 82, 0, 0, 750, 1334) then status("Hit popup tapping") return true end
  if bgFindTrackPopup() then status("Hit popup tracking color") return true end
- if bgFindImage(CHECK_POPUP_CHOOSE, 82, 0, 0, 750, 1334) then status("Hit popup choose") return true end
+ if bgFindAnyImage(CHECK_POPUP_CHOOSE_LIST, 82, 0, 0, 750, 1334) then status("Hit popup choose") return true end
  if bgFindImage(CHECK_POPUP_SWIPE, 82, 0, 0, 750, 1334) then status("Hit popup swipe") return true end
  return false
 end
@@ -713,7 +716,7 @@ function handlePopupTrack()
 end
 
 function handlePopupChoose()
- local ok = findImage(CHECK_POPUP_CHOOSE, 82, 0, 0, 750, 1334)
+ local ok = findAnyImage(CHECK_POPUP_CHOOSE_LIST, 82, 0, 0, 750, 1334)
  if not ok then return false end
  phase("Popup choose")
  local points = {{185,513},{119,645},{138,761},{163,879},{157,993},{178,1093},{540,1243}}
