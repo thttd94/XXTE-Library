@@ -33,7 +33,7 @@ local __WEBVIEW_STATUS_HTML = [[
 <!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><style>
 html,body{margin:0;padding:0;width:100%;height:100%;background:transparent;overflow:hidden;font-family:-apple-system,BlinkMacSystemFont,sans-serif;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
 #bar{width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.58);color:#fff;border-radius:12px;font-size:17px;font-weight:700;text-align:center;white-space:nowrap;box-sizing:border-box}
-</style></head><body><div id="bar">Nuôi Phôi Tiktok Lite Đang chạy ...</div></body></html>
+</style></head><body><div id="bar">V7.2:Nuôi Phôi Tiktok Lite Đang chạy ...</div></body></html>
 ]]
 function show_webview_status()
  if __ok_webview_status and __webview_status and type(__webview_status.show) == "function" then
@@ -645,19 +645,34 @@ function handleNewPopupByColor()
  local ok, x, y = findNewPopupByColor()
  if not ok then return false end
  phase("Popup color")
- waitPhase(300)
  touch.tap(x, y)
- waitPhase(1000)
+ waitPhase(500)
  return true
 end
 
 function handlePopupChoose()
  local ok = findAnyImage(CHECK_POPUP_CHOOSE_LIST, 82, 0, 0, 750, 1334)
- if not ok then return false end
+ local colorOk = false
+ local colorX, colorY = -1, -1
+ if not ok then
+  colorOk, colorX, colorY = findNewPopupByColor()
+  if not colorOk then return false end
+ end
  phase("Popup choose")
- waitPhase(2000)
+ if colorOk then
+  status("Popup choose fallback color tap " .. tostring(colorX) .. "," .. tostring(colorY))
+  touch.tap(colorX, colorY)
+  waitPhase(500)
+  return true
+ end
+ -- Ưu tiên điểm màu thay thế nếu nó xuất hiện ngay cả khi ảnh choose cũng match.
+ if handleNewPopupByColor() then return true end
  local points = {{185,513},{119,645},{138,761},{163,879},{157,993},{178,1093},{540,1243}}
- for i = 1, #points do touch.tap(points[i][1], points[i][2]) waitPhase(500) end
+ for i = 1, #points do
+  touch.tap(points[i][1], points[i][2])
+  waitPhase(250)
+  if handleNewPopupByColor() then return true end
+ end
  return true
 end
 
@@ -732,19 +747,21 @@ end
 function tryTapXuliteLight(timeoutSec)
  local start = os.time()
  local everSeenXulite = false
+ local everTappedXulite = false
  while os.time() - start < timeoutSec do
-  if hasXuliteTappedScreen() then return true, "tapped_screen" end
   local x, y = screen.find_image(XULITE_IMG, 82, 0, 0, 750, 1334)
   if x ~= -1 then
    everSeenXulite = true
    local cx, cy = getImageCenter(XULITE_IMG, x, y)
    status("Tap Xulite " .. tostring(cx) .. "," .. tostring(cy))
    touch.tap(cx, cy)
+   everTappedXulite = true
    if waitXuliteTappedScreenQuick(1500) then return true, "tapped_screen" end
   end
   sleep(500)
  end
- if everSeenXulite then return true, "seen" end
+ if everTappedXulite then return false, "tapped_but_no_confirm" end
+ if everSeenXulite then return false, "seen_not_tapped" end
  return false, "not_seen"
 end
 
@@ -756,11 +773,25 @@ function runAfterXuliteTappedFlow()
    swipeUpOnce()
    if i < 3 then waitPhase(5000) end
   end
-  tryTapXuliteLight(30)
-  waitFinalColorStable(10, 120)
+  local tappedAgain = tryTapXuliteLight(30)
+  if tappedAgain then
+   waitFinalColorStable(10, 120)
+  end
  end
  phase("Stage 2 xong")
  return true
+end
+
+function waitXuliteOrRestartStage1(timeoutSec)
+ local start = os.time()
+ while os.time() - start < timeoutSec do
+  local tappedXulite, xuliteState = tryTapXuliteLight(5)
+  if tappedXulite and xuliteState == "tapped_screen" then return true, xuliteState end
+  swipeUpOnce()
+  handleStage2PopupOnce()
+ end
+ status("Không thấy Xulite trong thời gian chờ, quay lại Stage 1")
+ return false, "not_seen"
 end
 
 function finishByEventPopup()
@@ -776,13 +807,11 @@ function finishByEventPopup()
  end
  if hasEventPopup() then return false end
  waitPhase(5000)
- local tappedXulite, xuliteState = tryTapXuliteLight(120)
- if tappedXulite then
+ local tappedXulite, xuliteState = waitXuliteOrRestartStage1(120)
+ if tappedXulite and xuliteState == "tapped_screen" then
   return runAfterXuliteTappedFlow()
  end
- for i = 1, 3 do swipeUpOnce() if i < 3 then waitPhase(5000) end end
- phase("Stage 2 xong")
- return true
+ return "restart_stage1"
 end
 
 function handleStage2PopupOnce()
@@ -837,9 +866,6 @@ function runStage2()
  local everSeenXulite = false
  local lastPeriodicSwipeAt = os.time()
  local popupHandledCount = 0
- local xuliteInterruptStarted = false
- local lastXuliteInterruptAt = 0
- local xuliteInterruptCount = 0
  while true do
   ensureTikTokLiteForeground()
 
@@ -849,30 +875,6 @@ function runStage2()
   elseif (not everSeenXulite) and os.time() - stage2StartAt >= 300 then
    status("Stage 2 quá 5 phút chưa thấy Xulite, quay lại Stage 1")
    return "restart_stage1"
-  end
-
-  if xuliteInterruptStarted and os.time() - lastXuliteInterruptAt >= 5 then
-   status("Tạm dừng popup: swipe/check Xulite mỗi 5s")
-   swipeUpOnce()
-   lastXuliteInterruptAt = os.time()
-   xuliteInterruptCount = xuliteInterruptCount + 1
-   if tapXuliteIfVisibleOnce() then
-    if waitXuliteTappedScreenQuick(1500) then
-     xuliteInterruptStarted = false
-     status("Đã tap Xulite thành công, dừng swipe/check popup")
-     return runAfterXuliteTappedFlow()
-    end
-   end
-   if xuliteInterruptStarted and xuliteInterruptCount % 3 == 0 then
-    status("Đã swipe/check Xulite 3 lần, quét lại popup 1 pass")
-    handleStage2PopupOnce()
-   end
-  end
-
-  if hasXuliteTappedScreen() then
-   xuliteInterruptStarted = false
-   status("Đã vào màn hình sau Xulite, dừng xử lý popup")
-   return runAfterXuliteTappedFlow()
   end
 
   if handleNoInternetSpecial() then return true end
@@ -885,7 +887,7 @@ function runStage2()
   if handleNewPopupByColor() then goto handled end
   if handlePopupChoose() then goto handled end
   if handlePopupSwipe() then goto handled end
-  if not xuliteInterruptStarted and not findImage(CHECK_POPUP_INTERNET, 82, 0, 0, 750, 1334) and not hasEventPopup() then
+  if not findImage(CHECK_POPUP_INTERNET, 82, 0, 0, 750, 1334) and not hasEventPopup() then
    if os.time() - lastPeriodicSwipeAt >= 10 then
     phase("Vuốt định kỳ")
     swipeUpOnce()
@@ -897,10 +899,12 @@ function runStage2()
   goto continue_main
   ::handled::
   popupHandledCount = popupHandledCount + 1
-  if popupHandledCount >= 2 and not xuliteInterruptStarted then
-   xuliteInterruptStarted = true
-   lastXuliteInterruptAt = 0
-   status("Bắt đầu ngắt popup: mỗi 5s swipe/check Xulite")
+  if popupHandledCount >= 2 then
+   status("Sau popup thứ 2: thử swipe/check Xulite một lần")
+   swipeUpOnce()
+   if tapXuliteIfVisibleOnce() then
+    if waitXuliteTappedScreenQuick(1500) then return runAfterXuliteTappedFlow() end
+   end
   end
   waitPhase(600)
   ::continue_main::

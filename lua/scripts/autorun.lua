@@ -40,35 +40,53 @@ print("HOME_OK_1")
 -- Bước 4: chờ 1 giây
 sys.msleep(2000)
 
--- Load Cookies.binarycookies vào Safari
-local src = "/var/mobile/Media/1ferver/lua/examples/Cookies.binarycookies"
-
-local safariPath = app.data_path("com.apple.mobilesafari")
-local cookiePath = safariPath .. "/Library/Cookies/Cookies.binarycookies"
-local backupPath = safariPath .. "/Library/Cookies/Cookies_backup.binarycookies"
-
--- Backup file cookie cũ
-if file.exists(cookiePath) then
- local old = file.reads(cookiePath)
- if old then
-  file.writes(backupPath, old)
- end
-end
-
--- Load cookie mới
-if file.exists(src) then
- local data = file.reads(src)
- if data then
-  file.writes(cookiePath, data)
-  show_webview_status()
-  print("LOAD_COOKIES_OK")
+-- Bước 7 mới: ưu tiên mở Lid Copy. Nếu mở được app này thì bỏ qua load cookie Safari.
+local lidcopyOpened = false
+local okRunLidcopy = pcall(function()
+ local r = app.run("com.local.lidcopy")
+ if r == false or r == nil then
+  lidcopyOpened = false
  else
-  show_webview_status()
-  print("LOAD_COOKIES_READ_ERR")
+  lidcopyOpened = true
  end
+end)
+if okRunLidcopy and lidcopyOpened then
+ show_webview_status()
+ print("OPEN_LIDCOPY_OK_SKIP_COOKIES")
+ sys.msleep(3000)
 else
  show_webview_status()
- print("LOAD_COOKIES_NOT_FOUND")
+ print("OPEN_LIDCOPY_FAIL_LOAD_COOKIES")
+ -- Load Cookies.binarycookies vào Safari
+ local src = "/var/mobile/Media/1ferver/lua/examples/Cookies.binarycookies"
+
+ local safariPath = app.data_path("com.apple.mobilesafari")
+ local cookiePath = safariPath .. "/Library/Cookies/Cookies.binarycookies"
+ local backupPath = safariPath .. "/Library/Cookies/Cookies_backup.binarycookies"
+
+ -- Backup file cookie cũ
+ if file.exists(cookiePath) then
+  local old = file.reads(cookiePath)
+  if old then
+   file.writes(backupPath, old)
+  end
+ end
+
+ -- Load cookie mới
+ if file.exists(src) then
+  local data = file.reads(src)
+  if data then
+   file.writes(cookiePath, data)
+   show_webview_status()
+   print("LOAD_COOKIES_OK")
+  else
+   show_webview_status()
+   print("LOAD_COOKIES_READ_ERR")
+  end
+ else
+  show_webview_status()
+  print("LOAD_COOKIES_NOT_FOUND")
+ end
 end
 
 touch.tap(381, 792)
@@ -94,104 +112,162 @@ sys.msleep(2000)
 touch.tap(359, 1019)
 print("TAP_359_1019")
 
-local function isColorSet1Visible()
+local function isDoneColorVisible()
  local x, y = screen.find_color({
-  {175, 561, 0x000000},
-  {585, 563, 0x000000},
-  {341, 615, 0x000000},
-  {269, 792, 0x007aff},
-  {508, 784, 0x007aff},
- }, 95, 0, 0, 0, 0)
-
+  {568,296,0x7e7e80},
+  {569,293,0x7e7e80},
+  {570,289,0x7e7e80},
+  {572,285,0x7e7e80},
+  {576,277,0x7e7e80},
+  {578,281,0x7e7e80},
+  {581,289,0x7e7e80},
+  {576,290,0x7e7e80},
+  {583,294,0x7e7e80},
+  {588,292,0x7e7e80},
+  {588,288,0x7e7e80},
+  {591,284,0x909092},
+  {594,282,0x7e7e80},
+  {599,284,0x7e7e80},
+  {599,294,0x7e7e80},
+  {605,281,0x929193},
+  {608,281,0x7e7e80},
+  {612,281,0x929193},
+  {608,278,0x7e7e80},
+  {607,284,0x7e7e80},
+  {607,290,0x7e7e80},
+  {609,296,0x7e7e80},
+  {611,296,0x7e7e80},
+  {629,296,0x7e7e80},
+  {631,294,0x7e7e80},
+  {632,288,0x818183},
+  {634,285,0x7e7e80},
+  {624,283,0x7e7e80},
+  {625,288,0x7e7e80},
+  {668,288,0x7e7e80},
+  {671,288,0x969597},
+  {676,288,0x969597},
+  {679,286,0x7e7e80},
+  {674,282,0x7e7e80},
+  {677,296,0x7e7e80},
+  {674,297,0x7e7e80},
+  {686,292,0x7e7e80},
+  {691,297,0x7e7e80},
+  {698,292,0x7e7e80},
+  {697,288,0x7e7e80},
+  {697,278,0x7e7e80},
+  {557,322,0x7e7e80},
+  {568,323,0x7e7e80},
+  {569,329,0x818183},
+  {568,335,0x7e7e80},
+  {564,340,0x7e7e80},
+  {561,340,0x7e7e80},
+  {635,333,0x7e7e80},
+  {654,323,0x7e7e80},
+  {653,322,0x7e7e80},
+  {647,319,0x7e7e80},
+  {643,321,0x7e7e80},
+  {642,324,0x7e7e80},
+  {642,329,0x7e7e80},
+  {645,334,0x7e7e80},
+  {650,334,0x7e7e80},
+  {653,332,0x7e7e80},
+  {658,327,0x99989a},
+  {662,321,0x7e7e80},
+  {667,320,0x7e7e80},
+  {671,324,0x7e7e80},
+  {671,329,0x7e7e80},
+  {667,334,0x7e7e80},
+  {663,332,0xfcfbfc},
+  {661,332,0x7e7e80},
+  {699,328,0x818183},
+  {699,330,0x818183},
+  {699,333,0x818183},
+  {698,334,0x7e7e80},
+ },95,0,0,0,0)
  return x ~= -1 and y ~= -1
 end
 
-local function isColorSet2Visible()
+local function findLogoutColor()
  local x, y = screen.find_color({
-  {65, 138, 0x007aff},
-  {634, 140, 0x007aff},
-  {612, 142, 0x007aff},
- }, 95, 0, 0, 0, 0)
-
- return x ~= -1 and y ~= -1
+  {264,652,0xe74c3c},
+  {264,658,0xe74c3c},
+  {264,669,0xe74c3c},
+  {264,672,0xe74c3c},
+  {268,672,0xe74c3c},
+  {273,671,0xe74c3c},
+  {285,672,0xe74c3c},
+  {292,665,0xe74c3c},
+  {285,657,0xe74c3c},
+  {279,664,0xe74c3c},
+  {298,662,0xe74c3c},
+  {304,657,0xe74c3c},
+  {310,660,0xe74c3c},
+  {310,673,0xe74c3c},
+  {304,677,0xe74c3c},
+  {336,669,0xe74c3c},
+  {346,658,0xe74c3c},
+  {355,657,0xe74c3c},
+  {355,663,0xe74c3c},
+  {357,672,0xe74e3e},
+  {375,665,0xe74c3c},
+  {385,665,0xe74c3c},
+  {379,665,0xe74c3c},
+  {380,652,0xe74c3c},
+  {397,657,0xe74c3c},
+  {392,664,0xe74c3c},
+  {402,671,0xe74c3c},
+  {409,666,0xe74c3c},
+  {415,657,0xe74c3c},
+  {420,669,0xe74c3c},
+  {427,663,0xe74c3c},
+  {433,657,0xe74c3c},
+  {439,662,0xe74c3c},
+  {434,671,0xe74c3c},
+  {457,667,0xe74c3c},
+  {456,659,0xe74c3c},
+  {482,657,0xe74c3c},
+  {483,669,0xe74c3c},
+ },95,0,0,0,0)
+ if x ~= -1 and y ~= -1 then return true, x, y end
+ return false, -1, -1
 end
 
-local function step17()
- -- Bước 17: đợi 3s rồi tap tọa độ 200,415
- sys.msleep(3000)
- touch.tap(200, 415)
- print("TAP_200_415")
+local function doNewTapSequence(closeAfterFirst)
+ touch.tap(303, 420)
+ print("TAP_303_420")
+ sys.msleep(1500)
+ touch.tap(481, 794)
+ print("TAP_481_794")
+ if closeAfterFirst then
+  sys.msleep(1000)
+  touch.tap(37, 145)
+  print("TAP_37_145")
+  sys.msleep(3000)
+ end
 end
 
-local function waitColorSet1AndTap()
- -- Bước 18: đợi bộ màu thứ nhất xuất hiện.
- -- Nếu xuất hiện thì tap 505,789.
- -- Nếu không xuất hiện trong 10s thì dừng vòng lặp.
- local startWait = sys.mtime()
+doNewTapSequence(true)
 
- while sys.mtime() - startWait < 10000 do
-  if isColorSet1Visible() then
-   print("FOUND_COLOR_SET_1")
-   touch.tap(505, 789)
-   print("TAP_505_789")
+while true do
+ doNewTapSequence(false)
+
+ -- Không chờ cứng 5s rồi check một lần nữa, vì máy lag dễ ra chậm và bị miss.
+ -- Chờ vô hạn tới khi gặp OK; nếu gặp logout thì xử lý rồi quay lại lượt tap/check mới.
+ while true do
+  if isDoneColorVisible() then
+   print("FOUND_DONE_COLOR_OK")
    return true
+  end
+
+  local logoutOk, logoutX, logoutY = findLogoutColor()
+  if logoutOk then
+   print("FOUND_LOGOUT_COLOR_TAP_264_652")
+   touch.tap(264, 652)
+   print("TAP_LOGOUT_264_652")
+   sys.msleep(3000)
+   break
   end
 
   sys.msleep(500)
  end
-
- print("COLOR_SET_1_NOT_FOUND_STOP")
- return false
 end
-
-local function waitColorSet2Stable3sWithin10s()
- -- Sau khi tap 505,789: đợi tối đa 10s cho bộ màu thứ 2 xuất hiện.
- -- Khi xuất hiện, phải giữ/xuất hiện liên tục đủ 3s thì mới tap 80,142.
- local startWait = sys.mtime()
- local stableStart = nil
-
- while sys.mtime() - startWait < 10000 do
-  if isColorSet2Visible() then
-   if stableStart == nil then
-    stableStart = sys.mtime()
-    print("COLOR_SET_2_APPEARED")
-   end
-
-   if sys.mtime() - stableStart >= 3000 then
-    print("COLOR_SET_2_STABLE_3S")
-    return true
-   end
-  else
-   if stableStart ~= nil then
-    print("COLOR_SET_2_DISAPPEARED_RESET")
-   end
-   stableStart = nil
-  end
-
-  sys.msleep(300)
- end
-
- print("COLOR_SET_2_NOT_STABLE_3S_IN_10S")
- return false
-end
-
-while true do
- step17()
-
- -- Lặp lại bước 17 cho tới khi điểm ảnh/bộ màu ở bước 18 không còn xuất hiện thì dừng.
- if not waitColorSet1AndTap() then
-  break
- end
-
- if waitColorSet2Stable3sWithin10s() then
-  touch.tap(80, 142)
-  print("TAP_80_142")
-
-  -- Đợi 3s rồi quay lại bước 17.
-  sys.msleep(3000)
- else
-  break
- end
-end
-
-return true
