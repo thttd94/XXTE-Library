@@ -22,31 +22,35 @@ end
 function oc_toast(text, ...)
     text = tostring(text or "")
     oc_status(text)
-    return show_webview_status()
+    if sys and type(sys.toast) == "function" then return sys.toast(text, ...) end
 end
 
 screen.init(0)
-local __WEBVIEW_STATUS_TEXT = "Nuôi Phôi Tiktok Lite Đang chạy ..."
-local __ok_webview_status, __webview_status = pcall(require, "webview")
-local __WEBVIEW_STATUS_ID = 88
-local __WEBVIEW_STATUS_HTML = [[
-<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><style>
+
+local ok_webview, webview = pcall(require, "webview")
+local TOP_WEBVIEW_ID = 88
+local TOP_WEBVIEW_HTML = [[
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<style>
 html,body{margin:0;padding:0;width:100%;height:100%;background:transparent;overflow:hidden;font-family:-apple-system,BlinkMacSystemFont,sans-serif;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
 #bar{width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.58);color:#fff;border-radius:12px;font-size:17px;font-weight:700;text-align:center;white-space:nowrap;box-sizing:border-box}
-</style></head><body><div id="bar">Nuôi Phôi Tiktok Lite Đang chạy ...</div></body></html>
+</style>
+</head>
+<body><div id="bar">Nuôi Phôi Tiktok Lite đang chạy ...</div></body>
+</html>
 ]]
-function show_webview_status()
- if __ok_webview_status and __webview_status and type(__webview_status.show) == "function" then
-  pcall(__webview_status.show, { id = __WEBVIEW_STATUS_ID, html = __WEBVIEW_STATUS_HTML, x = 1, y = 1, width = 748, height = 38, alpha = 1.0, corner_radius = 12, opaque = false, can_drag = false, ignores_hit = true })
+
+function showNuoiphoiTopWebview()
+ if ok_webview and webview and type(webview.show) == "function" then
+  pcall(webview.show, { id = TOP_WEBVIEW_ID, html = TOP_WEBVIEW_HTML, x = 1, y = 1, width = 748, height = 38, alpha = 1.0, corner_radius = 12, opaque = false, can_drag = false, ignores_hit = true })
  end
 end
-show_webview_status()
-function __oc_toast_replacement(text, ...) if type(oc_status) == "function" then pcall(oc_status, __WEBVIEW_STATUS_TEXT) end; show_webview_status(); return nil end
-sys = sys or {}
-sys["toast"] = __oc_toast_replacement
 
-
-
+showNuoiphoiTopWebview()
 
 local TOUCH_ID_IMG = "/var/mobile/Media/1ferver/lua/examples/touchID.png"
 local touch_id_x, touch_id_y = screen.find_image(TOUCH_ID_IMG, 82, 0, 0, 750, 1334)
@@ -151,32 +155,6 @@ local NEW_POPUP_COLOR_PATTERN = {
  {238,1259,0x000000},
 }
 
-local POST_OPEN_COLOR_PATTERN_1 = {
- {230,799,0x007aff},{219,800,0x007aff},{225,786,0x007aff},{247,791,0x007aff},{241,797,0x007aff},{249,800,0x007aff},{244,807,0x007aff},{284,799,0x007aff},{289,799,0x007aff},{295,799,0x007aff},{325,799,0x007aff},{337,802,0x007aff},{390,798,0x007aff},{398,789,0x007aff},{398,793,0x007aff},{398,798,0x007aff},{437,791,0x007aff},{440,797,0x007aff},{462,800,0x007aff},{474,793,0x007aff},{497,798,0x007aff},{504,793,0x007aff},{523,785,0x007aff},
-}
-
-local POST_OPEN_COLOR_PATTERN_2 = {
- {157,797,0x007aff},{157,818,0x007aff},{173,811,0x007aff},{220,797,0x007aff},{229,804,0x007aff},{229,802,0x007aff},{232,803,0x007aff},{256,799,0x007aff},{261,812,0x007aff},{314,804,0x007aff},{308,818,0x007aff},{319,817,0x007aff},{323,807,0x007aff},
-}
-
-local XULITE_TAPPED_SCREEN_PATTERN = {
- {73,156,0xffffff},
- {685,148,0xffffff},
- {90,428,0xffffff},
- {616,997,0xffffff},
- {628,983,0xffffff},
- {474,968,0xffffff},
-}
-
-local FINAL_COLOR_PATTERN = {
- {662,601,0xe31a10},
- {122,594,0xe41a10},
- {639,360,0xffec86},
- {591,156,0xffec86},
- {153,174,0xffec86},
- {113,363,0xffec86},
-}
-
 local function sleep(ms)
  sys.msleep(ms)
 end
@@ -212,7 +190,7 @@ end
 function phase(t)
  __phase = t
  __last_status = ""
- show_webview_status()
+ showNuoiphoiTopWebview()
  status(t)
 end
 
@@ -421,10 +399,9 @@ end
 function openTikTokLiteStore()
  phase("Mở link TikTok Lite")
  app.open_url(TIKTOK_LITE_STORE_URL)
- waitPostOpenColor5s()
- waitPhase(3000)
+ waitPhase(8000)
  app.open_url(TIKTOK_LITE_STORE_URL)
- waitPostOpenColor5s()
+ waitPhase(5000)
 end
 
 function handleError1UntilClear()
@@ -492,34 +469,6 @@ function waitError2Cycle(waitSec)
   remain = remain - 1
  end
  return "timeout"
-end
-
-function handlePostOpenColorOnce()
- local x, y = screen.find_color(POST_OPEN_COLOR_PATTERN_1, 95, 0, 0, 0, 0)
- if x ~= -1 then
-  status("Hit post-open color 1")
-  touch.tap(x, y)
-  waitPhase(800)
-  return true
- end
- x, y = screen.find_color(POST_OPEN_COLOR_PATTERN_2, 95, 0, 0, 0, 0)
- if x ~= -1 then
-  status("Hit post-open color 2")
-  touch.tap(x, y)
-  waitPhase(800)
-  return true
- end
- return false
-end
-
-function waitPostOpenColor5s()
- local start = os.time()
- phase("Check popup sau mở app")
- while os.time() - start < 5 do
-  if handlePostOpenColorOnce() then return true end
-  sleep(300)
- end
- return false
 end
 
 function runStage1()
@@ -680,87 +629,13 @@ function tapXuliteIfVisibleOnce()
  return true
 end
 
-function hasXuliteTappedScreen()
- local x, y = screen.find_color(XULITE_TAPPED_SCREEN_PATTERN, 95, 0, 0, 0, 0)
- if x ~= -1 then
-  status("Xulite tapped screen hit " .. tostring(x) .. "," .. tostring(y))
-  return true
- end
- return false
-end
-
-function waitXuliteTappedScreenQuick(maxMs)
- local remain = maxMs or 1500
- while remain > 0 do
-  if hasXuliteTappedScreen() then return true end
-  local step = 150
-  if remain < step then step = remain end
-  sleep(step)
-  remain = remain - step
- end
- return false
-end
-
-function waitFinalColorStable(stableSec, timeoutSec)
- local stableStart = nil
- local start = os.time()
- while os.time() - start < timeoutSec do
-  local x, y = screen.find_color(FINAL_COLOR_PATTERN, 95, 0, 0, 0, 0)
-  if x ~= -1 then
-   if not stableStart then stableStart = os.time() end
-   status("Final color stable " .. tostring(os.time() - stableStart) .. "/" .. tostring(stableSec) .. "s")
-   if os.time() - stableStart >= stableSec then return true end
-  else
-   stableStart = nil
-  end
-  sleep(500)
- end
- return false
-end
-
-function swipeRightOnce()
- status("Swipe right")
- touch.down(1, 120, 680)
- sleep(80)
- touch.move(1, 360, 680)
- sleep(80)
- touch.move(1, 650, 680)
- sleep(80)
- touch.up(1)
-end
-
 function tryTapXuliteLight(timeoutSec)
  local start = os.time()
- local everSeenXulite = false
  while os.time() - start < timeoutSec do
-  if hasXuliteTappedScreen() then return true, "tapped_screen" end
-  local x, y = screen.find_image(XULITE_IMG, 82, 0, 0, 750, 1334)
-  if x ~= -1 then
-   everSeenXulite = true
-   local cx, cy = getImageCenter(XULITE_IMG, x, y)
-   status("Tap Xulite " .. tostring(cx) .. "," .. tostring(cy))
-   touch.tap(cx, cy)
-   if waitXuliteTappedScreenQuick(1500) then return true, "tapped_screen" end
-  end
+  if tapXuliteIfVisibleOnce() then return true end
   sleep(500)
  end
- if everSeenXulite then return true, "seen" end
- return false, "not_seen"
-end
-
-function runAfterXuliteTappedFlow()
- if waitFinalColorStable(5, 120) then
-  swipeRightOnce()
-  waitPhase(5000)
-  for i = 1, 3 do
-   swipeUpOnce()
-   if i < 3 then waitPhase(5000) end
-  end
-  tryTapXuliteLight(30)
-  waitFinalColorStable(10, 120)
- end
- phase("Stage 2 xong")
- return true
+ return false
 end
 
 function finishByEventPopup()
@@ -776,26 +651,10 @@ function finishByEventPopup()
  end
  if hasEventPopup() then return false end
  waitPhase(5000)
- local tappedXulite, xuliteState = tryTapXuliteLight(120)
- if tappedXulite then
-  return runAfterXuliteTappedFlow()
- end
+ tryTapXuliteLight(5)
  for i = 1, 3 do swipeUpOnce() if i < 3 then waitPhase(5000) end end
  phase("Stage 2 xong")
  return true
-end
-
-function handleStage2PopupOnce()
- if handleNoInternetSpecial() then return true end
- if handlePopupByImage("Popup welcome", CHECK_POPUP_WELLCOME, TAP_POPUP_WELLCOME) then return true end
- if handlePopupPermiss() then return true end
- if handlePopupByImage("Popup allow", CHECK_POPUP_ALLOW, TAP_POPUP_ALLOW) then return true end
- if handlePopupByImage("Popup tapping", CHECK_POPUP_TAPPING, TAP_POPUP_TAPPING) then return true end
- if handlePopupTrack() then return true end
- if handleNewPopupByColor() then return true end
- if handlePopupChoose() then return true end
- if handlePopupSwipe() then return true end
- return false
 end
 
 function handleNoInternetSpecial()
@@ -833,46 +692,24 @@ end
 function runStage2()
  phase("Stage 2")
  openTikTokLite()
- local stage2StartAt = os.time()
- local everSeenXulite = false
  local lastPeriodicSwipeAt = os.time()
- local popupHandledCount = 0
- local xuliteInterruptStarted = false
- local lastXuliteInterruptAt = 0
- local xuliteInterruptCount = 0
+ local popupFlowStarted = false
+ local lastXuliteSwipeAt = 0
+ local lastXuliteTapAt = 0
  while true do
   ensureTikTokLiteForeground()
 
-  local xuliteCheckX, xuliteCheckY = screen.find_image(XULITE_IMG, 82, 0, 0, 750, 1334)
-  if xuliteCheckX ~= -1 then
-   everSeenXulite = true
-  elseif (not everSeenXulite) and os.time() - stage2StartAt >= 300 then
-   status("Stage 2 quá 5 phút chưa thấy Xulite, quay lại Stage 1")
-   return "restart_stage1"
-  end
-
-  if xuliteInterruptStarted and os.time() - lastXuliteInterruptAt >= 5 then
-   status("Tạm dừng popup: swipe/check Xulite mỗi 5s")
-   swipeUpOnce()
-   lastXuliteInterruptAt = os.time()
-   xuliteInterruptCount = xuliteInterruptCount + 1
-   if tapXuliteIfVisibleOnce() then
-    if waitXuliteTappedScreenQuick(1500) then
-     xuliteInterruptStarted = false
-     status("Đã tap Xulite thành công, dừng swipe/check popup")
-     return runAfterXuliteTappedFlow()
-    end
+  if popupFlowStarted then
+   local now = os.time()
+   if now - lastXuliteSwipeAt >= 2 then
+    status("Popup flow: swipe up mỗi 2s tới khi tap được Xulite")
+    swipeUpOnce()
+    lastXuliteSwipeAt = now
    end
-   if xuliteInterruptStarted and xuliteInterruptCount % 3 == 0 then
-    status("Đã swipe/check Xulite 3 lần, quét lại popup 1 pass")
-    handleStage2PopupOnce()
+   if now - lastXuliteTapAt >= 2 then
+    tapXuliteIfVisibleOnce()
+    lastXuliteTapAt = now
    end
-  end
-
-  if hasXuliteTappedScreen() then
-   xuliteInterruptStarted = false
-   status("Đã vào màn hình sau Xulite, dừng xử lý popup")
-   return runAfterXuliteTappedFlow()
   end
 
   if handleNoInternetSpecial() then return true end
@@ -885,7 +722,7 @@ function runStage2()
   if handleNewPopupByColor() then goto handled end
   if handlePopupChoose() then goto handled end
   if handlePopupSwipe() then goto handled end
-  if not xuliteInterruptStarted and not findImage(CHECK_POPUP_INTERNET, 82, 0, 0, 750, 1334) and not hasEventPopup() then
+  if not popupFlowStarted and not findImage(CHECK_POPUP_INTERNET, 82, 0, 0, 750, 1334) and not hasEventPopup() then
    if os.time() - lastPeriodicSwipeAt >= 10 then
     phase("Vuốt định kỳ")
     swipeUpOnce()
@@ -896,11 +733,11 @@ function runStage2()
   sleep(500)
   goto continue_main
   ::handled::
-  popupHandledCount = popupHandledCount + 1
-  if popupHandledCount >= 2 and not xuliteInterruptStarted then
-   xuliteInterruptStarted = true
-   lastXuliteInterruptAt = 0
-   status("Bắt đầu ngắt popup: mỗi 5s swipe/check Xulite")
+  if not popupFlowStarted then
+   popupFlowStarted = true
+   lastXuliteSwipeAt = 0
+   lastXuliteTapAt = 0
+   status("Bắt đầu popup flow: swipe/tap Xulite mỗi 2s")
   end
   waitPhase(600)
   ::continue_main::
@@ -948,65 +785,30 @@ function waitImageDisappear(img, msg, timeoutSec, sim, x1, y1, x2, y2)
  return false
 end
 
-function waitTapImageForever(img, msg, sim, x1, y1, x2, y2)
- phase(msg)
- while true do
-  if tapByImageCenter(img, sim or 82, x1, y1, x2, y2) then
-   waitPhase(1200)
-   return true
-  end
-  status(msg .. " - chờ ảnh")
-  sleep(500)
- end
-end
-
-function waitImageAppearForever(img, msg, sim, x1, y1, x2, y2)
- phase(msg)
- while true do
-  if findImage(img, sim or 82, x1, y1, x2, y2) then return true end
-  status(msg .. " - chờ ảnh")
-  sleep(500)
- end
-end
-
-function waitImageDisappearForever(img, msg, sim, x1, y1, x2, y2)
- phase(msg)
- while true do
-  if not findImage(img, sim or 82, x1, y1, x2, y2) then return true end
-  status(msg .. " - đang chờ xong")
-  sleep(1000)
- end
-end
-
 function runStage3()
  phase("Stage 3")
  quitApp(APPMANAGER_BUNDLE, "AppManager")
  quitApp(TIKTOK_LITE_BUNDLE, "TikTok Lite")
  openApp(APPMANAGER_BUNDLE, "AppManager", 5000)
- waitPostOpenColor5s()
- waitTapImageForever(CHECK_TTL, "Chọn TTL", 82, 0, 0, 750, 1334)
+ if not waitTapImage(CHECK_TTL, "Chọn TTL", 30, 82, 0, 0, 750, 1334) then return false end
  if findImage(CHECK_BACKUPTTL, 82, 0, 0, 750, 1334) then
   phase("Vuốt trước BackupTTL")
   swipeUpOnce()
   waitPhase(1000)
-  waitTapImageForever(TAP_BACKUPTTL, "Tap BackupTTL", 82, 0, 0, 750, 1334)
+  if not waitTapImage(TAP_BACKUPTTL, "Tap BackupTTL", 20, 82, 0, 0, 750, 1334) then return false end
  end
- waitTapImageForever(TAP_BACKUP, "Tap Backup", 82, 0, 0, 750, 1334)
- waitImageAppearForever(CHECK_BACKUPING, "Chờ backuping", 82, 0, 0, 750, 1334)
- waitImageDisappearForever(CHECK_BACKUPING, "Backup", 82, 0, 0, 750, 1334)
- waitTapImageForever(CHECK_BACKUPDONE, "Tap BackupDone", 82, 0, 0, 750, 1334)
+ if not waitTapImage(TAP_BACKUP, "Tap Backup", 30, 82, 0, 0, 750, 1334) then return false end
+ if not waitImageAppear(CHECK_BACKUPING, "Chờ backuping", 30, 82, 0, 0, 750, 1334) then return false end
+ if not waitImageDisappear(CHECK_BACKUPING, "Backup", 1800, 82, 0, 0, 750, 1334) then return false end
+ if not waitTapImage(CHECK_BACKUPDONE, "Tap BackupDone", 30, 82, 0, 0, 750, 1334) then return false end
  phase("Stage 3 xong")
  return true
 end
 
 phase("Khởi động " .. SCRIPT_VERSION)
 waitPhase(1200)
-while true do
- if not runStage1() then failStatus("Lỗi Stage 1") end
- local stage2Result = runStage2()
- if stage2Result == true then break end
- if stage2Result ~= "restart_stage1" then failStatus("Lỗi Stage 2") end
-end
+if not runStage1() then failStatus("Lỗi Stage 1") end
+if not runStage2() then failStatus("Lỗi Stage 2") end
 if not runStage3() then failStatus("Lỗi Stage 3") end
 phase("ALL DONE")
 return true

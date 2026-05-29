@@ -22,13 +22,34 @@ end
 function oc_toast(text, ...)
     text = tostring(text or "")
     oc_status(text)
-    if sys and type(sys.toast) == "function" then return sys.toast(text, ...) end
+    return show_webview_status()
 end
 
 local status_bridge = require("status_bridge")
 status_bridge.attach({ override_toast = true, override_nlog = true })
 
 screen.init(0)
+local __WEBVIEW_STATUS_TEXT = "Event DD 20p Tiktok Đang chạy ..."
+local __ok_webview_status, __webview_status = pcall(require, "webview")
+local __WEBVIEW_STATUS_ID = 88
+local __WEBVIEW_STATUS_HTML = [[
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><style>
+html,body{margin:0;padding:0;width:100%;height:100%;background:transparent;overflow:hidden;font-family:-apple-system,BlinkMacSystemFont,sans-serif;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+#bar{width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.58);color:#fff;border-radius:12px;font-size:17px;font-weight:700;text-align:center;white-space:nowrap;box-sizing:border-box}
+</style></head><body><div id="bar">Event DD 20p Tiktok Đang chạy ...</div></body></html>
+]]
+function show_webview_status()
+ if __ok_webview_status and __webview_status and type(__webview_status.show) == "function" then
+  pcall(__webview_status.show, { id = __WEBVIEW_STATUS_ID, html = __WEBVIEW_STATUS_HTML, x = 1, y = 1, width = 748, height = 38, alpha = 1.0, corner_radius = 12, opaque = false, can_drag = false, ignores_hit = true })
+ end
+end
+show_webview_status()
+function __oc_toast_replacement(text, ...) if type(oc_status) == "function" then pcall(oc_status, __WEBVIEW_STATUS_TEXT) end; show_webview_status(); return nil end
+sys = sys or {}
+sys["toast"] = __oc_toast_replacement
+
+
+
 
 local IMG_DIR = "/var/mobile/Media/1ferver/lua/examples/"
 local CHECK_IMG = IMG_DIR .. "tap20p.PNG"
