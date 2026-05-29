@@ -27,6 +27,31 @@ end
 
 screen.init(0)
 
+local ok_webview, webview = pcall(require, "webview")
+local TOP_WEBVIEW_ID = 88
+local TOP_WEBVIEW_HTML = [[
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<style>
+html,body{margin:0;padding:0;width:100%;height:100%;background:transparent;overflow:hidden;font-family:-apple-system,BlinkMacSystemFont,sans-serif;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+#bar{width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.58);color:#fff;border-radius:12px;font-size:17px;font-weight:700;letter-spacing:.2px;text-align:center;white-space:nowrap;box-sizing:border-box}
+</style>
+</head>
+<body><div id="bar">Nuôi Phôi Tiktok Lite đang chạy ...</div></body>
+</html>
+]]
+
+function showNuoiphoiTopWebview()
+ if ok_webview and webview and type(webview.show) == "function" then
+  pcall(webview.show, { id = TOP_WEBVIEW_ID, html = TOP_WEBVIEW_HTML, x = 1, y = 1, width = 748, height = 38, alpha = 1.0, corner_radius = 12, opaque = false, can_drag = false, ignores_hit = true })
+ end
+end
+
+showNuoiphoiTopWebview()
+
 local TOUCH_ID_IMG = "/var/mobile/Media/1ferver/lua/examples/touchID.png"
 local touch_id_x, touch_id_y = screen.find_image(TOUCH_ID_IMG, 82, 0, 0, 750, 1334)
 if touch_id_x ~= -1 then
@@ -37,7 +62,7 @@ end
 
 clear.app_data("com.ss.iphone.ugc.Ame")
 clear.app_data("com.ss.iphone.ugc.tiktok.lite")
-status("clear tiktok done")
+oc_status("Đã clear app data TikTok/TikTok Lite")
 sys.msleep(1000)
 
 local SCRIPT_VERSION = "TL_ALLIN1_V8"
@@ -115,6 +140,8 @@ local __last_status = ""
 local __last_status_at = 0
 local __phase = ""
 local __status_anim_idx = 7
+local USE_ANIM_STATUS = true
+local ENABLE_POPUP_WATCHDOG = false
 
 local function shortText(t)
  if #t > 40 then
@@ -124,14 +151,22 @@ local function shortText(t)
 end
 
 function status(t)
- local dots = string.rep(".", __status_anim_idx)
- local text = "Quá trình nuôi phôi đang tiến hành " .. dots
- __status_anim_idx = __status_anim_idx - 1
- if __status_anim_idx < 1 then __status_anim_idx = 7 end
+ local text
+ if USE_ANIM_STATUS then
+  local dots = string.rep(".", __status_anim_idx)
+  text = "Quá trình nuôi phôi đang tiến hành " .. dots
+  __status_anim_idx = __status_anim_idx - 1
+  if __status_anim_idx < 1 then __status_anim_idx = 7 end
+ else
+  t = shortText(tostring(t or ""))
+  text = "Ver " .. SCRIPT_VERSION .. " : " .. t
+ end
+
  local now = os.clock()
- if text ~= __last_status or now - __last_status_at >= 0.1 then
+ local minInterval = USE_ANIM_STATUS and 1.5 or 1
+ if now - __last_status_at >= minInterval then
   if type(__oc_write_status) == "function" then pcall(__oc_write_status, text) end
-  oc_toast(text, 0)
+  if not USE_ANIM_STATUS then oc_toast(text, 0) end
   __last_status = text
   __last_status_at = now
  end
@@ -145,6 +180,7 @@ end
 function phase(t)
  __phase = t
  __last_status = ""
+ showNuoiphoiTopWebview()
  status(t)
 end
 
@@ -161,18 +197,23 @@ end
 function waitPhase(ms)
  local remain = ms
  local lastPopupScanAt = 0
+ local lastShown = -1
 
  while remain > 0 do
   local now = os.clock()
-  if type(backgroundPopupTick) == "function" and now - lastPopupScanAt >= 0.8 then
+  if ENABLE_POPUP_WATCHDOG and type(backgroundPopupTick) == "function" and now - lastPopupScanAt >= 3 then
    pcall(backgroundPopupTick)
    lastPopupScanAt = now
   end
 
-  phaseProgress(math.ceil(remain / 1000))
+  local sec = math.ceil(remain / 1000)
+  if sec ~= lastShown then
+   phaseProgress(sec)
+   lastShown = sec
+  end
 
-  local step = 100
-  if remain < 100 then
+  local step = 500
+  if remain < 500 then
    step = remain
   end
 
@@ -469,9 +510,13 @@ function runStage1()
 end
 
 function openTikTokLite()
- phase("Mở TikTok Lite")
+ phase("Stage2: mở TikTok Lite")
  app.run(TIKTOK_LITE_BUNDLE)
- waitPhase(30000)
+ local start = os.time()
+ while os.time() - start < 10 do
+  status("Stage2: chờ TikTok Lite load " .. tostring(10 - (os.time() - start)) .. "s")
+  sleep(1000)
+ end
 end
 
 function ensureTikTokLiteForeground()
@@ -496,19 +541,22 @@ end
 
 function hasEventPopup()
  local ok, x, y = bgFindImage(XULITE_IMG, 82, 0, 0, 750, 1334)
- if ok then return true, x, y end
+ if ok then
+  status("Hit Event Xulite.png at " .. tostring(x) .. "," .. tostring(y))
+  return true, x, y
+ end
  return false, -1, -1
 end
 
 function hasAnyOnboardingPopup()
- if bgFindImage(CHECK_POPUP_INTERNET, 82, 0, 0, 750, 1334) then return true end
- if bgFindImage(CHECK_POPUP_WELLCOME, 82, 0, 0, 750, 1334) then return true end
- if bgFindAnyImage(CHECK_POPUP_PERMISS_LIST, 82, 0, 0, 750, 1334) then return true end
- if bgFindImage(CHECK_POPUP_ALLOW, 82, 0, 0, 750, 1334) then return true end
- if bgFindImage(CHECK_POPUP_TAPPING, 82, 0, 0, 750, 1334) then return true end
- if bgFindTrackPopup() then return true end
- if bgFindImage(CHECK_POPUP_CHOOSE, 82, 0, 0, 750, 1334) then return true end
- if bgFindImage(CHECK_POPUP_SWIPE, 82, 0, 0, 750, 1334) then return true end
+ if bgFindImage(CHECK_POPUP_INTERNET, 82, 0, 0, 750, 1334) then status("Hit popup internet") return true end
+ if bgFindImage(CHECK_POPUP_WELLCOME, 82, 0, 0, 750, 1334) then status("Hit popup welcome") return true end
+ if bgFindAnyImage(CHECK_POPUP_PERMISS_LIST, 82, 0, 0, 750, 1334) then status("Hit popup permission") return true end
+ if bgFindImage(CHECK_POPUP_ALLOW, 82, 0, 0, 750, 1334) then status("Hit popup allow") return true end
+ if bgFindImage(CHECK_POPUP_TAPPING, 82, 0, 0, 750, 1334) then status("Hit popup tapping") return true end
+ if bgFindTrackPopup() then status("Hit popup tracking color") return true end
+ if bgFindImage(CHECK_POPUP_CHOOSE, 82, 0, 0, 750, 1334) then status("Hit popup choose") return true end
+ if bgFindImage(CHECK_POPUP_SWIPE, 82, 0, 0, 750, 1334) then status("Hit popup swipe") return true end
  return false
 end
 
@@ -517,12 +565,83 @@ function waitTapXulite(timeoutSec)
  while os.time() - start < timeoutSec do
   ensureTikTokLiteForeground()
   if bgTapImageCenter(XULITE_IMG, 82, 0, 0, 750, 1334) then
-   waitPhase(1000)
    return true
   end
   waitPhase(500)
  end
+ status("Timeout " .. tostring(timeoutSec) .. "s: Xulite.png not found")
  return false
+end
+
+function swipeRightOnce()
+ status("Swipe right")
+ touch.down(1, 120, 680)
+ sys.msleep(80)
+ touch.move(1, 360, 680)
+ sys.msleep(80)
+ touch.move(1, 650, 680)
+ sys.msleep(80)
+ touch.up(1)
+end
+
+function handleAnyPopupOnceForXulite()
+ if handlePopupByImage("Popup welcome", CHECK_POPUP_WELLCOME, TAP_POPUP_WELLCOME) then return true end
+ if handlePopupPermiss() then return true end
+ if handlePopupByImage("Popup allow", CHECK_POPUP_ALLOW, TAP_POPUP_ALLOW) then return true end
+ if handlePopupByImage("Popup tapping", CHECK_POPUP_TAPPING, TAP_POPUP_TAPPING) then return true end
+ if handlePopupTrack() then return true end
+ if handlePopupChoose() then return true end
+ if handlePopupSwipe() then return true end
+ return false
+end
+
+function tapXuliteOnceIfVisible()
+ local ok, x, y = bgFindImage(XULITE_IMG, 82, 0, 0, 750, 1334)
+ if not ok then return false end
+ local cx, cy = getImageCenter(XULITE_IMG, x, y)
+ status("Xulite visible, tap xu " .. tostring(cx) .. "," .. tostring(cy))
+ touch.tap(cx, cy)
+ return true
+end
+
+function swipeUntilTapXulite(timeoutSec)
+ local start = os.time()
+ local lastSwipeAt = 0
+ local lastTapAt = 0
+ local everSeenXulite = false
+ while os.time() - start < timeoutSec do
+  ensureTikTokLiteForeground()
+
+  local xuliteVisible = bgFindImage(XULITE_IMG, 82, 0, 0, 750, 1334)
+  if xuliteVisible then everSeenXulite = true end
+  if xuliteVisible and os.time() - lastTapAt >= 1 then
+   tapXuliteOnceIfVisible()
+   lastTapAt = os.time()
+   waitPhase(300)
+   if not hasAnyOnboardingPopup() then
+    status("Đã tap Xulite khi popup hết")
+    return true, "tapped"
+   end
+  end
+
+  if hasAnyOnboardingPopup() then
+   handleAnyPopupOnceForXulite()
+   waitPhase(300)
+  elseif not xuliteVisible and os.time() - lastSwipeAt >= 2 then
+   status("Chưa thấy Xulite, swipe up mỗi 2s")
+   swipeUpOnce()
+   lastSwipeAt = os.time()
+   waitPhase(500)
+  else
+   waitPhase(500)
+  end
+ end
+ if everSeenXulite then
+  status("Timeout sau khi đã từng thấy Xulite, không restart Stage 1")
+  return true, "seen"
+ end
+ status("Timeout " .. tostring(timeoutSec) .. "s: Xulite lần đầu không xuất hiện")
+ return false, "not_seen"
 end
 
 function waitFinalColorStable(stableSec, timeoutSec)
@@ -540,6 +659,7 @@ function waitFinalColorStable(stableSec, timeoutSec)
   },95,0,0,0,0)
   if x ~= -1 then
    if not stableStart then stableStart = os.time() end
+   status("Hit final color at " .. tostring(x) .. "," .. tostring(y) .. " stable " .. tostring(os.time() - stableStart) .. "/" .. tostring(stableSec) .. "s")
    if os.time() - stableStart >= stableSec then return true end
   else
    stableStart = nil
@@ -553,7 +673,7 @@ function handlePopupByImage(name, checkImg, tapImg)
  local ok = findImage(checkImg, 82, 0, 0, 750, 1334)
  if not ok then return false end
  phase(name)
- waitPhase(2000)
+ waitPhase(800)
  local tapped = tapByImageCenter(tapImg, 82, 0, 0, 750, 1334)
  if tapped then waitPhase(1200) else status(name .. " fail tap") waitPhase(800) end
  return true
@@ -566,7 +686,7 @@ function handlePopupPermiss()
  end
 
  phase("Popup permiss")
- waitPhase(2000)
+ waitPhase(800)
 
  local tapped = tapByImageCenter(TAP_POPUP_PERMISS, 82, 0, 0, 750, 1334)
  if tapped then
@@ -586,7 +706,7 @@ function handlePopupTrack()
  end
 
  phase("Popup track")
- waitPhase(2000)
+ waitPhase(800)
  touch.tap(399, 792)
  waitPhase(1200)
  return true
@@ -596,9 +716,22 @@ function handlePopupChoose()
  local ok = findImage(CHECK_POPUP_CHOOSE, 82, 0, 0, 750, 1334)
  if not ok then return false end
  phase("Popup choose")
- waitPhase(2000)
  local points = {{185,513},{119,645},{138,761},{163,879},{157,993},{178,1093},{540,1243}}
- for i = 1, #points do touch.tap(points[i][1], points[i][2]) waitPhase(500) end
+ for i = 1, #points do touch.tap(points[i][1], points[i][2]) end
+ status("Popup choose xong, vuốt mỗi 2s tới khi sạch popup")
+ local cleanStart = nil
+ while true do
+  if hasAnyOnboardingPopup() then
+   cleanStart = nil
+   waitPhase(2000)
+   swipeUpOnce()
+  else
+   if not cleanStart then cleanStart = os.time() end
+   if os.time() - cleanStart >= 3 then break end
+   waitPhase(1000)
+  end
+ end
+ status("Đã sạch popup sau choose")
  return true
 end
 
@@ -616,13 +749,26 @@ function finishByEventPopup()
  local ok, x, y = hasEventPopup()
  if not ok then return false end
 
- while ok do
-  ensureTikTokLiteForeground()
-  touch.tap(632, 190)
-  waitPhase(1000)
-  ok, x, y = hasEventPopup()
+ status("Event Xulite detected, tap close 632,190")
+ touch.tap(632, 190)
+ waitPhase(1000)
+
+ local tappedXulite, xuliteState = swipeUntilTapXulite(120)
+ if not tappedXulite then return "restart_stage1" end
+
+ if waitFinalColorStable(5, 120) then
+  status("Final color phase 1 stable 5s, swipe right")
+  swipeRightOnce()
+ else
+  status("Final color phase 1 timeout 120s, đóng TikTok Lite và qua Stage 3")
+  ENABLE_POPUP_WATCHDOG = false
+  pcall(app.quit, TIKTOK_LITE_BUNDLE)
+  waitPhase(2000)
+  return true
  end
 
+ -- Phase 2 tập trung làm bước 4/5/6, không check popup/watchdog nữa.
+ ENABLE_POPUP_WATCHDOG = false
  waitPhase(5000)
  for i = 1, 3 do
   ensureTikTokLiteForeground()
@@ -630,14 +776,21 @@ function finishByEventPopup()
   if i < 3 then waitPhase(5000) end
  end
 
- if not waitTapXulite(30) then return "restart_stage1" end
+ if not waitTapXulite(30) then
+  status("Không thấy lại Xulite sau khi đã qua phase 1, không restart Stage 1")
+ else
+  status("Đã tap lại Xulite sau phase 1")
+ end
 
- if waitFinalColorStable(5, 60) then
+ if waitFinalColorStable(10, 120) then
   phase("Stage 2 xong")
   return true
  end
 
- return "restart_stage1"
+ status("Final color timeout 120s, đóng TikTok Lite và qua Stage 3")
+ pcall(app.quit, TIKTOK_LITE_BUNDLE)
+ waitPhase(2000)
+ return true
 end
 
 function handleNoInternetSpecial()
@@ -719,37 +872,31 @@ function backgroundPopupTick()
  __bg_popup_busy = true
  local handled = false
 
+ -- Watchdog chỉ xử lý nhẹ popup chen ngang. Không chạy vòng dài, không xử lý choose/event.
  if bgFindImage(CHECK_POPUP_INTERNET, 82, 0, 0, 750, 1334) then
+  status("Watchdog nền: internet, tap 744,182")
   touch.tap(744, 182)
-  sleep(800)
+  sleep(500)
   handled = true
  elseif bgFindImage(CHECK_POPUP_WELLCOME, 82, 0, 0, 750, 1334) then
+  status("Watchdog nền: welcome")
   bgTapImageCenter(TAP_POPUP_WELLCOME, 82, 0, 0, 750, 1334)
-  sleep(800)
+  sleep(500)
   handled = true
  elseif bgFindAnyImage(CHECK_POPUP_PERMISS_LIST, 82, 0, 0, 750, 1334) then
+  status("Watchdog nền: permission")
   bgTapImageCenter(TAP_POPUP_PERMISS, 82, 0, 0, 750, 1334)
-  sleep(800)
+  sleep(500)
   handled = true
  elseif bgFindImage(CHECK_POPUP_ALLOW, 82, 0, 0, 750, 1334) then
+  status("Watchdog nền: allow")
   bgTapImageCenter(TAP_POPUP_ALLOW, 82, 0, 0, 750, 1334)
-  sleep(800)
+  sleep(500)
   handled = true
  elseif bgFindImage(CHECK_POPUP_TAPPING, 82, 0, 0, 750, 1334) then
+  status("Watchdog nền: tapping")
   bgTapImageCenter(TAP_POPUP_TAPPING, 82, 0, 0, 750, 1334)
-  sleep(800)
-  handled = true
- elseif bgFindTrackPopup() then
-  touch.tap(399, 792)
-  sleep(800)
-  handled = true
- elseif bgFindImage(CHECK_POPUP_CHOOSE, 82, 0, 0, 750, 1334) then
-  local points = {{185,513},{119,645},{138,761},{163,879},{157,993},{178,1093},{540,1243}}
-  for i = 1, #points do touch.tap(points[i][1], points[i][2]) sleep(300) end
-  handled = true
- elseif bgFindImage(CHECK_POPUP_SWIPE, 82, 0, 0, 750, 1334) then
-  sleep(1200)
-  swipeUpOnce()
+  sleep(500)
   handled = true
  end
 
@@ -758,29 +905,41 @@ function backgroundPopupTick()
 end
 
 function runStage2()
+ ENABLE_POPUP_WATCHDOG = true
  phase("Stage 2")
  openTikTokLite()
  local lastSwipeAt = os.time()
  local cleanPopupAt = nil
  while true do
+  status("Stage2: kiểm tra TikTok Lite foreground")
   ensureTikTokLiteForeground()
 
+  status("Stage2: check Event Xulite.png")
   local eventResult = finishByEventPopup()
-  if eventResult == true then return true end
-  if eventResult == "restart_stage1" then return "restart_stage1" end
+  if eventResult == true then ENABLE_POPUP_WATCHDOG = false return true end
+  if eventResult == "restart_stage1" then ENABLE_POPUP_WATCHDOG = false return "restart_stage1" end
 
-  if handleNoInternetSpecial() then return true end
+  status("Stage2: check popup internet")
+  if handleNoInternetSpecial() then ENABLE_POPUP_WATCHDOG = false return true end
+  status("Stage2: check popup welcome")
   if handlePopupByImage("Popup welcome", CHECK_POPUP_WELLCOME, TAP_POPUP_WELLCOME) then cleanPopupAt = nil goto handled end
+  status("Stage2: check popup permission")
   if handlePopupPermiss() then cleanPopupAt = nil goto handled end
+  status("Stage2: check popup allow")
   if handlePopupByImage("Popup allow", CHECK_POPUP_ALLOW, TAP_POPUP_ALLOW) then cleanPopupAt = nil goto handled end
+  status("Stage2: check popup tapping")
   if handlePopupByImage("Popup tapping", CHECK_POPUP_TAPPING, TAP_POPUP_TAPPING) then cleanPopupAt = nil goto handled end
+  status("Stage2: check popup tracking color")
   if handlePopupTrack() then cleanPopupAt = nil goto handled end
+  status("Stage2: check popup choose")
   if handlePopupChoose() then cleanPopupAt = nil goto handled end
+  status("Stage2: check popup swipe")
   if handlePopupSwipe() then cleanPopupAt = nil goto handled end
 
   if not hasAnyOnboardingPopup() then
-   if not cleanPopupAt then cleanPopupAt = os.time() end
-   if os.time() - cleanPopupAt >= 30 then return "restart_stage1" end
+   if not cleanPopupAt then cleanPopupAt = os.time() status("Popup clean, start 30s Xulite timer") end
+   status("Popup clean, waiting Xulite " .. tostring(os.time() - cleanPopupAt) .. "/30s")
+   if os.time() - cleanPopupAt >= 30 then status("No Xulite after clean 30s, restart Stage 1") ENABLE_POPUP_WATCHDOG = false return "restart_stage1" end
    if os.time() - lastSwipeAt >= 10 then
     swipeUpOnce()
     lastSwipeAt = os.time()
@@ -793,7 +952,11 @@ function runStage2()
   sleep(500)
   goto continue_main
   ::handled::
-  waitPhase(600)
+  waitPhase(300)
+  status("Stage2: popup vừa xử lý xong, check/tap Xulite ngay")
+  eventResult = finishByEventPopup()
+  if eventResult == true then ENABLE_POPUP_WATCHDOG = false return true end
+  if eventResult == "restart_stage1" then ENABLE_POPUP_WATCHDOG = false return "restart_stage1" end
   ::continue_main::
  end
 end
