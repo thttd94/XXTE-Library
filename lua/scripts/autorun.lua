@@ -41,6 +41,7 @@ print("HOME_OK_1")
 sys.msleep(2000)
 
 -- Bước 7 mới: ưu tiên mở Lid Copy. Nếu mở được app này thì bỏ qua load cookie Safari.
+::STEP4::
 local lidcopyOpened = false
 local okRunLidcopy = pcall(function()
  local r = app.run("com.local.lidcopy")
@@ -112,162 +113,95 @@ sys.msleep(2000)
 touch.tap(359, 1019)
 print("TAP_359_1019")
 
-local function isDoneColorVisible()
- local x, y = screen.find_color({
-  {568,296,0x7e7e80},
-  {569,293,0x7e7e80},
-  {570,289,0x7e7e80},
-  {572,285,0x7e7e80},
-  {576,277,0x7e7e80},
-  {578,281,0x7e7e80},
-  {581,289,0x7e7e80},
-  {576,290,0x7e7e80},
-  {583,294,0x7e7e80},
-  {588,292,0x7e7e80},
-  {588,288,0x7e7e80},
-  {591,284,0x909092},
-  {594,282,0x7e7e80},
-  {599,284,0x7e7e80},
-  {599,294,0x7e7e80},
-  {605,281,0x929193},
-  {608,281,0x7e7e80},
-  {612,281,0x929193},
-  {608,278,0x7e7e80},
-  {607,284,0x7e7e80},
-  {607,290,0x7e7e80},
-  {609,296,0x7e7e80},
-  {611,296,0x7e7e80},
-  {629,296,0x7e7e80},
-  {631,294,0x7e7e80},
-  {632,288,0x818183},
-  {634,285,0x7e7e80},
-  {624,283,0x7e7e80},
-  {625,288,0x7e7e80},
-  {668,288,0x7e7e80},
-  {671,288,0x969597},
-  {676,288,0x969597},
-  {679,286,0x7e7e80},
-  {674,282,0x7e7e80},
-  {677,296,0x7e7e80},
-  {674,297,0x7e7e80},
-  {686,292,0x7e7e80},
-  {691,297,0x7e7e80},
-  {698,292,0x7e7e80},
-  {697,288,0x7e7e80},
-  {697,278,0x7e7e80},
-  {557,322,0x7e7e80},
-  {568,323,0x7e7e80},
-  {569,329,0x818183},
-  {568,335,0x7e7e80},
-  {564,340,0x7e7e80},
-  {561,340,0x7e7e80},
-  {635,333,0x7e7e80},
-  {654,323,0x7e7e80},
-  {653,322,0x7e7e80},
-  {647,319,0x7e7e80},
-  {643,321,0x7e7e80},
-  {642,324,0x7e7e80},
-  {642,329,0x7e7e80},
-  {645,334,0x7e7e80},
-  {650,334,0x7e7e80},
-  {653,332,0x7e7e80},
-  {658,327,0x99989a},
-  {662,321,0x7e7e80},
-  {667,320,0x7e7e80},
-  {671,324,0x7e7e80},
-  {671,329,0x7e7e80},
-  {667,334,0x7e7e80},
-  {663,332,0xfcfbfc},
-  {661,332,0x7e7e80},
-  {699,328,0x818183},
-  {699,330,0x818183},
-  {699,333,0x818183},
-  {698,334,0x7e7e80},
- },95,0,0,0,0)
- return x ~= -1 and y ~= -1
+local RES_DIR = "/var/mobile/Media/1ferver/lua/examples/"
+local XXTE_SIGN_IMG = RES_DIR .. "XXTE_sign.PNG"
+local XXTE_SIGN1_IMG = RES_DIR .. "XXTE_sign1.PNG"
+local XXTE_ACTIVE1_IMG = RES_DIR .. "XXTE_active1.PNG"
+local XXTE_ACTIVE2_IMG = RES_DIR .. "XXTE_active2.PNG"
+local XXTE_PUCHAR_IMG = RES_DIR .. "XXTE_Puchar.png"
+
+local function findImageAny(img, sim)
+ local x, y = screen.find_image(img, sim or 82, 0, 0, 750, 1334)
+ return x ~= -1 and y ~= -1, x, y
 end
 
-local function findLogoutColor()
- local x, y = screen.find_color({
-  {264,652,0xe74c3c},
-  {264,658,0xe74c3c},
-  {264,669,0xe74c3c},
-  {264,672,0xe74c3c},
-  {268,672,0xe74c3c},
-  {273,671,0xe74c3c},
-  {285,672,0xe74c3c},
-  {292,665,0xe74c3c},
-  {285,657,0xe74c3c},
-  {279,664,0xe74c3c},
-  {298,662,0xe74c3c},
-  {304,657,0xe74c3c},
-  {310,660,0xe74c3c},
-  {310,673,0xe74c3c},
-  {304,677,0xe74c3c},
-  {336,669,0xe74c3c},
-  {346,658,0xe74c3c},
-  {355,657,0xe74c3c},
-  {355,663,0xe74c3c},
-  {357,672,0xe74e3e},
-  {375,665,0xe74c3c},
-  {385,665,0xe74c3c},
-  {379,665,0xe74c3c},
-  {380,652,0xe74c3c},
-  {397,657,0xe74c3c},
-  {392,664,0xe74c3c},
-  {402,671,0xe74c3c},
-  {409,666,0xe74c3c},
-  {415,657,0xe74c3c},
-  {420,669,0xe74c3c},
-  {427,663,0xe74c3c},
-  {433,657,0xe74c3c},
-  {439,662,0xe74c3c},
-  {434,671,0xe74c3c},
-  {457,667,0xe74c3c},
-  {456,659,0xe74c3c},
-  {482,657,0xe74c3c},
-  {483,669,0xe74c3c},
- },95,0,0,0,0)
- if x ~= -1 and y ~= -1 then return true, x, y end
- return false, -1, -1
-end
-
-local function doNewTapSequence(closeAfterFirst)
- touch.tap(303, 420)
- print("TAP_303_420")
- sys.msleep(1500)
- touch.tap(481, 794)
- print("TAP_481_794")
- if closeAfterFirst then
-  sys.msleep(1000)
-  touch.tap(37, 145)
-  print("TAP_37_145")
-  sys.msleep(3000)
+local function waitImageForever(img, label, sim)
+ while true do
+  local ok, x, y = findImageAny(img, sim or 82)
+  if ok then
+   print("FOUND_" .. label)
+   return x, y
+  end
+  show_webview_status()
+  sys.msleep(500)
  end
 end
 
-doNewTapSequence(true)
-
-while true do
- doNewTapSequence(false)
-
- -- Không chờ cứng 5s rồi check một lần nữa, vì máy lag dễ ra chậm và bị miss.
- -- Chờ vô hạn tới khi gặp OK; nếu gặp logout thì xử lý rồi quay lại lượt tap/check mới.
- while true do
-  if isDoneColorVisible() then
-   print("FOUND_DONE_COLOR_OK")
-   return true
-  end
-
-  local logoutOk, logoutX, logoutY = findLogoutColor()
-  if logoutOk then
-   print("FOUND_LOGOUT_COLOR_TAP_264_652")
-   touch.tap(264, 652)
-   print("TAP_LOGOUT_264_652")
-   sys.msleep(3000)
-   break
-  end
-
+local function checkNextCaseOnce()
+ local pucharOk = findImageAny(XXTE_PUCHAR_IMG, 82)
+ if pucharOk then
+  print("FOUND_XXTE_PUCHAR_TAP_359_923")
+  touch.tap(359, 923)
   sys.msleep(500)
+  return "puchar"
+ end
+
+ local active1Ok = findImageAny(XXTE_ACTIVE1_IMG, 82)
+ local active2Ok = findImageAny(XXTE_ACTIVE2_IMG, 82)
+ if active1Ok and active2Ok then
+  print("FOUND_XXTE_ACTIVE_DONE")
+  return "active"
+ end
+
+ local sign1Ok = findImageAny(XXTE_SIGN1_IMG, 82)
+ if sign1Ok then
+  print("FOUND_XXTE_SIGN1_TAP_106_145")
+  touch.tap(106, 145)
+  sys.msleep(1500)
+  return "sign1"
+ end
+
+ return "none"
+end
+
+local function waitNextCaseShort()
+ local start = os.time()
+ while os.time() - start < 5 do
+  local case = checkNextCaseOnce()
+  if case ~= "none" then return case end
+  show_webview_status()
+  sys.msleep(500)
+ end
+ print("NO_CASE_RETRY_STEP8")
+ return "none"
+end
+
+local sign1RetryCount = 0
+while true do
+ print("STEP8_TAP_348_414")
+ touch.tap(348, 414)
+ waitImageForever(XXTE_SIGN_IMG, "XXTE_SIGN", 82)
+ print("TAP_498_789_AFTER_SIGN")
+ touch.tap(498, 789)
+ sys.msleep(500)
+
+ local case = waitNextCaseShort()
+ if case == "active" then
+  print("AUTORUN_ACTIVE_DONE_STOP")
+  return true
+ elseif case == "puchar" then
+  sign1RetryCount = 0
+ elseif case == "none" then
+  -- Không rơi vào 3 trường hợp thì lặp lại chu kỳ bước 8.
+  sign1RetryCount = 0
+ elseif case == "sign1" then
+  sign1RetryCount = sign1RetryCount + 1
+  if sign1RetryCount >= 3 then
+   print("XXTE_SIGN1_3_TIMES_RESTART_FROM_STEP4")
+   pcall(function() app.quit("ch.xxtou.XXTExplorer") end)
+   sys.msleep(1500)
+   sign1RetryCount = 0
+   goto STEP4
+  end
  end
 end
