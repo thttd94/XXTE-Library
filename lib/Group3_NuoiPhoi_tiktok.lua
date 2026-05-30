@@ -46,8 +46,18 @@ function __oc_toast_replacement(text, ...) if type(oc_status) == "function" then
 sys = sys or {}
 sys["toast"] = __oc_toast_replacement
 
+function oc_assistive_touch_off()
+ pcall(function() if sys and type(sys.assistive_touch_off) == "function" then sys.assistive_touch_off() end end)
+end
+
+function oc_assistive_touch_on()
+ pcall(function() if sys and type(sys.assistive_touch_on) == "function" then sys.assistive_touch_on() end end)
+end
 
 
+
+
+oc_assistive_touch_off()
 
 local TOUCH_ID_IMG = "/var/mobile/Media/1ferver/lua/examples/touchID.png"
 local touch_id_x, touch_id_y = screen.find_image(TOUCH_ID_IMG, 82, 0, 0, 750, 1334)
@@ -650,6 +660,7 @@ while true do
  elseif current_stage == 4 then clearStage3Watch() phase("Stage 4") if stage4BackupTikTokOnce() then tapBackupOk() break else closeTikTok() closeAppManager() waitPhase(1500) end end
 end
 status("ALL DONE")
+oc_assistive_touch_on()
 phase("Lock home")
 app.run("com.apple.springboard")
 waitPhase(1500)
