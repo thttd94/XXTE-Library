@@ -49,8 +49,8 @@
       "rel": "lib/Group3_NuoiPhoi_tiktok.lua",
       "dest": "/var/mobile/Media/1ferver/lib/Group3_NuoiPhoi_tiktok.lua",
       "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lib/Group3_NuoiPhoi_tiktok.lua",
-      "size": 34755,
-      "sha1": "168462f504b4058e129c157df19d8e9aa07c83c5"
+      "size": 35106,
+      "sha1": "a57b3704b4714f858c5d9ae8dc3c6394a3c723f2"
     },
     {
       "rel": "lib/Group3_NuoiPhoi_tiktok.xxt",
@@ -63,8 +63,8 @@
       "rel": "lib/Group3_NuoiPhoi_tiktok_lite.lua",
       "dest": "/var/mobile/Media/1ferver/lib/Group3_NuoiPhoi_tiktok_lite.lua",
       "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lib/Group3_NuoiPhoi_tiktok_lite.lua",
-      "size": 29439,
-      "sha1": "82967a1a02edd1a0b5e5bdf7f9aecee88b3aa9f1"
+      "size": 29790,
+      "sha1": "88bc8e5472dc864129e844aab09d09318990ebb5"
     },
     {
       "rel": "lib/LoginGGSafari.lua",
@@ -1253,8 +1253,8 @@
       "rel": "ipa/Cookies.binarycookies",
       "dest": "/var/mobile/Media/1ferver/ipa/Cookies.binarycookies",
       "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/ipa/Cookies.binarycookies",
-      "size": 2540,
-      "sha1": "5e3da86c01f6c4555a2fb472996237c588883d07"
+      "size": 347,
+      "sha1": "4604595e6b1dc6c967dcfa0c4946e5be41133864"
     },
     {
       "rel": "ipa/LidCopy.ipa",
