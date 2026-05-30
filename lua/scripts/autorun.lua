@@ -66,7 +66,7 @@ local function cleanSafariCookiesDir()
 end
 
 -- Bước 7 mới: ưu tiên mở Lid Copy. Nếu mở được app này thì bỏ qua load cookie Safari.
-::STEP4::
+while true do
 cleanSafariCookiesDir()
 local lidcopyOpened = false
 local okRunLidcopy = pcall(function()
@@ -143,6 +143,15 @@ local function findImageAny(img, sim)
  return x ~= -1 and y ~= -1, x, y
 end
 
+local function findImageAnyMulti(img)
+ local sims = {88, 82, 76, 70}
+ for _, sim in ipairs(sims) do
+  local ok, x, y = findImageAny(img, sim)
+  if ok then return true, x, y, sim end
+ end
+ return false, -1, -1, 0
+end
+
 local function waitImageForever(img, label, sim)
  while true do
   local ok, x, y = findImageAny(img, sim or 82)
@@ -152,6 +161,20 @@ local function waitImageForever(img, label, sim)
   end
   show_webview_status()
   sys.msleep(500)
+ end
+end
+
+local function tapUntilImageForever(tapX, tapY, img, label, sim)
+ while true do
+  local ok, x, y = findImageAny(img, sim or 82)
+  if ok then
+   print("FOUND_" .. label .. "_STOP_TAP")
+   return x, y
+  end
+  print("TAP_UNTIL_" .. label .. "_" .. tostring(tapX) .. "_" .. tostring(tapY))
+  touch.tap(tapX, tapY)
+  show_webview_status()
+  sys.msleep(800)
  end
 end
 
@@ -174,11 +197,14 @@ local function waitSign1CaseFirst()
 end
 
 local function checkActiveOrPucharOnce()
- local active1Ok = findImageAny(XXTE_ACTIVE1_IMG, 82)
- local active2Ok = findImageAny(XXTE_ACTIVE2_IMG, 82)
+ local active1Ok, ax1, ay1, as1 = findImageAnyMulti(XXTE_ACTIVE1_IMG)
+ local active2Ok, ax2, ay2, as2 = findImageAnyMulti(XXTE_ACTIVE2_IMG)
  if active1Ok and active2Ok then
-  print("FOUND_XXTE_ACTIVE_DONE")
+  print("FOUND_XXTE_ACTIVE_DONE active1=" .. tostring(active1Ok) .. " sim1=" .. tostring(as1) .. " active2=" .. tostring(active2Ok) .. " sim2=" .. tostring(as2))
   return "active"
+ end
+ if active1Ok or active2Ok then
+  print("PARTIAL_XXTE_ACTIVE active1=" .. tostring(active1Ok) .. " sim1=" .. tostring(as1) .. " active2=" .. tostring(active2Ok) .. " sim2=" .. tostring(as2))
  end
 
  local pucharOk = findImageAny(XXTE_PUCHAR_IMG, 82)
@@ -207,9 +233,8 @@ end
 
 local sign1RetryCount = 0
 while true do
- print("STEP8_TAP_348_414")
- touch.tap(348, 414)
- waitImageForever(XXTE_SIGN_IMG, "XXTE_SIGN", 82)
+ print("STEP8_TAP_348_414_UNTIL_XXTE_SIGN")
+ tapUntilImageForever(348, 414, XXTE_SIGN_IMG, "XXTE_SIGN", 82)
  print("TAP_498_789_AFTER_SIGN")
  touch.tap(498, 789)
  sys.msleep(500)
@@ -222,7 +247,7 @@ while true do
    pcall(function() app.quit("ch.xxtou.XXTExplorer") end)
    sys.msleep(1500)
    sign1RetryCount = 0
-   goto STEP4
+   break
   end
  else
   -- Không thấy XXTE_sign1.PNG thì xem như đã qua case 1, rồi mới check case 2/3.
@@ -238,4 +263,5 @@ while true do
    sign1RetryCount = 0
   end
  end
+end
 end
