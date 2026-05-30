@@ -592,6 +592,41 @@
       "sha1": "902b2d4b5570dbf8d0539498bab78adfa243c9f3"
     },
     {
+      "rel": "lua/examples/XXTE_Puchar.png",
+      "dest": "/var/mobile/Media/1ferver/lua/examples/XXTE_Puchar.png",
+      "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lua/examples/XXTE_Puchar.png",
+      "size": 82873,
+      "sha1": "362b965db6045a5eef4d2ea9a452af1068e117a2"
+    },
+    {
+      "rel": "lua/examples/XXTE_active1.PNG",
+      "dest": "/var/mobile/Media/1ferver/lua/examples/XXTE_active1.PNG",
+      "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lua/examples/XXTE_active1.PNG",
+      "size": 6769,
+      "sha1": "9c6247d27faa3065b88deefb4380ecb2523720e3"
+    },
+    {
+      "rel": "lua/examples/XXTE_active2.PNG",
+      "dest": "/var/mobile/Media/1ferver/lua/examples/XXTE_active2.PNG",
+      "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lua/examples/XXTE_active2.PNG",
+      "size": 12049,
+      "sha1": "70929ad2be121b195e21973f5984c99a74dfe3f8"
+    },
+    {
+      "rel": "lua/examples/XXTE_sign.PNG",
+      "dest": "/var/mobile/Media/1ferver/lua/examples/XXTE_sign.PNG",
+      "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lua/examples/XXTE_sign.PNG",
+      "size": 133334,
+      "sha1": "917aff86208c8afd7d6688db64467418d812fad8"
+    },
+    {
+      "rel": "lua/examples/XXTE_sign1.PNG",
+      "dest": "/var/mobile/Media/1ferver/lua/examples/XXTE_sign1.PNG",
+      "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lua/examples/XXTE_sign1.PNG",
+      "size": 20373,
+      "sha1": "eb7ed75b9c0263c9747cd3af674a242cbbaf84ba"
+    },
+    {
       "rel": "lua/examples/Xulite.png",
       "dest": "/var/mobile/Media/1ferver/lua/examples/Xulite.png",
       "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lua/examples/Xulite.png",
@@ -1218,8 +1253,8 @@
       "rel": "lua/scripts/autorun.lua",
       "dest": "/var/mobile/Media/1ferver/lua/scripts/autorun.lua",
       "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lua/scripts/autorun.lua",
-      "size": 7038,
-      "sha1": "28cfc4bfe4726c109962378a5346dc9fa8bdb49e"
+      "size": 5868,
+      "sha1": "ece3b9a862f91ac6295496ffaf6e764ecb10a05b"
     },
     {
       "rel": "lua/scripts/extract_tiktok_lite_assets.lua",
@@ -1254,7 +1289,7 @@
       "dest": "/var/mobile/Media/1ferver/ipa/Cookies.binarycookies",
       "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/ipa/Cookies.binarycookies",
       "size": 347,
-      "sha1": "4604595e6b1dc6c967dcfa0c4946e5be41133864"
+      "sha1": "6d953d065fdd1402844ec0ba932b00a74022cf06"
     },
     {
       "rel": "ipa/LidCopy.ipa",
