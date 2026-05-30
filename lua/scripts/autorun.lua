@@ -138,14 +138,7 @@ local function waitImageForever(img, label, sim)
 end
 
 local function checkNextCaseOnce()
- local pucharOk = findImageAny(XXTE_PUCHAR_IMG, 82)
- if pucharOk then
-  print("FOUND_XXTE_PUCHAR_TAP_359_923")
-  touch.tap(359, 923)
-  sys.msleep(500)
-  return "puchar"
- end
-
+ -- Ưu tiên xác nhận active trước, tránh màn hình đã active nhưng vẫn bị xử lý nhầm/retry.
  local active1Ok = findImageAny(XXTE_ACTIVE1_IMG, 82)
  local active2Ok = findImageAny(XXTE_ACTIVE2_IMG, 82)
  if active1Ok and active2Ok then
@@ -161,18 +154,28 @@ local function checkNextCaseOnce()
   return "sign1"
  end
 
+ local pucharOk = findImageAny(XXTE_PUCHAR_IMG, 82)
+ if pucharOk then
+  print("FOUND_XXTE_PUCHAR_TAP_359_923")
+  touch.tap(359, 923)
+  sys.msleep(500)
+  return "puchar"
+ end
+
  return "none"
 end
 
-local function waitNextCaseShort()
+local function waitNextCaseConfirm()
+ -- Sau khi tap 498,789 phải đứng chờ đủ lâu để màn hình ra trạng thái tiếp theo.
+ -- Nếu chưa thấy 3 case thì mới retry bước 8, không bấm 348,414 liên tục quá nhanh.
  local start = os.time()
- while os.time() - start < 5 do
+ while os.time() - start < 30 do
   local case = checkNextCaseOnce()
   if case ~= "none" then return case end
   show_webview_status()
-  sys.msleep(500)
+  sys.msleep(700)
  end
- print("NO_CASE_RETRY_STEP8")
+ print("NO_CASE_AFTER_30S_RETRY_STEP8")
  return "none"
 end
 
@@ -185,7 +188,7 @@ while true do
  touch.tap(498, 789)
  sys.msleep(500)
 
- local case = waitNextCaseShort()
+ local case = waitNextCaseConfirm()
  if case == "active" then
   print("AUTORUN_ACTIVE_DONE_STOP")
   return true
