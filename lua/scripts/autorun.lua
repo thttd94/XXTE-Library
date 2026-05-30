@@ -40,8 +40,34 @@ print("HOME_OK_1")
 -- Bước 4: chờ 1 giây
 sys.msleep(2000)
 
+local function cleanSafariCookiesDir()
+ local safariPath = app.data_path("com.apple.mobilesafari")
+ if not safariPath or safariPath == "" then
+  print("CLEAN_SAFARI_COOKIES_NO_SAFARI_PATH")
+  return false
+ end
+ -- Chỉ dùng bundle id Safari để tìm đúng thư mục Cookies cần dọn.
+ local cookieDir = safariPath .. "/Library/Cookies/"
+ local okList, items = pcall(function() return file.list(cookieDir) end)
+ if not okList or type(items) ~= "table" then
+  print("CLEAN_SAFARI_COOKIES_LIST_ERR")
+  return false
+ end
+ for _, name in pairs(items) do
+  if name ~= "." and name ~= ".." then
+   local path = cookieDir .. tostring(name)
+   pcall(function() file.remove(path) end)
+   pcall(function() os.remove(path) end)
+   print("CLEAN_SAFARI_COOKIE_FILE_" .. tostring(name))
+  end
+ end
+ print("CLEAN_SAFARI_COOKIES_DONE")
+ return true
+end
+
 -- Bước 7 mới: ưu tiên mở Lid Copy. Nếu mở được app này thì bỏ qua load cookie Safari.
 ::STEP4::
+cleanSafariCookiesDir()
 local lidcopyOpened = false
 local okRunLidcopy = pcall(function()
  local r = app.run("com.local.lidcopy")
@@ -62,16 +88,8 @@ else
  local src = "/var/mobile/Media/1ferver/lua/examples/Cookies.binarycookies"
 
  local safariPath = app.data_path("com.apple.mobilesafari")
- local cookiePath = safariPath .. "/Library/Cookies/Cookies.binarycookies"
- local backupPath = safariPath .. "/Library/Cookies/Cookies_backup.binarycookies"
-
- -- Backup file cookie cũ
- if file.exists(cookiePath) then
-  local old = file.reads(cookiePath)
-  if old then
-   file.writes(backupPath, old)
-  end
- end
+ local cookieDir = safariPath .. "/Library/Cookies/"
+ local cookiePath = cookieDir .. "Cookies.binarycookies"
 
  -- Load cookie mới
  if file.exists(src) then
@@ -137,21 +155,30 @@ local function waitImageForever(img, label, sim)
  end
 end
 
-local function checkNextCaseOnce()
- -- Ưu tiên xác nhận active trước, tránh màn hình đã active nhưng vẫn bị xử lý nhầm/retry.
+local function waitSign1CaseFirst()
+ -- Case 1 phải được xử lý trước. Chỉ nếu không thấy sign1 thì mới qua check case 2/3.
+ local start = os.time()
+ while os.time() - start < 8 do
+  local sign1Ok = findImageAny(XXTE_SIGN1_IMG, 82)
+  if sign1Ok then
+   print("FOUND_XXTE_SIGN1_TAP_106_145")
+   touch.tap(106, 145)
+   sys.msleep(1500)
+   return true
+  end
+  show_webview_status()
+  sys.msleep(500)
+ end
+ print("NO_XXTE_SIGN1_PASS_CASE1")
+ return false
+end
+
+local function checkActiveOrPucharOnce()
  local active1Ok = findImageAny(XXTE_ACTIVE1_IMG, 82)
  local active2Ok = findImageAny(XXTE_ACTIVE2_IMG, 82)
  if active1Ok and active2Ok then
   print("FOUND_XXTE_ACTIVE_DONE")
   return "active"
- end
-
- local sign1Ok = findImageAny(XXTE_SIGN1_IMG, 82)
- if sign1Ok then
-  print("FOUND_XXTE_SIGN1_TAP_106_145")
-  touch.tap(106, 145)
-  sys.msleep(1500)
-  return "sign1"
  end
 
  local pucharOk = findImageAny(XXTE_PUCHAR_IMG, 82)
@@ -165,17 +192,16 @@ local function checkNextCaseOnce()
  return "none"
 end
 
-local function waitNextCaseConfirm()
- -- Sau khi tap 498,789 phải đứng chờ đủ lâu để màn hình ra trạng thái tiếp theo.
- -- Nếu chưa thấy 3 case thì mới retry bước 8, không bấm 348,414 liên tục quá nhanh.
+local function waitActiveOrPucharConfirm()
+ -- Sau khi case 1 đã qua, mới check case 2/3.
  local start = os.time()
  while os.time() - start < 30 do
-  local case = checkNextCaseOnce()
+  local case = checkActiveOrPucharOnce()
   if case ~= "none" then return case end
   show_webview_status()
   sys.msleep(700)
  end
- print("NO_CASE_AFTER_30S_RETRY_STEP8")
+ print("NO_ACTIVE_OR_PUCHAR_AFTER_30S_RETRY_STEP8")
  return "none"
 end
 
@@ -188,16 +214,8 @@ while true do
  touch.tap(498, 789)
  sys.msleep(500)
 
- local case = waitNextCaseConfirm()
- if case == "active" then
-  print("AUTORUN_ACTIVE_DONE_STOP")
-  return true
- elseif case == "puchar" then
-  sign1RetryCount = 0
- elseif case == "none" then
-  -- Không rơi vào 3 trường hợp thì lặp lại chu kỳ bước 8.
-  sign1RetryCount = 0
- elseif case == "sign1" then
+ local sign1Found = waitSign1CaseFirst()
+ if sign1Found then
   sign1RetryCount = sign1RetryCount + 1
   if sign1RetryCount >= 3 then
    print("XXTE_SIGN1_3_TIMES_RESTART_FROM_STEP4")
@@ -205,6 +223,19 @@ while true do
    sys.msleep(1500)
    sign1RetryCount = 0
    goto STEP4
+  end
+ else
+  -- Không thấy XXTE_sign1.PNG thì xem như đã qua case 1, rồi mới check case 2/3.
+  sign1RetryCount = 0
+  local case = waitActiveOrPucharConfirm()
+  if case == "active" then
+   print("AUTORUN_ACTIVE_DONE_STOP")
+   return true
+  elseif case == "puchar" then
+   sign1RetryCount = 0
+  elseif case == "none" then
+   -- Không rơi vào case 2/3 thì lặp lại chu kỳ bước 8.
+   sign1RetryCount = 0
   end
  end
 end
