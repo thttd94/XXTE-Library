@@ -1253,8 +1253,8 @@
       "rel": "lua/scripts/autorun.lua",
       "dest": "/var/mobile/Media/1ferver/lua/scripts/autorun.lua",
       "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lua/scripts/autorun.lua",
-      "size": 8050,
-      "sha1": "02538da249f896ba79b98bed5c9de3235a2d174b"
+      "size": 8641,
+      "sha1": "905a854fec13fbb33ed2dd960b743239d3233627"
     },
     {
       "rel": "lua/scripts/extract_tiktok_lite_assets.lua",
