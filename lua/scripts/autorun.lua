@@ -218,12 +218,19 @@ local function checkActiveOrPucharOnce()
  return "none"
 end
 
-local function waitActiveOrPucharConfirm()
+local function waitActiveOrPucharConfirm(sign1MissingStart)
  -- Sau khi case 1 đã qua, mới check case 2/3.
  -- Case 2 chỉ hợp lệ khi thấy đủ active1 + active2 liên tục trong 10 giây.
+ -- Nếu tổng 60s vẫn không thấy XXTE_sign1.PNG thì ưu tiên tap 106,145 ngay, không chờ hết case 2/3.
  local start = os.time()
  local activeHoldStart = nil
  while os.time() - start < 30 do
+  if sign1MissingStart ~= nil and os.time() - sign1MissingStart >= 60 then
+   print("NO_XXTE_SIGN1_60S_DURING_CASE_CHECK_TAP_106_145_RETRY_STEP8")
+   touch.tap(106, 145)
+   sys.msleep(1500)
+   return "sign1_timeout"
+  end
   local case = checkActiveOrPucharOnce()
   if case == "active" then
    if activeHoldStart == nil then
@@ -282,22 +289,18 @@ while true do
   else
    -- Không thấy XXTE_sign1.PNG trong 8s thì xem như đã qua case 1, rồi mới check case 2/3.
    sign1RetryCount = 0
-   local case = waitActiveOrPucharConfirm()
+   local case = waitActiveOrPucharConfirm(sign1MissingStart)
    if case == "active" then
     print("AUTORUN_ACTIVE_DONE_STOP")
     return true
    elseif case == "puchar" then
     sign1RetryCount = 0
+   elseif case == "sign1_timeout" then
+    sign1RetryCount = 0
+    sign1MissingStart = os.time()
    elseif case == "none" then
     -- Không rơi vào case 2/3 thì lặp lại chu kỳ bước 8.
     sign1RetryCount = 0
-   end
-   if os.time() - sign1MissingStart >= 60 then
-    print("NO_XXTE_SIGN1_60S_AFTER_CASE_CHECK_TAP_106_145_RETRY_STEP8")
-    touch.tap(106, 145)
-    sys.msleep(1500)
-    sign1RetryCount = 0
-    sign1MissingStart = os.time()
    end
   end
  end
