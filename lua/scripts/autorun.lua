@@ -178,10 +178,10 @@ local function tapUntilImageForever(tapX, tapY, img, label, sim)
  end
 end
 
-local function waitSign1CaseFirst()
+local function waitSign1CaseFirst(waitSeconds)
  -- Case 1 phải được xử lý trước. Chỉ nếu không thấy sign1 thì mới qua check case 2/3.
  local start = os.time()
- while os.time() - start < 8 do
+ while os.time() - start < (waitSeconds or 8) do
   local sign1Ok = findImageAny(XXTE_SIGN1_IMG, 82)
   if sign1Ok then
    print("FOUND_XXTE_SIGN1_TAP_106_145")
@@ -192,7 +192,7 @@ local function waitSign1CaseFirst()
   show_webview_status()
   sys.msleep(500)
  end
- print("NO_XXTE_SIGN1_PASS_CASE1")
+ print("NO_XXTE_SIGN1_AFTER_" .. tostring(waitSeconds or 8) .. "S")
  return false
 end
 
@@ -251,6 +251,7 @@ local function waitActiveOrPucharConfirm()
 end
 
 local sign1RetryCount = 0
+local sign1MissingStart = os.time()
 while true do
  print("STEP8_TAP_348_414_UNTIL_XXTE_SIGN")
  tapUntilImageForever(348, 414, XXTE_SIGN_IMG, "XXTE_SIGN", 82)
@@ -258,28 +259,46 @@ while true do
  touch.tap(498, 789)
  sys.msleep(500)
 
- local sign1Found = waitSign1CaseFirst()
+ local sign1Found = waitSign1CaseFirst(8)
  if sign1Found then
+  sign1MissingStart = os.time()
   sign1RetryCount = sign1RetryCount + 1
   if sign1RetryCount >= 3 then
    print("XXTE_SIGN1_3_TIMES_RESTART_FROM_STEP4")
    pcall(function() app.quit("ch.xxtou.XXTExplorer") end)
    sys.msleep(1500)
    sign1RetryCount = 0
+   sign1MissingStart = os.time()
    break
   end
  else
-  -- Không thấy XXTE_sign1.PNG thì xem như đã qua case 1, rồi mới check case 2/3.
-  sign1RetryCount = 0
-  local case = waitActiveOrPucharConfirm()
-  if case == "active" then
-   print("AUTORUN_ACTIVE_DONE_STOP")
-   return true
-  elseif case == "puchar" then
+  -- Nếu 60 giây vẫn chưa thấy XXTE_sign1.PNG thì tap 106,145 rồi quay lại đầu bước 8.
+  if os.time() - sign1MissingStart >= 60 then
+   print("NO_XXTE_SIGN1_60S_TAP_106_145_RETRY_STEP8")
+   touch.tap(106, 145)
+   sys.msleep(1500)
    sign1RetryCount = 0
-  elseif case == "none" then
-   -- Không rơi vào case 2/3 thì lặp lại chu kỳ bước 8.
+   sign1MissingStart = os.time()
+  else
+   -- Không thấy XXTE_sign1.PNG trong 8s thì xem như đã qua case 1, rồi mới check case 2/3.
    sign1RetryCount = 0
+   local case = waitActiveOrPucharConfirm()
+   if case == "active" then
+    print("AUTORUN_ACTIVE_DONE_STOP")
+    return true
+   elseif case == "puchar" then
+    sign1RetryCount = 0
+   elseif case == "none" then
+    -- Không rơi vào case 2/3 thì lặp lại chu kỳ bước 8.
+    sign1RetryCount = 0
+   end
+   if os.time() - sign1MissingStart >= 60 then
+    print("NO_XXTE_SIGN1_60S_AFTER_CASE_CHECK_TAP_106_145_RETRY_STEP8")
+    touch.tap(106, 145)
+    sys.msleep(1500)
+    sign1RetryCount = 0
+    sign1MissingStart = os.time()
+   end
   end
  end
 end
