@@ -200,7 +200,7 @@ local function checkActiveOrPucharOnce()
  local active1Ok, ax1, ay1, as1 = findImageAnyMulti(XXTE_ACTIVE1_IMG)
  local active2Ok, ax2, ay2, as2 = findImageAnyMulti(XXTE_ACTIVE2_IMG)
  if active1Ok and active2Ok then
-  print("FOUND_XXTE_ACTIVE_DONE active1=" .. tostring(active1Ok) .. " sim1=" .. tostring(as1) .. " active2=" .. tostring(active2Ok) .. " sim2=" .. tostring(as2))
+  print("FOUND_XXTE_ACTIVE_BOTH active1=" .. tostring(active1Ok) .. " sim1=" .. tostring(as1) .. " active2=" .. tostring(active2Ok) .. " sim2=" .. tostring(as2))
   return "active"
  end
  if active1Ok or active2Ok then
@@ -220,10 +220,29 @@ end
 
 local function waitActiveOrPucharConfirm()
  -- Sau khi case 1 đã qua, mới check case 2/3.
+ -- Case 2 chỉ hợp lệ khi thấy đủ active1 + active2 liên tục trong 10 giây.
  local start = os.time()
+ local activeHoldStart = nil
  while os.time() - start < 30 do
   local case = checkActiveOrPucharOnce()
-  if case ~= "none" then return case end
+  if case == "active" then
+   if activeHoldStart == nil then
+    activeHoldStart = os.time()
+    print("XXTE_ACTIVE_HOLD_START_10S")
+   elseif os.time() - activeHoldStart >= 10 then
+    print("XXTE_ACTIVE_HOLD_10S_OK")
+    return "active"
+   else
+    print("XXTE_ACTIVE_HOLDING_" .. tostring(os.time() - activeHoldStart) .. "S")
+   end
+  elseif case == "puchar" then
+   return "puchar"
+  else
+   if activeHoldStart ~= nil then
+    print("XXTE_ACTIVE_HOLD_RESET_BEFORE_10S")
+   end
+   activeHoldStart = nil
+  end
   show_webview_status()
   sys.msleep(700)
  end
