@@ -76,6 +76,7 @@ local SCRIPT_VERSION = "TL_ALLIN1_V8"
 local TIKTOK_BUNDLE = "com.ss.iphone.ugc.Ame"
 local TIKTOK_LITE_BUNDLE = "com.ss.iphone.ugc.tiktok.lite"
 local APPMANAGER_BUNDLE = "com.tigisoftware.ADManager"
+local APPSTORE_BUNDLE = "com.apple.AppStore"
 local TIKTOK_LITE_STORE_URL = "https://apps.apple.com/jp/app/tiktok-lite/id6447160980?l=en-US"
 local RES_DIR = "/var/mobile/Media/1ferver/lua/examples/"
 
@@ -542,8 +543,18 @@ function runStage1()
  openTikTokLiteStore()
  local retry_waits = {10, 30, 60, 300, 600, 1200, 2400}
  local idx = 1
+ local cloud_wait_start = os.time()
 
  while true do
+  if os.time() - cloud_wait_start >= 300 then
+   phase("Quá 5p chưa thấy cloud - restart AppStore")
+   app.quit(APPSTORE_BUNDLE)
+   waitPhase(2000)
+   openTikTokLiteStore()
+   idx = 1
+   cloud_wait_start = os.time()
+  end
+
   if findImage(CLOUD_IMG, 82, 0, 0, 750, 1334) then
    tapByImageCenter(CLOUD_IMG, 82, 0, 0, 750, 1334)
    waitPhase(2000)
