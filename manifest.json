@@ -200,6 +200,20 @@
       "sha1": "f855e439c48327cad4d0d69e267334f620dc233c"
     },
     {
+      "rel": "lua/examples/EApp_error.PNG",
+      "dest": "/var/mobile/Media/1ferver/lua/examples/EApp_error.PNG",
+      "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lua/examples/EApp_error.PNG",
+      "size": 39743,
+      "sha1": "06443a1633feac24152502506358001c58b9dc4e"
+    },
+    {
+      "rel": "lua/examples/EApp_ssl.PNG",
+      "dest": "/var/mobile/Media/1ferver/lua/examples/EApp_ssl.PNG",
+      "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lua/examples/EApp_ssl.PNG",
+      "size": 30996,
+      "sha1": "269c11d3e82caadb8c99705304791e5a39fc90a5"
+    },
+    {
       "rel": "lua/examples/Event1.png",
       "dest": "/var/mobile/Media/1ferver/lua/examples/Event1.png",
       "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lua/examples/Event1.png",
