@@ -81,6 +81,13 @@
       "sha1": "1006cff10e2bc5ebc60dbc5daca33ff36eb45201"
     },
     {
+      "rel": "lib/NuoiPhoi_tiktok.lua",
+      "dest": "/var/mobile/Media/1ferver/lib/NuoiPhoi_tiktok.lua",
+      "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lib/NuoiPhoi_tiktok.lua",
+      "size": 2888,
+      "sha1": "b7e27f0768c8fb3d8d872ea4eecf0ef49139bdab"
+    },
+    {
       "rel": "lib/floating_menu.lua",
       "dest": "/var/mobile/Media/1ferver/lib/floating_menu.lua",
       "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lib/floating_menu.lua",
@@ -1271,6 +1278,13 @@
       "sha1": "d689a5a118324686c9cec5de11dd75dcbefddf21"
     },
     {
+      "rel": "lua/scripts/eapp_watchdog.lua",
+      "dest": "/var/mobile/Media/1ferver/lua/scripts/eapp_watchdog.lua",
+      "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lua/scripts/eapp_watchdog.lua",
+      "size": 9919,
+      "sha1": "3e9b92daaefb73fc93d7bfaa9061f3084f2f82c6"
+    },
+    {
       "rel": "lua/scripts/extract_tiktok_lite_assets.lua",
       "dest": "/var/mobile/Media/1ferver/lua/scripts/extract_tiktok_lite_assets.lua",
       "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lua/scripts/extract_tiktok_lite_assets.lua",
@@ -1311,6 +1325,13 @@
       "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/ipa/LidCopy.ipa",
       "size": 147960,
       "sha1": "3789e0fe7a85726aa4dac6d47b31e419d76c92f7"
+    },
+    {
+      "rel": "ipa/Shadowrocket.ipa",
+      "dest": "/var/mobile/Media/1ferver/ipa/Shadowrocket.ipa",
+      "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/ipa/Shadowrocket.ipa",
+      "size": 54056823,
+      "sha1": "f5b4033a0fb6d900f0680ccb06042c6dd19175e7"
     }
   ]
 }
