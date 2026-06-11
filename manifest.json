@@ -1264,6 +1264,13 @@
       "sha1": "b45f727acb86ef296952ddb8b0273ec08ed139ff"
     },
     {
+      "rel": "lua/scripts/Shadowrocket.json",
+      "dest": "/var/mobile/Media/1ferver/lua/scripts/Shadowrocket.json",
+      "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lua/scripts/Shadowrocket.json",
+      "size": 807,
+      "sha1": "c6b3e1e91c46e1f7011f31ed3f053313a81d1650"
+    },
+    {
       "rel": "lua/scripts/XuatTK.lua",
       "dest": "/var/mobile/Media/1ferver/lua/scripts/XuatTK.lua",
       "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lua/scripts/XuatTK.lua",
