@@ -27,14 +27,14 @@ end
 
 screen.init(0)
 local device = require("device")
-local __WEBVIEW_STATUS_TEXT = "Nuôi Phôi Tiktok Lite Đang chạy ..."
+local __WEBVIEW_STATUS_TEXT = "Nuôi Phôi TTL đang tiến hành ...."
 local __ok_webview_status, __webview_status = pcall(require, "webview")
 local __WEBVIEW_STATUS_ID = 88
 local __WEBVIEW_STATUS_HTML = [[
 <!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><style>
 html,body{margin:0;padding:0;width:100%;height:100%;background:transparent;overflow:hidden;font-family:-apple-system,BlinkMacSystemFont,sans-serif;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
 #bar{width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.58);color:#fff;border-radius:12px;font-size:17px;font-weight:700;text-align:center;white-space:nowrap;box-sizing:border-box}
-</style></head><body><div id="bar">V7.2:Nuôi Phôi Tiktok Lite Đang chạy ...</div></body></html>
+</style></head><body><div id="bar">Nuôi Phôi TTL đang tiến hành ....</div></body></html>
 ]]
 function show_webview_status()
  if __ok_webview_status and __webview_status and type(__webview_status.show) == "function" then
@@ -72,7 +72,7 @@ clear.app_data("com.ss.iphone.ugc.tiktok.lite")
 oc_toast("clear tiktok done", 1)
 sys.msleep(1000)
 
-local SCRIPT_VERSION = "TL_ALLIN1_V8"
+local SCRIPT_VERSION = "TL_ALLIN1_V9_STAGE2_EVENT"
 local TIKTOK_BUNDLE = "com.ss.iphone.ugc.Ame"
 local TIKTOK_LITE_BUNDLE = "com.ss.iphone.ugc.tiktok.lite"
 local APPMANAGER_BUNDLE = "com.tigisoftware.ADManager"
@@ -104,6 +104,8 @@ local CHECK_POPUP_CHOOSE_LIST = {
  RES_DIR .. "check_popup_choose.png",
  RES_DIR .. "check_popup_choose1.png"
 }
+local POPUP_1_CHECK1 = RES_DIR .. "Popup_1_check1.png"
+local POPUP_1_TAP = RES_DIR .. "Popup_1_tap.png"
 local CHECK_POPUP_SWIPE = RES_DIR .. "check_popup_swipe.png"
 local CHECK_POPUP_EVENT1 = RES_DIR .. "check_popup_Event1.png"
 local CHECK_POPUP_EVENT2 = RES_DIR .. "check_popup_Event2.png"
@@ -881,55 +883,391 @@ function handleNoInternetSpecial()
  end
 end
 
-function runStage2()
- phase("Stage 2")
- openTikTokLite()
- local stage2StartAt = os.time()
- local everSeenXulite = false
- local lastPeriodicSwipeAt = os.time()
- local popupHandledCount = 0
+local TIKTOK_LITE_EVENT_URL = TIKTOK_LITE_EVENT_URL or "snssdk473824://webview?url=https://inapp.tiktokv.com/falcon/incentive_campaign/gold_coin.html"
+local stage2_last_open_at = 0
+
+local function stage2_sleep(ms)
+ sys.msleep(ms)
+end
+
+local function stage2_esc(s)
+ s = tostring(s or "")
+ s = s:gsub("&","&amp;"):gsub("<","&lt;"):gsub(">","&gt;"):gsub('"',"&quot;")
+ return s
+end
+
+local function stage2_status(msg, color)
+ color = color or "rgba(0,0,0,.80)"
+ local html = [[
+<html><head><meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+html,body{margin:0;padding:0;background:transparent;overflow:hidden;font-family:-apple-system,Arial}
+#b{width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:]] .. color .. [[;color:#fff;border-radius:12px;font-size:15px;font-weight:800;text-align:center;box-sizing:border-box;padding:0 8px;white-space:normal}
+</style></head><body><div id="b">Nuôi Phôi TTL đang tiến hành ....</div></body></html>
+]]
+ pcall(function()
+  if __ok_webview_status and __webview_status and type(__webview_status.show) == "function" then
+   __webview_status.show{ id=88, html=html, x=1, y=1, width=748, height=70, alpha=1.0, corner_radius=12, opaque=false, can_drag=false, ignores_hit=true, level=999999, animation_duration=0 }
+  else
+   local ok,wv=pcall(require,"webview")
+   if ok and wv and type(wv.show)=="function" then
+    wv.show{ id=88, html=html, x=1, y=1, width=748, height=70, alpha=1.0, corner_radius=12, opaque=false, can_drag=false, ignores_hit=true, level=999999, animation_duration=0 }
+   end
+  end
+ end)
+ pcall(function() if type(__oc_write_status)=="function" then __oc_write_status(tostring(msg or "")) end end)
+end
+
+local function stage2_reopen_event(reason)
+ stage2_status("REOPEN: " .. tostring(reason) .. " -> quit + mở link sự kiện", "rgba(170,90,0,.92)")
+ pcall(function() app.quit(TIKTOK_LITE_BUNDLE) end)
+ stage2_sleep(2000)
+ stage2_last_open_at = os.time()
+ pcall(function() app.open_url(TIKTOK_LITE_EVENT_URL) end)
+ stage2_sleep(8000)
+end
+
+local function stage2_open_event_from_app(reason)
+ stage2_status("STAGE2 INIT: app.run TikTok Lite một lần -> link sự kiện " .. tostring(reason or ""))
+ pcall(function() app.run(TIKTOK_LITE_BUNDLE) end)
+ local wait_start = os.time()
+ while os.time() - wait_start < 12 do
+  local front = ""
+  pcall(function() front = tostring(app.front_bid() or "") end)
+  if front == TIKTOK_LITE_BUNDLE then break end
+  stage2_status("STAGE2: chờ TikTok Lite foreground " .. tostring(os.time() - wait_start) .. "/12s")
+  stage2_sleep(500)
+ end
+ stage2_last_open_at = os.time()
+ pcall(function() app.open_url(TIKTOK_LITE_EVENT_URL) end)
+ stage2_sleep(8000)
+end
+
+local function stage2_ensure_front()
+ local front = ""
+ pcall(function() front = tostring(app.front_bid() or "") end)
+ if front ~= TIKTOK_LITE_BUNDLE then
+  local since_open = os.time() - (stage2_last_open_at or 0)
+  if since_open >= 0 and since_open < 25 then
+   stage2_status("STAGE2: đang chờ TikTok Lite vào app " .. tostring(since_open) .. "/25s")
+   stage2_sleep(500)
+   return false
+  end
+  stage2_reopen_event("front=" .. front)
+  return false
+ end
+ return true
+end
+
+local function stage2_norm(s)
+ s = tostring(s or ""):lower()
+ s = s:gsub("[\r\n]+"," ")
+ s = s:gsub("%s+"," ")
+ return s
+end
+
+local function stage2_match_agree(s)
+ s = stage2_norm(s)
+ local a = s:find("agree",1,true)
+ local c = s:find("continue",1,true) or s:find("countinue",1,true) or s:find("countinuie",1,true) or s:find("contlnue",1,true) or s:find("contin",1,true)
+ return a and c
+end
+
+local function stage2_item_text(v)
+ if type(v) ~= "table" then return tostring(v or "") end
+ return tostring(v.text or v.word or v.label or v.value or v.content or v[1] or "")
+end
+
+local function stage2_item_box(v)
+ if type(v) ~= "table" then return nil end
+ local x = tonumber(v.x or v.left or v[2])
+ local y = tonumber(v.y or v.top or v[3])
+ local w = tonumber(v.width or v.w)
+ local h = tonumber(v.height or v.h)
+ local r = tonumber(v.right)
+ local b = tonumber(v.bottom)
+ if x and y and w and h then return x,y,x+w,y+h end
+ if x and y and r and b then return x,y,r,b end
+ if type(v.bounds) == "table" then
+  local bb = v.bounds
+  local bx = tonumber(bb.x or bb.left or bb[1])
+  local by = tonumber(bb.y or bb.top or bb[2])
+  local bw = tonumber(bb.width or bb.w or bb[3])
+  local bh = tonumber(bb.height or bb.h or bb[4])
+  if bx and by and bw and bh then return bx,by,bx+bw,by+bh end
+ end
+ return nil
+end
+
+local function stage2_popup1_agree_ocr()
+ local RX1,RY1,RX2,RY2 = 180,735,570,835
+ local step_start = os.time()
  while true do
-  ensureTikTokLiteForeground()
-
-  local xuliteCheckX, xuliteCheckY = screen.find_image(XULITE_IMG, 82, 0, 0, 750, 1334)
-  if xuliteCheckX ~= -1 then
-   everSeenXulite = true
-  elseif (not everSeenXulite) and os.time() - stage2StartAt >= 300 then
-   status("Stage 2 quá 5 phút chưa thấy Xulite, quay lại Stage 1")
-   return "restart_stage1"
-  end
-
-  if handleNoInternetSpecial() then return true end
-  if finishByEventPopup() then return true end
-  if handlePopupByImage("Popup welcome", CHECK_POPUP_WELLCOME, TAP_POPUP_WELLCOME) then goto handled end
-  if handlePopupPermiss() then goto handled end
-  if handlePopupByImage("Popup allow", CHECK_POPUP_ALLOW, TAP_POPUP_ALLOW) then goto handled end
-  if handlePopupByImage("Popup tapping", CHECK_POPUP_TAPPING, TAP_POPUP_TAPPING) then goto handled end
-  if handlePopupTrack() then goto handled end
-  if handleNewPopupByColor() then goto handled end
-  if handlePopupChoose() then goto handled end
-  if handlePopupSwipe() then goto handled end
-  if not findImage(CHECK_POPUP_INTERNET, 82, 0, 0, 750, 1334) and not hasEventPopup() then
-   if os.time() - lastPeriodicSwipeAt >= 10 then
-    phase("Vuốt định kỳ")
-    swipeUpOnce()
-    lastPeriodicSwipeAt = os.time()
-    waitPhase(1000)
+  if os.time() - step_start >= 60 then stage2_reopen_event("popup1 >60s"); return "reopen_stage2" end
+  stage2_ensure_front()
+  local calls = {
+   function() return screen.ocr_text(RX1,RY1,RX2,RY2) end,
+   function() return screen.ocr_text{ x=RX1,y=RY1,width=RX2-RX1,height=RY2-RY1 } end,
+  }
+  for _,fn in ipairs(calls) do
+   local ok,res = pcall(fn)
+   if ok and res then
+    if type(res) == "table" then
+     local all = {}
+     for _,v in pairs(res) do local t=stage2_item_text(v); if t~="" then all[#all+1]=t end end
+     local joined = table.concat(all," ")
+     stage2_status("POPUP1 OCR: " .. joined)
+     if stage2_match_agree(joined) then
+      for _,v in pairs(res) do
+       local t=stage2_item_text(v); local nt=stage2_norm(t)
+       if nt:find("agree",1,true) or nt:find("contin",1,true) then
+        local x1,y1,x2,y2=stage2_item_box(v)
+        if x1 and y1 and x2 and y2 then
+         local x=math.floor((x1+x2)/2); local y=math.floor((y1+y2)/2)
+         stage2_status("POPUP1 OK: tap OCR bbox "..x..","..y, "rgba(0,140,40,.90)")
+         touch.tap(x,y); stage2_sleep(250); return true
+        end
+       end
+      end
+      stage2_status("POPUP1 OK: thấy chữ -> tap 375,795", "rgba(0,140,40,.90)")
+      touch.tap(375,795); stage2_sleep(250); return true
+     end
+    else
+     local txt=tostring(res or "")
+     stage2_status("POPUP1 OCR text: " .. txt)
+     if stage2_match_agree(txt) then touch.tap(375,795); stage2_sleep(250); return true end
+    end
    end
   end
-  sleep(500)
-  goto continue_main
-  ::handled::
-  popupHandledCount = popupHandledCount + 1
-  if popupHandledCount >= 2 then
-   status("Sau popup thứ 2: thử swipe/check Xulite một lần")
-   swipeUpOnce()
-   if tapXuliteIfVisibleOnce() then
-    if waitXuliteTappedScreenQuick(1500) then return runAfterXuliteTappedFlow() end
+  stage2_sleep(200)
+ end
+end
+
+local function stage2_popup2_color()
+ local step_start = os.time()
+ while true do
+  if os.time() - step_start >= 60 then stage2_reopen_event("popup2 >60s"); return "reopen_stage2" end
+  stage2_ensure_front()
+  if screen.is_colors({
+   {157,791,0x007AFF},{157,793,0x007AFF},{157,796,0x007AFF},{157,798,0x007AFF},{157,802,0x007AFF},{157,805,0x007AFF},{157,809,0x007AFF},{157,811,0x007AFF},{160,812,0x007AFF},{165,812,0x007AFF},{169,811,0x007AFF},{172,807,0x007AFF},{173,803,0x007AFF},{173,798,0x007AFF},{172,795,0x007AFF},{170,793,0x007AFF},{167,791,0x007AFF},{162,790,0x0B7EFE},{160,791,0x007AFF},{180,802,0x007AFF},{180,804,0x007AFF},{181,809,0x007AFF},{185,812,0x007AFF},{188,812,0x007AFF},{193,807,0x007AFF},{193,802,0x007AFF},{188,797,0x007AFF},{199,797,0x007AFF},{200,800,0x007AFF},{200,805,0x007AFF},{199,810,0x007AFF},{203,798,0x047BFE},{206,797,0x007AFF},{210,798,0x007AFF},{212,804,0x007AFF},{211,811,0x007AFF},{219,798,0x017AFF},{219,794,0x007AFF},{220,790,0x0B7EFE},{229,792,0x007AFF},{229,796,0x007AFF},{229,799,0x007AFF},{228,805,0x007AFF},{232,812,0x007AFF},{247,812,0x007AFF},{250,805,0x007AFF},{255,805,0x007AFF},{259,806,0x007AFF},{255,791,0x007AFF},{263,812,0x007AFF},{270,790,0x007AFF},{271,795,0x007AFF},{270,802,0x007AFF},{270,806,0x007AFF},{271,810,0x007AFF},{278,791,0x007AFF},{277,795,0x007AFF},{278,812,0x007AFF},{285,805,0x007AFF},{289,812,0x007AFF},{297,810,0x007AFF},{299,805,0x007AFF},{293,796,0x007AFF},{304,797,0x007AFF},{308,812,0x007AFF},{313,797,0x007AFF},{319,812,0x007AFF},{324,797,0x007AFF},
+  },90) then
+   stage2_status("POPUP2 OK -> tap 240,802", "rgba(0,140,40,.90)")
+   touch.tap(240,802); stage2_sleep(250); return true
+  end
+  stage2_status("POPUP2: chưa thấy, chờ tiếp"); stage2_sleep(150)
+ end
+end
+
+local function stage2_popup3_color()
+ local step_start = os.time()
+ while true do
+  if os.time() - step_start >= 60 then stage2_reopen_event("popup3 >60s"); return "reopen_stage2" end
+  stage2_ensure_front()
+  if screen.is_colors({
+   {224,775,0x007AFF},{223,778,0x007AFF},{221,782,0x007AFF},{220,785,0x007AFF},{219,789,0x007AFF},{216,794,0x1481FC},{222,789,0x007AFF},{225,789,0x007AFF},{227,789,0x007AFF},{229,788,0x007AFF},{230,785,0x007AFF},{230,789,0x007AFF},{233,794,0x007AFF},{233,795,0x007AFF},{225,774,0x007AFF},{240,783,0x007AFF},{245,779,0x007AFF},{249,782,0x007AFF},{244,787,0x007AFF},{248,788,0x007AFF},{250,791,0x007AFF},{248,794,0x007AFF},{244,796,0x007AFF},{239,793,0x007AFF},{255,773,0x007AFF},{255,776,0x007AFF},{255,780,0x007AFF},{255,782,0x007AFF},{255,786,0x007AFF},{255,791,0x007AFF},{255,794,0x007AFF},{256,788,0x007AFF},{259,787,0x007AFF},{266,779,0x1983FB},{261,789,0x007AFF},{264,792,0x007AFF},{285,789,0x007AFF},{288,789,0x007AFF},{291,789,0x007AFF},{293,789,0x007AFF},{286,783,0x007AFF},{289,775,0x007AFF},{298,795,0x007AFF},{282,795,0x007AFF},{305,782,0x007AFF},{305,784,0x007AFF},{304,786,0x007AFF},{305,789,0x007AFF},{304,792,0x007AFF},{305,796,0x007AFF},{304,801,0x007AFF},{325,802,0x067CFE},{325,798,0x007AFF},{324,793,0x007AFF},{325,785,0x007AFF},{338,787,0x007AFF},{317,789,0x007AFF},{353,795,0x007AFF},{353,786,0x007AFF},{353,778,0x007AFF},{364,790,0x017AFF},{368,794,0x007AFF},{369,787,0x007AFF},{370,779,0x007AFF},{369,774,0x007AFF},{418,780,0x007AFF},{418,785,0x007AFF},{418,790,0x007AFF},{434,795,0x007AFF},{440,789,0x007AFF},{427,789,0x007AFF},{433,780,0x007AFF},{461,773,0x0A7EFD},{469,773,0x0A7EFD},{462,783,0x007AFF},{462,794,0x007AFF},{523,787,0x007AFF},{526,787,0x007AFF},{533,780,0x007AFF},{534,795,0x007AFF},{509,795,0x007AFF},{509,780,0x007AFF},
+  },90) then
+   stage2_status("POPUP3 OK -> tap 365,787", "rgba(0,140,40,.90)")
+   touch.tap(365,787); stage2_sleep(250); return true
+  end
+  stage2_status("POPUP3: chưa thấy, chờ tiếp"); stage2_sleep(150)
+ end
+end
+
+local function stage2_popup4_color()
+ local step_start = os.time()
+ while true do
+  if os.time() - step_start >= 60 then stage2_reopen_event("popup4 >60s"); return "reopen_stage2" end
+  stage2_ensure_front()
+  if screen.is_colors({
+   {317,753,0xFE2C55},{314,738,0xFE2C55},{319,729,0xFE2C55},{338,728,0xFE2C55},{323,738,0xFFFFFF},{323,750,0xFFFFFF},{332,753,0xFFFFFF},{341,752,0xFFFFFF},{341,740,0xFFFFFF},{333,737,0xFFFFFF},{356,738,0xFFFFFF},{364,738,0xFFFFFF},{367,741,0xFFFFFF},{361,749,0xFFFFFF},{386,743,0xFFFFFF},{390,748,0xFFFFFF},{398,747,0xFE2C55},{419,727,0xFE2C55},{433,746,0xFE2C55},{419,753,0xFE2C55},{416,744,0xFE2C55},{384,734,0xFE2C55},{373,733,0xFE5B7B},{366,748,0xFE345C},
+  },90) then
+   stage2_status("POPUP4 OK -> tap 372,920", "rgba(0,140,40,.90)")
+   touch.tap(372,920); stage2_sleep(250); return true
+  end
+  stage2_status("POPUP4: chưa thấy, chờ tiếp"); stage2_sleep(150)
+ end
+end
+
+
+local function stage2_try_popup1_agree_once()
+ local RX1,RY1,RX2,RY2 = 180,735,570,835
+ local calls = {
+  function() return screen.ocr_text(RX1,RY1,RX2,RY2) end,
+  function() return screen.ocr_text{ x=RX1,y=RY1,width=RX2-RX1,height=RY2-RY1 } end,
+ }
+ for _,fn in ipairs(calls) do
+  local ok,res = pcall(fn)
+  if ok and res then
+   if type(res) == "table" then
+    local all = {}
+    for _,v in pairs(res) do local t=stage2_item_text(v); if t~="" then all[#all+1]=t end end
+    local joined = table.concat(all," ")
+    if stage2_match_agree(joined) then
+     for _,v in pairs(res) do
+      local t=stage2_item_text(v); local nt=stage2_norm(t)
+      if nt:find("agree",1,true) or nt:find("contin",1,true) then
+       local x1,y1,x2,y2=stage2_item_box(v)
+       if x1 and y1 and x2 and y2 then
+        local x=math.floor((x1+x2)/2); local y=math.floor((y1+y2)/2)
+        stage2_status("POPUP1 OK: tap OCR bbox "..x..","..y, "rgba(0,140,40,.90)")
+        touch.tap(x,y); stage2_sleep(250); return true
+       end
+      end
+     end
+     stage2_status("POPUP1 OK: thấy chữ -> tap 375,795", "rgba(0,140,40,.90)")
+     touch.tap(375,795); stage2_sleep(250); return true
+    end
+   else
+    local tx=tostring(res or "")
+    if stage2_match_agree(tx) then
+     stage2_status("POPUP1 OK: text-only -> tap 375,795", "rgba(0,140,40,.90)")
+     touch.tap(375,795); stage2_sleep(250); return true
+    end
    end
   end
-  waitPhase(600)
-  ::continue_main::
+ end
+ return false
+end
+
+local function stage2_try_popup2_once()
+ if screen.is_colors({
+   {157,791,0x007AFF},{157,793,0x007AFF},{157,796,0x007AFF},{157,798,0x007AFF},{157,802,0x007AFF},{157,805,0x007AFF},{157,809,0x007AFF},{157,811,0x007AFF},{160,812,0x007AFF},{165,812,0x007AFF},{169,811,0x007AFF},{172,807,0x007AFF},{173,803,0x007AFF},{173,798,0x007AFF},{172,795,0x007AFF},{170,793,0x007AFF},{167,791,0x007AFF},{162,790,0x0B7EFE},{160,791,0x007AFF},{180,802,0x007AFF},{180,804,0x007AFF},{181,809,0x007AFF},{185,812,0x007AFF},{188,812,0x007AFF},{193,807,0x007AFF},{193,802,0x007AFF},{188,797,0x007AFF},{199,797,0x007AFF},{200,800,0x007AFF},{200,805,0x007AFF},{199,810,0x007AFF},{203,798,0x047BFE},{206,797,0x007AFF},{210,798,0x007AFF},{212,804,0x007AFF},{211,811,0x007AFF},{219,798,0x017AFF},{219,794,0x007AFF},{220,790,0x0B7EFE},{229,792,0x007AFF},{229,796,0x007AFF},{229,799,0x007AFF},{228,805,0x007AFF},{232,812,0x007AFF},{247,812,0x007AFF},{250,805,0x007AFF},{255,805,0x007AFF},{259,806,0x007AFF},{255,791,0x007AFF},{263,812,0x007AFF},{270,790,0x007AFF},{271,795,0x007AFF},{270,802,0x007AFF},{270,806,0x007AFF},{271,810,0x007AFF},{278,791,0x007AFF},{277,795,0x007AFF},{278,812,0x007AFF},{285,805,0x007AFF},{289,812,0x007AFF},{297,810,0x007AFF},{299,805,0x007AFF},{293,796,0x007AFF},{304,797,0x007AFF},{308,812,0x007AFF},{313,797,0x007AFF},{319,812,0x007AFF},{324,797,0x007AFF},
+ },90) then
+  stage2_status("POPUP2 OK -> tap 240,802", "rgba(0,140,40,.90)")
+  touch.tap(240,802); stage2_sleep(250); return true
+ end
+ return false
+end
+
+local function stage2_try_popup3_once()
+ if screen.is_colors({
+   {224,775,0x007AFF},{223,778,0x007AFF},{221,782,0x007AFF},{220,785,0x007AFF},{219,789,0x007AFF},{216,794,0x1481FC},{222,789,0x007AFF},{225,789,0x007AFF},{227,789,0x007AFF},{229,788,0x007AFF},{230,785,0x007AFF},{230,789,0x007AFF},{233,794,0x007AFF},{233,795,0x007AFF},{225,774,0x007AFF},{240,783,0x007AFF},{245,779,0x007AFF},{249,782,0x007AFF},{244,787,0x007AFF},{248,788,0x007AFF},{250,791,0x007AFF},{248,794,0x007AFF},{244,796,0x007AFF},{239,793,0x007AFF},{255,773,0x007AFF},{255,776,0x007AFF},{255,780,0x007AFF},{255,782,0x007AFF},{255,786,0x007AFF},{255,791,0x007AFF},{255,794,0x007AFF},{256,788,0x007AFF},{259,787,0x007AFF},{266,779,0x1983FB},{261,789,0x007AFF},{264,792,0x007AFF},{285,789,0x007AFF},{288,789,0x007AFF},{291,789,0x007AFF},{293,789,0x007AFF},{286,783,0x007AFF},{289,775,0x007AFF},{298,795,0x007AFF},{282,795,0x007AFF},{305,782,0x007AFF},{305,784,0x007AFF},{304,786,0x007AFF},{305,789,0x007AFF},{304,792,0x007AFF},{305,796,0x007AFF},{304,801,0x007AFF},{325,802,0x067CFE},{325,798,0x007AFF},{324,793,0x007AFF},{325,785,0x007AFF},{338,787,0x007AFF},{317,789,0x007AFF},{353,795,0x007AFF},{353,786,0x007AFF},{353,778,0x007AFF},{364,790,0x017AFF},{368,794,0x007AFF},{369,787,0x007AFF},{370,779,0x007AFF},{369,774,0x007AFF},{418,780,0x007AFF},{418,785,0x007AFF},{418,790,0x007AFF},{434,795,0x007AFF},{440,789,0x007AFF},{427,789,0x007AFF},{433,780,0x007AFF},{461,773,0x0A7EFD},{469,773,0x0A7EFD},{462,783,0x007AFF},{462,794,0x007AFF},{523,787,0x007AFF},{526,787,0x007AFF},{533,780,0x007AFF},{534,795,0x007AFF},{509,795,0x007AFF},{509,780,0x007AFF},
+ },90) then
+  stage2_status("POPUP3 OK -> tap 365,787", "rgba(0,140,40,.90)")
+  touch.tap(365,787); stage2_sleep(250); return true
+ end
+ return false
+end
+
+
+local function stage2_has_reopen_popup()
+ if findAnyImage(CHECK_POPUP_CHOOSE_LIST, 82, 0, 0, 750, 1334) then return true, "check_popup_choose" end
+ if findImage(POPUP_1_CHECK1, 82, 0, 0, 750, 1334) then return true, "Popup_1_check1" end
+ if findImage(POPUP_1_TAP, 82, 0, 0, 750, 1334) then return true, "Popup_1_tap" end
+ return false, ""
+end
+
+local function stage2_reopen_if_special_popup()
+ local ok, name = stage2_has_reopen_popup()
+ if ok then
+  stage2_reopen_event("special popup " .. tostring(name))
+  return true
+ end
+ return false
+end
+
+local function stage2_try_popup4_once()
+ if screen.is_colors({
+   {317,753,0xFE2C55},{314,738,0xFE2C55},{319,729,0xFE2C55},{338,728,0xFE2C55},{323,738,0xFFFFFF},{323,750,0xFFFFFF},{332,753,0xFFFFFF},{341,752,0xFFFFFF},{341,740,0xFFFFFF},{333,737,0xFFFFFF},{356,738,0xFFFFFF},{364,738,0xFFFFFF},{367,741,0xFFFFFF},{361,749,0xFFFFFF},{386,743,0xFFFFFF},{390,748,0xFFFFFF},{398,747,0xFE2C55},{419,727,0xFE2C55},{433,746,0xFE2C55},{419,753,0xFE2C55},{416,744,0xFE2C55},{384,734,0xFE2C55},{373,733,0xFE5B7B},{366,748,0xFE345C},
+ },90) then
+  stage2_status("POPUP4 OK -> tap 372,920", "rgba(0,140,40,.90)")
+  touch.tap(372,920); stage2_sleep(250); return true
+ end
+ return false
+end
+
+local function stage2_handle_popups_123_any_order()
+ local done1,done2,done3 = false,false,false
+ local step_start = os.time()
+ while not (done1 and done2 and done3) do
+  stage2_ensure_front()
+  if os.time() - step_start >= 60 then
+   stage2_reopen_event("popup1/2/3 no progress >60s")
+   return "reopen_stage2"
+  end
+  local progressed = false
+  if stage2_reopen_if_special_popup() then return "reopen_stage2" end
+  -- Popup4 can appear alone after prior reopen(s). If seen, handle it immediately;
+  -- popup1/2/3 are not mandatory once popup4 is reached.
+  if stage2_try_popup4_once() then return "popup4_done" end
+  if not done2 and stage2_try_popup2_once() then done2=true; progressed=true end
+  if not done3 and stage2_try_popup3_once() then done3=true; progressed=true end
+  if not done1 and stage2_try_popup1_agree_once() then done1=true; progressed=true end
+  if progressed then
+   step_start = os.time()
+   stage2_status("POPUP123: done1="..tostring(done1).." done2="..tostring(done2).." done3="..tostring(done3), "rgba(0,140,40,.90)")
+  else
+   stage2_status("POPUP123: chờ popup bất kỳ 1/2/3")
+   stage2_sleep(150)
+  end
+ end
+ return true
+end
+
+
+local function stage2_white_pattern()
+ return screen.is_colors({
+  {142,285,0xffffff},{270,295,0xffffff},{436,295,0xffffff},{570,305,0xffffff},{598,517,0xffffff},{596,841,0xffffff},{182,597,0xffffff},{344,517,0xffffff},{586,809,0xffffff},{454,535,0xffffff},{374,283,0xffffff},{636,211,0xffffff},{454,1053,0xffffff},{324,1053,0xffffff},{228,1025,0xffffff},
+ },90)
+end
+
+local function stage2_post_popup4_watch()
+ local white_since = nil
+ while true do
+  stage2_ensure_front()
+  if stage2_white_pattern() then
+   if white_since == nil then white_since=os.time(); stage2_status("SAU POPUP4: thấy màn trắng, đếm 45s") end
+   local sec=os.time()-white_since
+   if sec >= 45 then
+    stage2_status("SAU POPUP4: trắng >=45s -> mở lại link", "rgba(170,90,0,.92)")
+    stage2_reopen_event("white >=45s after popup4")
+    return "reopen_stage2"
+   end
+   stage2_status("SAU POPUP4: trắng "..tostring(sec).."/45s")
+   stage2_sleep(150)
+  else
+   stage2_status("SAU POPUP4: hết trắng/có nội dung khác -> Stage2 DONE", "rgba(0,140,40,.90)")
+   pcall(function() app.quit(TIKTOK_LITE_BUNDLE) end)
+   stage2_sleep(1500)
+   return true
+  end
+ end
+end
+
+function runStage2()
+ stage2_open_event_from_app("start")
+
+ local last_progress_at = os.time()
+ while true do
+  stage2_ensure_front()
+  if stage2_reopen_if_special_popup() then
+   last_progress_at = os.time()
+  end
+
+  -- Event-driven: không ép thứ tự, không ép phải đủ popup 1/2/3.
+  -- Popup nào thật sự xuất hiện thì xử lý ngay.
+  if stage2_try_popup4_once() then
+   local r = stage2_post_popup4_watch()
+   if r == true then return true end
+   if r == "reopen_stage2" then
+    stage2_status("STAGE2: popup4 xong nhưng cần mở lại, xử lý từ đầu")
+    last_progress_at = os.time()
+   end
+  elseif stage2_try_popup2_once() then
+   last_progress_at = os.time()
+  elseif stage2_try_popup3_once() then
+   last_progress_at = os.time()
+  elseif stage2_try_popup1_agree_once() then
+   last_progress_at = os.time()
+  else
+   if os.time() - last_progress_at >= 60 then
+    stage2_reopen_event("Stage2 đứng yên >60s")
+    last_progress_at = os.time()
+   else
+    stage2_status("STAGE2: đang chờ popup xuất hiện")
+    stage2_sleep(150)
+   end
+  end
  end
 end
 
@@ -1004,6 +1342,26 @@ function waitImageDisappearForever(img, msg, sim, x1, y1, x2, y2)
  end
 end
 
+function stage3_has_backupttl_color()
+ return screen.is_colors({
+  {36,890,0x007AFF},{36,892,0x007AFF},{35,896,0x0D81FF},{36,899,0x007AFF},{36,903,0x007AFF},{36,912,0x007AFF},{40,912,0x007AFF},{43,912,0x007AFF},{46,911,0x007AFF},{48,910,0x007AFF},{50,908,0x007AFF},{51,905,0x007AFF},{49,903,0x007AFF},{48,902,0x007AFF},{44,901,0x007AFF},{40,900,0x007AFF},{49,895,0x007AFF},{50,893,0x007AFF},{37,889,0x007AFF},{39,889,0x0B80FF},{42,889,0x0B80FF},{57,898,0x007AFF},{58,896,0x007AFF},{61,895,0x007AFF},{63,895,0x067DFF},{65,896,0x007AFF},{66,897,0x007AFF},{67,899,0x007AFF},{67,902,0x007AFF},{67,904,0x007AFF},{67,907,0x007AFF},{67,912,0x007AFF},{61,912,0x007AFF},{59,911,0x007AFF},{57,910,0x007AFF},{55,908,0x007AFF},{57,905,0x007AFF},{59,903,0x0E81FF},{62,902,0x9BCBFF},{62,903,0x007AFF},{74,901,0x007AFF},{74,903,0x007AFF},{74,906,0x007AFF},{76,910,0x007AFF},{81,912,0x007AFF},{86,910,0x097FFF},{86,908,0x007AFF},{86,899,0x007AFF},{84,897,0x007AFF},{80,895,0x007AFF},{77,897,0x007AFF},{92,888,0x007AFF},{93,893,0x007AFF},{93,912,0x007AFF},{96,903,0x007AFF},{103,895,0x1A88FF},{103,912,0x027BFF},{111,907,0x007AFF},{122,896,0x007AFF},{116,912,0x007AFF},{122,912,0x007AFF},{130,917,0x007AFF},{131,899,0x007AFF},{136,896,0x007AFF},{137,895,0x007AFF},{141,897,0x007AFF},{143,900,0x007AFF},{143,904,0x007AFF},{142,909,0x007AFF},{138,912,0x007AFF},{46,890,0x007AFF},{36,907,0x007AFF},{38,912,0x007AFF},{42,911,0x007AFF},{93,900,0x007AFF},{93,907,0x007AFF},{110,900,0x007AFF},{122,902,0x007AFF},{130,906,0x007AFF},{122,907,0x007AFF},{110,903,0x007AFF},{111,896,0x007AFF},
+ }, 90)
+end
+
+function waitBackupTTLColorForever()
+ phase("Chờ BackupTTL color")
+ while true do
+  if stage3_has_backupttl_color() then
+   status("Thấy BackupTTL color -> tap 90,902")
+   touch.tap(90, 902)
+   waitPhase(1200)
+   return true
+  end
+  status("BackupTTL color - chờ điểm ảnh")
+  sleep(500)
+ end
+end
+
 function runStage3()
  phase("Stage 3")
  quitApp(APPMANAGER_BUNDLE, "AppManager")
@@ -1011,12 +1369,10 @@ function runStage3()
  openApp(APPMANAGER_BUNDLE, "AppManager", 5000)
  waitPostOpenColor5s()
  waitTapImageForever(CHECK_TTL, "Chọn TTL", 82, 0, 0, 750, 1334)
- if findImage(CHECK_BACKUPTTL, 82, 0, 0, 750, 1334) then
-  phase("Vuốt trước BackupTTL")
-  swipeUpOnce()
-  waitPhase(1000)
-  waitTapImageForever(TAP_BACKUPTTL, "Tap BackupTTL", 82, 0, 0, 750, 1334)
- end
+ phase("Vuốt trước BackupTTL")
+ swipeUpOnce()
+ waitPhase(1000)
+ waitBackupTTLColorForever()
  waitTapImageForever(TAP_BACKUP, "Tap Backup", 82, 0, 0, 750, 1334)
  waitImageAppearForever(CHECK_BACKUPING, "Chờ backuping", 82, 0, 0, 750, 1334)
  waitImageDisappearForever(CHECK_BACKUPING, "Backup", 82, 0, 0, 750, 1334)

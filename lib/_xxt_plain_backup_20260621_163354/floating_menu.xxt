@@ -379,13 +379,13 @@ local function run_video(front_name)
   set_active('video')
   if bid == BID_TIKTOK then
     set_top_status('TikTok: Video đang chạy')
-    local ok = run_lua_file(LUA_DIR .. 'Group3_EventVideo180_tiktok.lua')
+    local ok = run_lua_file(LUA_DIR .. 'Group3_EventVideo180_tiktok.xxt')
     sys.msleep(700)
     keep_state('video')
     return ok
   elseif bid == BID_TIKTOK_LITE then
     set_top_status('TikTokLite: Video đang chạy')
-    local ok = run_lua_file(LUA_DIR .. 'Group3_EventVideo180_tiktok_lite.lua')
+    local ok = run_lua_file(LUA_DIR .. 'Group3_EventVideo180_tiktok_lite.xxt')
     sys.msleep(700)
     keep_state('video')
     return ok
@@ -407,7 +407,7 @@ local function run_claim(front_name)
     resize_menu(true)
     sys.msleep(300)
     set_top_status((front_name or 'App') .. ': Claim đang chạy')
-    local ok = run_lua_file(LUA_DIR .. 'Group3_ClaimVideo.lua')
+    local ok = run_lua_file(LUA_DIR .. 'Group3_ClaimVideo.xxt')
     sys.msleep(700)
     keep_state('claim')
     return ok
@@ -427,13 +427,13 @@ local function run_20p(front_name)
   set_active('20p')
   if bid == BID_TIKTOK then
     set_top_status('TikTok: 20P đang chạy')
-    local ok = run_lua_file(LUA_DIR .. 'Group3_EventDD20p_tiktok.lua')
+    local ok = run_lua_file(LUA_DIR .. 'Group3_EventDD20p_tiktok.xxt')
     sys.msleep(700)
     keep_state('20p')
     return ok
   elseif bid == BID_TIKTOK_LITE then
     set_top_status('TikTokLite: 20P đang chạy')
-    local ok = run_lua_file(LUA_DIR .. 'Group3_EventDD20p_tiktok_lite.lua')
+    local ok = run_lua_file(LUA_DIR .. 'Group3_EventDD20p_tiktok_lite.xxt')
     sys.msleep(700)
     keep_state('20p')
     return ok
@@ -545,13 +545,13 @@ local function run_home_nurture()
   set_active('video')
   if current_home_submenu == 'tiktok' then
     set_top_status('HOME TikTok: Nuôi phôi đang chạy')
-    local ok = run_lua_file(LUA_DIR .. 'Group3_NuoiPhoi_tiktok.lua')
+    local ok = run_lua_file(LUA_DIR .. 'Group3_NuoiPhoi_tiktok.xxt')
     sys.msleep(700)
     keep_state('video')
     return ok
   elseif current_home_submenu == 'lite' then
     set_top_status('HOME Lite: Nuôi phôi đang chạy')
-    local ok = run_lua_file(LUA_DIR .. 'Group3_NuoiPhoi_tiktok_lite.lua')
+    local ok = run_lua_file(LUA_DIR .. 'Group3_NuoiPhoi_tiktok_lite.xxt')
     sys.msleep(700)
     keep_state('video')
     return ok
