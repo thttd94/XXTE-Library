@@ -12,6 +12,13 @@ EXCLUDE = {
     'lib/sync_library.lua',
     'lib/sync_library.xxt',
 }
+EXCLUDE_PARTS = (
+    '_xxt_plain_backup_',
+    'backup_before',
+    'backup_before_stage2',
+    'scripts_backup_before_encrypt_',
+    'lua_backup_before_encrypt_',
+)
 items = []
 for d in DIRS:
     base = ROOT / d
@@ -25,6 +32,10 @@ for d in DIRS:
         if rel.endswith('/.gitkeep') or rel.endswith('.gitkeep'):
             continue
         if rel_lower in EXCLUDE:
+            continue
+        if any(part in rel_lower for part in EXCLUDE_PARTS):
+            continue
+        if p.suffix.lower() == '.lua':
             continue
         if rel.startswith('lua/scripts/') and any(ch.isspace() for ch in rel):
             # Giữ đúng rule workflow cũ: bỏ script có dấu cách trong tên
@@ -43,7 +54,6 @@ for d in DIRS:
 out = {
     'repo': REPO,
     'branch': BRANCH,
-    # Không ghi generated_at: field này gây conflict mỗi lần build/pull.
     'base_raw': BASE_RAW,
     'files': items,
 }
