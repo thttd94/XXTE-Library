@@ -4,102 +4,158 @@
   "base_raw": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main",
   "files": [
     {
-      "rel": "lib/Claimvideo48.lua",
-      "dest": "/var/mobile/Media/1ferver/lib/Claimvideo48.lua",
-      "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lib/Claimvideo48.lua",
-      "size": 15507,
-      "sha1": "203aca3721d916b9572274614df241f0be40314c"
+      "rel": "lib/Group3_ClaimVideo.xxt",
+      "dest": "/var/mobile/Media/1ferver/lib/Group3_ClaimVideo.xxt",
+      "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lib/Group3_ClaimVideo.xxt",
+      "size": 11824,
+      "sha1": "85231fb755e8679676de1b43030ad70a2d426270"
     },
     {
-      "rel": "lib/Group3_ClaimVideo.lua",
-      "dest": "/var/mobile/Media/1ferver/lib/Group3_ClaimVideo.lua",
-      "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lib/Group3_ClaimVideo.lua",
-      "size": 15896,
-      "sha1": "78ed8497bf16c3bbf8ca09317d32b28e6fda5ce0"
+      "rel": "lib/Group3_EventDD20p_tiktok.xxt",
+      "dest": "/var/mobile/Media/1ferver/lib/Group3_EventDD20p_tiktok.xxt",
+      "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lib/Group3_EventDD20p_tiktok.xxt",
+      "size": 9644,
+      "sha1": "9e887d7b7c208aef3c01d86b19092357cd5067eb"
     },
     {
-      "rel": "lib/Group3_EventDD20p_tiktok.lua",
-      "dest": "/var/mobile/Media/1ferver/lib/Group3_EventDD20p_tiktok.lua",
-      "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lib/Group3_EventDD20p_tiktok.lua",
-      "size": 12901,
-      "sha1": "f5a5fac81c8458d8b626bf9f4a30bf06dfa6956f"
+      "rel": "lib/Group3_EventDD20p_tiktok_lite.xxt",
+      "dest": "/var/mobile/Media/1ferver/lib/Group3_EventDD20p_tiktok_lite.xxt",
+      "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lib/Group3_EventDD20p_tiktok_lite.xxt",
+      "size": 9895,
+      "sha1": "737bade55bc63bdb33dccd3ad20035ae492e05f1"
     },
     {
-      "rel": "lib/Group3_EventDD20p_tiktok_lite.lua",
-      "dest": "/var/mobile/Media/1ferver/lib/Group3_EventDD20p_tiktok_lite.lua",
-      "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lib/Group3_EventDD20p_tiktok_lite.lua",
-      "size": 13202,
-      "sha1": "0df43e186d45ed82ffb118d876bb25b230bdab3b"
+      "rel": "lib/Group3_EventVideo180_tiktok.xxt",
+      "dest": "/var/mobile/Media/1ferver/lib/Group3_EventVideo180_tiktok.xxt",
+      "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lib/Group3_EventVideo180_tiktok.xxt",
+      "size": 5330,
+      "sha1": "b5261a39fd4c90e717d80c5a7590482659cd9055"
     },
     {
-      "rel": "lib/Group3_EventVideo180_tiktok.lua",
-      "dest": "/var/mobile/Media/1ferver/lib/Group3_EventVideo180_tiktok.lua",
-      "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lib/Group3_EventVideo180_tiktok.lua",
-      "size": 5724,
-      "sha1": "41e56f9b41eb0943e7a2f57117182e49f190620f"
-    },
-    {
-      "rel": "lib/Group3_EventVideo180_tiktok_lite.lua",
-      "dest": "/var/mobile/Media/1ferver/lib/Group3_EventVideo180_tiktok_lite.lua",
-      "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lib/Group3_EventVideo180_tiktok_lite.lua",
-      "size": 5749,
-      "sha1": "80af76ba0e9348c4e2662fb89e8b0a11a2a96829"
-    },
-    {
-      "rel": "lib/Group3_NuoiPhoi_tiktok.lua",
-      "dest": "/var/mobile/Media/1ferver/lib/Group3_NuoiPhoi_tiktok.lua",
-      "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lib/Group3_NuoiPhoi_tiktok.lua",
-      "size": 35106,
-      "sha1": "a57b3704b4714f858c5d9ae8dc3c6394a3c723f2"
+      "rel": "lib/Group3_EventVideo180_tiktok_lite.xxt",
+      "dest": "/var/mobile/Media/1ferver/lib/Group3_EventVideo180_tiktok_lite.xxt",
+      "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lib/Group3_EventVideo180_tiktok_lite.xxt",
+      "size": 5355,
+      "sha1": "5122679062cd3a77b5944106602f7ca6f1706d2e"
     },
     {
       "rel": "lib/Group3_NuoiPhoi_tiktok.xxt",
       "dest": "/var/mobile/Media/1ferver/lib/Group3_NuoiPhoi_tiktok.xxt",
       "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lib/Group3_NuoiPhoi_tiktok.xxt",
-      "size": 29117,
-      "sha1": "105669ad9885ee01e1f0527e4a4128bdbd9632fe"
+      "size": 31874,
+      "sha1": "b35af2e042dd71921fef44a2c23bcb17e028afa7"
     },
     {
-      "rel": "lib/Group3_NuoiPhoi_tiktok_lite.lua",
-      "dest": "/var/mobile/Media/1ferver/lib/Group3_NuoiPhoi_tiktok_lite.lua",
-      "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lib/Group3_NuoiPhoi_tiktok_lite.lua",
-      "size": 30098,
-      "sha1": "26bac83a416c7561cd670e9c05e27410d26b48a7"
+      "rel": "lib/Group3_NuoiPhoi_tiktok_lite.xxt",
+      "dest": "/var/mobile/Media/1ferver/lib/Group3_NuoiPhoi_tiktok_lite.xxt",
+      "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lib/Group3_NuoiPhoi_tiktok_lite.xxt",
+      "size": 54114,
+      "sha1": "c1ea7fb79b4f6736245018b7abca2e2cf17e7bda"
     },
     {
-      "rel": "lib/LoginGGSafari.lua",
-      "dest": "/var/mobile/Media/1ferver/lib/LoginGGSafari.lua",
-      "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lib/LoginGGSafari.lua",
+      "rel": "lib/LoginGGSafari.xxt",
+      "dest": "/var/mobile/Media/1ferver/lib/LoginGGSafari.xxt",
+      "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lib/LoginGGSafari.xxt",
+      "size": 10024,
+      "sha1": "7f1e03a6d430b3b1b79e5208b116923c92acfa4c"
+    },
+    {
+      "rel": "lib/NhungAcc.xxt",
+      "dest": "/var/mobile/Media/1ferver/lib/NhungAcc.xxt",
+      "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lib/NhungAcc.xxt",
+      "size": 16447,
+      "sha1": "f9d9c76682252c76cc032b018a7168aa9a090287"
+    },
+    {
+      "rel": "lib/NuoiPhoi_tiktok.xxt",
+      "dest": "/var/mobile/Media/1ferver/lib/NuoiPhoi_tiktok.xxt",
+      "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lib/NuoiPhoi_tiktok.xxt",
+      "size": 2877,
+      "sha1": "8fce66b6e66f0be85b909f202b1f609457280877"
+    },
+    {
+      "rel": "lib/_xxt_plain_backup_20260621_163354/Group3_ClaimVideo.xxt",
+      "dest": "/var/mobile/Media/1ferver/lib/_xxt_plain_backup_20260621_163354/Group3_ClaimVideo.xxt",
+      "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lib/_xxt_plain_backup_20260621_163354/Group3_ClaimVideo.xxt",
+      "size": 15896,
+      "sha1": "78ed8497bf16c3bbf8ca09317d32b28e6fda5ce0"
+    },
+    {
+      "rel": "lib/_xxt_plain_backup_20260621_163354/Group3_EventDD20p_tiktok.xxt",
+      "dest": "/var/mobile/Media/1ferver/lib/_xxt_plain_backup_20260621_163354/Group3_EventDD20p_tiktok.xxt",
+      "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lib/_xxt_plain_backup_20260621_163354/Group3_EventDD20p_tiktok.xxt",
+      "size": 12901,
+      "sha1": "f5a5fac81c8458d8b626bf9f4a30bf06dfa6956f"
+    },
+    {
+      "rel": "lib/_xxt_plain_backup_20260621_163354/Group3_EventDD20p_tiktok_lite.xxt",
+      "dest": "/var/mobile/Media/1ferver/lib/_xxt_plain_backup_20260621_163354/Group3_EventDD20p_tiktok_lite.xxt",
+      "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lib/_xxt_plain_backup_20260621_163354/Group3_EventDD20p_tiktok_lite.xxt",
+      "size": 13202,
+      "sha1": "0df43e186d45ed82ffb118d876bb25b230bdab3b"
+    },
+    {
+      "rel": "lib/_xxt_plain_backup_20260621_163354/Group3_EventVideo180_tiktok.xxt",
+      "dest": "/var/mobile/Media/1ferver/lib/_xxt_plain_backup_20260621_163354/Group3_EventVideo180_tiktok.xxt",
+      "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lib/_xxt_plain_backup_20260621_163354/Group3_EventVideo180_tiktok.xxt",
+      "size": 5724,
+      "sha1": "41e56f9b41eb0943e7a2f57117182e49f190620f"
+    },
+    {
+      "rel": "lib/_xxt_plain_backup_20260621_163354/Group3_EventVideo180_tiktok_lite.xxt",
+      "dest": "/var/mobile/Media/1ferver/lib/_xxt_plain_backup_20260621_163354/Group3_EventVideo180_tiktok_lite.xxt",
+      "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lib/_xxt_plain_backup_20260621_163354/Group3_EventVideo180_tiktok_lite.xxt",
+      "size": 5749,
+      "sha1": "80af76ba0e9348c4e2662fb89e8b0a11a2a96829"
+    },
+    {
+      "rel": "lib/_xxt_plain_backup_20260621_163354/Group3_NuoiPhoi_tiktok.xxt",
+      "dest": "/var/mobile/Media/1ferver/lib/_xxt_plain_backup_20260621_163354/Group3_NuoiPhoi_tiktok.xxt",
+      "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lib/_xxt_plain_backup_20260621_163354/Group3_NuoiPhoi_tiktok.xxt",
+      "size": 35106,
+      "sha1": "a57b3704b4714f858c5d9ae8dc3c6394a3c723f2"
+    },
+    {
+      "rel": "lib/_xxt_plain_backup_20260621_163354/Group3_NuoiPhoi_tiktok_lite.xxt",
+      "dest": "/var/mobile/Media/1ferver/lib/_xxt_plain_backup_20260621_163354/Group3_NuoiPhoi_tiktok_lite.xxt",
+      "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lib/_xxt_plain_backup_20260621_163354/Group3_NuoiPhoi_tiktok_lite.xxt",
+      "size": 50325,
+      "sha1": "874978ce8665bec7e7bd4ec325a37c4e5a439c65"
+    },
+    {
+      "rel": "lib/_xxt_plain_backup_20260621_163354/LoginGGSafari.xxt",
+      "dest": "/var/mobile/Media/1ferver/lib/_xxt_plain_backup_20260621_163354/LoginGGSafari.xxt",
+      "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lib/_xxt_plain_backup_20260621_163354/LoginGGSafari.xxt",
       "size": 10962,
       "sha1": "e4d43960db66cb1aac36db50960c17817bd695ec"
     },
     {
-      "rel": "lib/NhungAcc.lua",
-      "dest": "/var/mobile/Media/1ferver/lib/NhungAcc.lua",
-      "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lib/NhungAcc.lua",
+      "rel": "lib/_xxt_plain_backup_20260621_163354/NhungAcc.xxt",
+      "dest": "/var/mobile/Media/1ferver/lib/_xxt_plain_backup_20260621_163354/NhungAcc.xxt",
+      "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lib/_xxt_plain_backup_20260621_163354/NhungAcc.xxt",
       "size": 16221,
       "sha1": "1006cff10e2bc5ebc60dbc5daca33ff36eb45201"
     },
     {
-      "rel": "lib/NuoiPhoi_tiktok.lua",
-      "dest": "/var/mobile/Media/1ferver/lib/NuoiPhoi_tiktok.lua",
-      "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lib/NuoiPhoi_tiktok.lua",
+      "rel": "lib/_xxt_plain_backup_20260621_163354/NuoiPhoi_tiktok.xxt",
+      "dest": "/var/mobile/Media/1ferver/lib/_xxt_plain_backup_20260621_163354/NuoiPhoi_tiktok.xxt",
+      "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lib/_xxt_plain_backup_20260621_163354/NuoiPhoi_tiktok.xxt",
       "size": 2888,
       "sha1": "b7e27f0768c8fb3d8d872ea4eecf0ef49139bdab"
     },
     {
-      "rel": "lib/floating_menu.lua",
-      "dest": "/var/mobile/Media/1ferver/lib/floating_menu.lua",
-      "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lib/floating_menu.lua",
+      "rel": "lib/_xxt_plain_backup_20260621_163354/floating_menu.xxt",
+      "dest": "/var/mobile/Media/1ferver/lib/_xxt_plain_backup_20260621_163354/floating_menu.xxt",
+      "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lib/_xxt_plain_backup_20260621_163354/floating_menu.xxt",
       "size": 25380,
-      "sha1": "a523a82e133ca0487a8eb99498d05fe5e531bf89"
+      "sha1": "b5773a1f72313b43a8cabb4c2c6431b0876022c0"
     },
     {
-      "rel": "lib/probe_local_http.lua",
-      "dest": "/var/mobile/Media/1ferver/lib/probe_local_http.lua",
-      "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lib/probe_local_http.lua",
-      "size": 4516,
-      "sha1": "beb4bba905d1e97c913a5ba5f72102fc4285e04a"
+      "rel": "lib/floating_menu.xxt",
+      "dest": "/var/mobile/Media/1ferver/lib/floating_menu.xxt",
+      "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lib/floating_menu.xxt",
+      "size": 21213,
+      "sha1": "d5ba85209b3321e232fe2551ffd551a642a7780a"
     },
     {
       "rel": "lua/examples/0910.PNG",
