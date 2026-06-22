@@ -1292,13 +1292,6 @@
       "sha1": "42e430b1e1fa658406eb97e2a72d27c84e224b1f"
     },
     {
-      "rel": "ipa/Cookies.binarycookies",
-      "dest": "/var/mobile/Media/1ferver/ipa/Cookies.binarycookies",
-      "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/ipa/Cookies.binarycookies",
-      "size": 347,
-      "sha1": "6d953d065fdd1402844ec0ba932b00a74022cf06"
-    },
-    {
       "rel": "ipa/LidCopy.ipa",
       "dest": "/var/mobile/Media/1ferver/ipa/LidCopy.ipa",
       "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/ipa/LidCopy.ipa",
