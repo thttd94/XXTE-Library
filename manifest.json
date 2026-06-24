@@ -49,8 +49,8 @@
       "rel": "lib/Group3_NuoiPhoi_tiktok_lite.xxt",
       "dest": "/var/mobile/Media/1ferver/lib/Group3_NuoiPhoi_tiktok_lite.xxt",
       "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lib/Group3_NuoiPhoi_tiktok_lite.xxt",
-      "size": 54114,
-      "sha1": "c1ea7fb79b4f6736245018b7abca2e2cf17e7bda"
+      "size": 56751,
+      "sha1": "dff0b916047614926f59cb0c82d8f9db19a309e9"
     },
     {
       "rel": "lib/LoginGGSafari.xxt",
@@ -1304,13 +1304,6 @@
       "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/ipa/LidCopy.ipa",
       "size": 147960,
       "sha1": "3789e0fe7a85726aa4dac6d47b31e419d76c92f7"
-    },
-    {
-      "rel": "ipa/Shadowrocket.ipa",
-      "dest": "/var/mobile/Media/1ferver/ipa/Shadowrocket.ipa",
-      "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/ipa/Shadowrocket.ipa",
-      "size": 54056823,
-      "sha1": "f5b4033a0fb6d900f0680ccb06042c6dd19175e7"
     }
   ]
 }
