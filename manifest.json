@@ -914,6 +914,13 @@
       "sha1": "f3d924473e04b7b1ab8d70dd7fa6209c82e7ab9b"
     },
     {
+      "rel": "lua/examples/desktop.ini",
+      "dest": "/var/mobile/Media/1ferver/lua/examples/desktop.ini",
+      "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lua/examples/desktop.ini",
+      "size": 90,
+      "sha1": "ee0f2cb3eb25e88fa821833dee29d6efa84e0204"
+    },
+    {
       "rel": "lua/examples/for.PNG",
       "dest": "/var/mobile/Media/1ferver/lua/examples/for.PNG",
       "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lua/examples/for.PNG",
