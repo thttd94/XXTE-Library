@@ -60,6 +60,13 @@
       "sha1": "7f1e03a6d430b3b1b79e5208b116923c92acfa4c"
     },
     {
+      "rel": "lib/NhapTK.lua",
+      "dest": "/var/mobile/Media/1ferver/lib/NhapTK.lua",
+      "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lib/NhapTK.lua",
+      "size": 5774,
+      "sha1": "b1fb692c6b59e26d4be8c4daebe8ab2bc491e496"
+    },
+    {
       "rel": "lib/NhungAcc.xxt",
       "dest": "/var/mobile/Media/1ferver/lib/NhungAcc.xxt",
       "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lib/NhungAcc.xxt",
@@ -72,6 +79,13 @@
       "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lib/NuoiPhoi_tiktok.xxt",
       "size": 2877,
       "sha1": "8fce66b6e66f0be85b909f202b1f609457280877"
+    },
+    {
+      "rel": "lib/XuatTK.lua",
+      "dest": "/var/mobile/Media/1ferver/lib/XuatTK.lua",
+      "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lib/XuatTK.lua",
+      "size": 5703,
+      "sha1": "30a1798f0c3a540270a565c7bf09e83b653d6f8b"
     },
     {
       "rel": "lib/floating_menu.xxt",
