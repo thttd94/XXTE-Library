@@ -1260,8 +1260,8 @@
       "rel": "lua/scripts/NhapTK.xxt",
       "dest": "/var/mobile/Media/1ferver/lua/scripts/NhapTK.xxt",
       "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lua/scripts/NhapTK.xxt",
-      "size": 4974,
-      "sha1": "142a646acbe657957ec4550c0024b094d366aa65"
+      "size": 5447,
+      "sha1": "a4eb5d923999af1a05d4299b8b0d88fa29bd7bdf"
     },
     {
       "rel": "lua/scripts/Shadowrocket.json",
@@ -1274,8 +1274,8 @@
       "rel": "lua/scripts/XuatTK.xxt",
       "dest": "/var/mobile/Media/1ferver/lua/scripts/XuatTK.xxt",
       "url": "https://raw.githubusercontent.com/thttd94/XXTE-Library/main/lua/scripts/XuatTK.xxt",
-      "size": 3835,
-      "sha1": "f38f0a94dcb8bc183dcae2058557e32adafa5974"
+      "size": 5369,
+      "sha1": "140b06e27917fdd6349b62530b26f8c0d16e6de5"
     },
     {
       "rel": "lua/scripts/autorun.lua",
